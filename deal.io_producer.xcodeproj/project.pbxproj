@@ -16,6 +16,8 @@
 		AD00904F29A59EC300FDB1D3 /* FeedCreationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD00904E29A59EC300FDB1D3 /* FeedCreationView.swift */; };
 		AD00905129A59EE200FDB1D3 /* FeedCreationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD00905029A59EE200FDB1D3 /* FeedCreationViewModel.swift */; };
 		ADF0BC5129AD28F800FF24F6 /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF0BC5029AD28F800FF24F6 /* Login.swift */; };
+		ADF6879C29AECFDC00E86022 /* Deal_ioProducerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF6879B29AECFDC00E86022 /* Deal_ioProducerApp.swift */; };
+		ADF6879E29AED04800E86022 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF6879D29AED04800E86022 /* Persistence.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +31,8 @@
 		AD00904E29A59EC300FDB1D3 /* FeedCreationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCreationView.swift; sourceTree = "<group>"; };
 		AD00905029A59EE200FDB1D3 /* FeedCreationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCreationViewModel.swift; sourceTree = "<group>"; };
 		ADF0BC5029AD28F800FF24F6 /* Login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
+		ADF6879B29AECFDC00E86022 /* Deal_ioProducerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deal_ioProducerApp.swift; sourceTree = "<group>"; };
+		ADF6879D29AED04800E86022 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,11 +65,14 @@
 		AD00902F29A59DC700FDB1D3 /* deal.io_producer */ = {
 			isa = PBXGroup;
 			children = (
+				ADF6879B29AECFDC00E86022 /* Deal_ioProducerApp.swift */,
+				ADF6879A29AECFBF00E86022 /* Preview Content */,
 				AD00904529A59E4000FDB1D3 /* Models */,
 				AD00904429A59E2F00FDB1D3 /* ViewModels */,
 				AD00904329A59E2600FDB1D3 /* Views */,
 				AD00903429A59DC800FDB1D3 /* Assets.xcassets */,
 				AD00903B29A59DC800FDB1D3 /* deal_io_producer.xcdatamodeld */,
+				ADF6879D29AED04800E86022 /* Persistence.swift */,
 			);
 			path = deal.io_producer;
 			sourceTree = "<group>";
@@ -96,6 +103,13 @@
 				ADF0BC5029AD28F800FF24F6 /* Login.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		ADF6879A29AECFBF00E86022 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "Preview Content";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -174,8 +188,10 @@
 				AD00903D29A59DC800FDB1D3 /* deal_io_producer.xcdatamodeld in Sources */,
 				AD00904F29A59EC300FDB1D3 /* FeedCreationView.swift in Sources */,
 				AD00904729A59E5700FDB1D3 /* Producer.swift in Sources */,
+				ADF6879C29AECFDC00E86022 /* Deal_ioProducerApp.swift in Sources */,
 				AD00904B29A59E8F00FDB1D3 /* WelcomeView.swift in Sources */,
 				ADF0BC5129AD28F800FF24F6 /* Login.swift in Sources */,
+				ADF6879E29AED04800E86022 /* Persistence.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
