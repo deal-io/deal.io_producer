@@ -7,9 +7,11 @@
 
 import Foundation
 
-struct LoginResponse: Codable {
+struct Login: Codable {
     
-    var userID: String
-    var password: String
+    var enteredUserID: String
+    var enteredPassword: String
+    var verifiedUserID: String
+    var verifiedPassword: String
     var restaurants: [Producer]
 }
