@@ -1,5 +1,5 @@
 //
-//  DealView.swift
+//  ContractedDealView.swift
 //  deal.io_producer
 //
 //  Created by Tyler Keller on 3/1/23.
@@ -9,20 +9,51 @@ import SwiftUI
 
 struct DealView: View {
     @ObservedObject var dealVM: DealViewModel
-    @State var changeToPostEditView = false
-    
+    @State var selectedDeal: DealViewModel? = nil
+
     var body: some View {
-            VStack {
-                if changeToPostEditView {
-                    PostEditView(dealVM: dealVM)
+        VStack{
+                Spacer()
+            Text(dealVM.dealName)
+                .font(.title)
+                .foregroundColor(.white)
+                .padding(.horizontal, 4.5)
+                .multilineTextAlignment(.center)
+            
+            HStack {
+                Spacer()
+                Text("0.5 mi")
+                Spacer()
+                Text(dealVM.restaurantName)
+                    .font(.title3)
+                    .padding(3)
+                Spacer()
+                if (dealVM.active) {
+                    Text("\(dealVM.hoursToEnd)")
+                        .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
+                        .background(Color.gray)
+                        .foregroundColor(Color.white)
+                        .cornerRadius(10)
+                .padding(3)
                 } else {
-                    ContractedDealView(dealVM: dealVM)
+                    Text("\(dealVM.hoursToStart) hrs")
+                        .padding(EdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5))
+                        .background(Deal_ioColor.oneHourColor)
+                        .foregroundColor(Color.white)
+                        .cornerRadius(10)
+                .padding(3)
                 }
+                Spacer()
             }
-            .onTapGesture {
-                withAnimation {
-                    changeToPostEditView.toggle()
-            }
+                Spacer()
+        }
+        .background(Deal_ioColor.background)
+        .foregroundColor(.white)
+        .onTapGesture {
+            self.selectedDeal = dealVM
+        } .sheet(item: $selectedDeal,
+               onDismiss: { self.selectedDeal = nil }) { deal in
+            PostEditView(dealVM: deal)
         }
     }
 }
@@ -42,7 +73,6 @@ struct DealView_Previews: PreviewProvider {
                 endDate: BackendDate(seconds: 1, nanoseconds: 1),
                 recurring: true
             )
-        )
-        ))
+        )))
     }
 }

@@ -12,6 +12,7 @@ struct PostEditView: View {
     @State var dealName: String?
     @State var fromDate: Date?
     @State var toDate: Date?
+    @State var selectedWeekdays: Set<String> = []
     
     init(dealVM: DealViewModel) {
         self.dealVM = dealVM
@@ -26,7 +27,7 @@ struct PostEditView: View {
                 .resizable()
                 .frame(width: 150, height: 120)
             Text("Edit Deal:")
-            TextField("Deal Title", text: $dealName.toUnwrapped(defaultValue: ""))
+            TextField("", text: $dealName.toUnwrapped(defaultValue: ""))
                 .font(.title)
                 .foregroundColor(.white)
                 .multilineTextAlignment(.center)
@@ -35,11 +36,15 @@ struct PostEditView: View {
                     .font(.title3)
                 DatePicker("", selection: $fromDate.toUnwrapped(defaultValue: Date()), displayedComponents: .hourAndMinute)
                             .labelsHidden()
+                            .colorScheme(.dark)
+                    .foregroundColor(.white)
                 Text("To: ")
                     .font(.title3)
                 DatePicker("", selection: $toDate.toUnwrapped(defaultValue: Date()), displayedComponents: .hourAndMinute)
                             .labelsHidden()
+                            .colorScheme(.dark)
             }
+            DateDropdownView()
             HStack {
                 Spacer()
                 Text(dealVM.restaurantName)

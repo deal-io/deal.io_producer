@@ -45,7 +45,7 @@ extension Deal {
             Deal(
                 dealID: "912ec803b2ce49e4a541068d495ab570",
                 restaurantID: "81dc9bdb52d04dc20036dbd8313ed055",
-                enterDate: BackendDate(seconds: 1, nanoseconds: 1),
+                enterDate: BackendDate(seconds: 1677729587, nanoseconds: 1),
                 dealAttributes: DealAttributes(
                     dealName: "25% Off Specialty Burgers",
                     restaurantName: "Buffalo Rose",
