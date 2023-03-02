@@ -7,14 +7,14 @@
 
 import SwiftUI
 
-struct FeedCreationView: View {
+struct PostCreationView: View {
     var body: some View {
         Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
     }
 }
 
-struct FeedCreationView_Previews: PreviewProvider {
+struct PostCreationView_Previews: PreviewProvider {
     static var previews: some View {
-        FeedCreationView()
+        PostCreationView()
     }
 }
