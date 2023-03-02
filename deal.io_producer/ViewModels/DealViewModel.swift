@@ -1,39 +1,11 @@
 //
-//  FeedCreationViewModel.swift
+//  DealViewModel.swift
 //  deal.io_producer
 //
-//  Created by Tyler Keller on 2/21/23.
+//  Created by Tyler Keller on 3/1/23.
 //
 
 import Foundation
-
-class FeedViewModel: ObservableObject {
-    // created synthetic data to figure out view functionality
-    // TODO: replace with JSON objects that pull from Firestore using the API
-    // TODO: figure out what format the dates will be sent in, completely changes functionality
-    @Published var currentFeed: FeedType = .daily
-
-    /*
-    init() {
-        
-       fetchDeals()
-        
-    }
-    
-    func fetchDeals() {
-        DealService().getAllDeals() { deals in
-            if let deals = deals {
-                self.allDeals = deals.map(DealViewModel.init)
-            }
-        }
-    }
-     */
-}
-
-enum FeedType {
-    case daily
-    case upcoming
-}
 
 class DealViewModel: ObservableObject{
     
@@ -111,49 +83,3 @@ class DealViewModel: ObservableObject{
     }
     
 }
-
-class BasicDealViewModel: ObservableObject{
-    let id = UUID()
-    
-    var basicDeal : BasicDeal
-    
-    init(basicDeal: BasicDeal) {
-        self.basicDeal = basicDeal
-    }
-    var dealName: String {
-        return self.basicDeal.dealName
-    }
-    var restaurantName: String {
-        return self.basicDeal.restaurantName
-    }
-    var description: String {
-        return self.basicDeal.description
-    }
-    var hoursToEnd: Int {
-        return self.basicDeal.hoursToEnd
-    }
-    var hoursToStart: Int {
-        return self.basicDeal.hoursToStart
-    }
-    var upcoming: Bool {
-        return (hoursToStart > 0 && hoursToEnd < 0)
-    }
-    var active: Bool {
-        if (self.hoursToStart <= 0 && self.hoursToEnd > 0) {
-            return true
-        } else {
-            return false
-        }
-    }
-}
-
-extension Date {
-    func get(_ components: Calendar.Component..., calendar: Calendar = Calendar.current) -> DateComponents {
-        return calendar.dateComponents(Set(components), from: self)
-    }
-
-    func get(_ component: Calendar.Component, calendar: Calendar = Calendar.current) -> Int {
-        return calendar.component(component, from: self)
-    }
-}
-

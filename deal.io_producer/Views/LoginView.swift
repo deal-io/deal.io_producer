@@ -7,8 +7,16 @@
 
 import SwiftUI
 
+/*
+ needs to get refactored, very ugly
+ tried to implement some type of state isLoggedIn in ContentView that looked
+ at loginVM.isLoggedIn and changed view based on verifiedUserID and verifiedPassword
+ but it wouldn't work
+ */
 struct LoginView: View {
     @ObservedObject var loginVM: LoginViewModel
+    @State private var showHowToGetLoginInfo = false
+
     var body: some View {
         VStack {
             Spacer()
@@ -29,28 +37,23 @@ struct LoginView: View {
                 .padding(.top)
             PasswordTextField(password: loginVM.passwordBinding)
                 .padding(10)
-            // below code allows for change of view from WelcomeView
-            // to FeedView after a valid email is passed in
-            // the else block needs to be updated
-            // can't pass in code without API calls because it would bloat
-            // tf out of this file
-            /*
-            Button(action: {
-                if welcomeVM.validateEmail() {
-                    welcomeVM.saveUser()
-                    UIApplication.shared.windows.first?.rootViewController = UIHostingController(rootView: FeedView(feedVM: FeedViewModel(), dailyDeals: , upcomingDeals: <#T##[BasicDealViewModel]#>))
-                } else {
-                    welcomeVM.showError = true
-                }
-            }) {
-                Text("Submit")
-            }
-            */
             Spacer()
-                .foregroundColor(.white)
-                .multilineTextAlignment(.center)
-                .padding(16)
-                .font(.footnote)
+            .padding(12)
+            Button("Submit") {
+                loginVM.isLoggedIn = loginVM.validateLogin()
+            }
+            .alert(isPresented: $loginVM.isLoggedIn) {
+                Alert(title: Text("Invalid User ID or Password"), message: Text("Please enter a valid User ID or Password."), dismissButton: .default(Text("Okay")))
+            }
+            Group {
+                Spacer()
+                Button("How do I get a login?") {
+                    showHowToGetLoginInfo = true
+                }
+                .alert(isPresented: $showHowToGetLoginInfo) {
+                    Alert(title: Text("How do I get a login?"), message: Text("Please email deal.io.dev@gmail.com to recieve your login information."), dismissButton: .default(Text("Got It")))
+                }
+            }
         }.background(Deal_ioColor.background)
     }
 }
@@ -68,17 +71,6 @@ struct UserIDTextField: View {
             .textFieldStyle(RoundedBorderTextFieldStyle())
             .shadow(color: Deal_ioColor.darkShadow, radius: 1, x: 2, y: 2)
             .shadow(color: Deal_ioColor.lightShadow, radius: 1, x: -2, y: -2)
-        /*
-            .onChange(of: email) { value in
-                isEmailValid = isValidEmail(email)
-            }
-         */
-    }
-    
-    // not correct implementation
-    // just used to show proof of concept
-    private func isValidUserID(_ userID: String) -> Bool {
-        return userID == "1234"
     }
 }
 
@@ -87,7 +79,8 @@ struct PasswordTextField: View {
     @Binding var password: String
     
     var body: some View {
-        TextField("Password", text: $password)
+        SecureField("Password", text: $password)
+            .textContentType(.password)
             .autocapitalization(.none)
             .disableAutocorrection(true)
             .multilineTextAlignment(.center)
@@ -96,19 +89,10 @@ struct PasswordTextField: View {
             .textFieldStyle(RoundedBorderTextFieldStyle())
             .shadow(color: Deal_ioColor.darkShadow, radius: 1, x: 2, y: 2)
             .shadow(color: Deal_ioColor.lightShadow, radius: 1, x: -2, y: -2)
-        /*
-            .onChange(of: email) { value in
-                isEmailValid = isValidEmail(email)
-            }
-         */
-    }
-    
-    // not correct implementation
-    // just used to show proof of concept
-    private func isValidUserID(_ password: String) -> Bool {
-        return password == "password"
     }
 }
+
+
 
 struct LoginView_Previews: PreviewProvider {
     static var previews: some View {

@@ -9,18 +9,14 @@ import Foundation
 import SwiftUI
 
 class LoginViewModel: ObservableObject {
-    
     @Published var login: Login
+    @State var isLoggedIn: Bool
         
     init(login: Login) {
         self.login = login
+        self.isLoggedIn = false
     }
-    
-    func validateLogin() -> Bool {
-        // Check if email is valid (ends with "@mines.edu")
-        return self.login.enteredUserID == self.login.verifiedUserID && self.login.enteredPassword == self.login.verifiedPassword
-    }
-    
+   
     var userIDBinding: Binding<String> {
         Binding<String>(
             get: { self.login.enteredUserID },
@@ -33,5 +29,11 @@ class LoginViewModel: ObservableObject {
             get: { self.login.enteredPassword },
             set: { self.login.enteredPassword = $0 }
         )
+    }
+    
+    func validateLogin() -> Bool {
+        
+        return self.passwordBinding.wrappedValue == self.login.verifiedPassword && self.userIDBinding.wrappedValue == self.login.verifiedUserID
+        
     }
 }

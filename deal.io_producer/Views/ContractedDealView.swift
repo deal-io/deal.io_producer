@@ -1,5 +1,5 @@
 //
-//  PostEditView.swift
+//  ContractedDealView.swift
 //  deal.io_producer
 //
 //  Created by Tyler Keller on 3/1/23.
@@ -7,44 +7,41 @@
 
 import SwiftUI
 
-struct PostEditView: View {
+struct ContractedDealView: View {
     @ObservedObject var dealVM: DealViewModel
-    @State var dealName: String?
-    @State var fromDate: Date?
-    @State var toDate: Date?
-    
-    init(dealVM: DealViewModel) {
-        self.dealVM = dealVM
-        self.dealName = dealVM.dealName
-        self.fromDate = dealVM.startDate
-        self.toDate = dealVM.endDate
-    }
-    
+
     var body: some View {
         VStack{
-            Image("dealio_white_on_bg")
-                .resizable()
-                .frame(width: 150, height: 120)
-            Text("Edit Deal:")
-            TextField("Deal Title", text: $dealName.toUnwrapped(defaultValue: ""))
+                Spacer()
+            Text(dealVM.dealName)
                 .font(.title)
                 .foregroundColor(.white)
+                .padding(.horizontal, 4.5)
                 .multilineTextAlignment(.center)
+            
             HStack {
-                Text("From: ")
-                    .font(.title3)
-                DatePicker("", selection: $fromDate.toUnwrapped(defaultValue: Date()), displayedComponents: .hourAndMinute)
-                            .labelsHidden()
-                Text("To: ")
-                    .font(.title3)
-                DatePicker("", selection: $toDate.toUnwrapped(defaultValue: Date()), displayedComponents: .hourAndMinute)
-                            .labelsHidden()
-            }
-            HStack {
+                Spacer()
+                Text("0.5 mi")
                 Spacer()
                 Text(dealVM.restaurantName)
                     .font(.title3)
                     .padding(3)
+                Spacer()
+                if (dealVM.active) {
+                    Text("\(dealVM.hoursToEnd)")
+                        .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
+                        .background(Color.gray)
+                        .foregroundColor(Color.white)
+                        .cornerRadius(10)
+                .padding(3)
+                } else {
+                    Text("\(dealVM.hoursToStart) hrs")
+                        .padding(EdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5))
+                        .background(Deal_ioColor.oneHourColor)
+                        .foregroundColor(Color.white)
+                        .cornerRadius(10)
+                .padding(3)
+                }
                 Spacer()
             }
                 Spacer()
@@ -54,9 +51,9 @@ struct PostEditView: View {
     }
 }
 
-struct PostEditView_Previews: PreviewProvider {
+struct ContractedDealView_Previews: PreviewProvider {
     static var previews: some View {
-        PostEditView(dealVM: DealViewModel(deal: Deal(
+        ContractedDealView(dealVM: DealViewModel(deal: Deal(
             dealID: "912ec803b2ce49e4a541068d495ab570",
             restaurantID: "81dc9bdb52d04dc20036dbd8313ed055",
             enterDate: BackendDate(seconds: 1, nanoseconds: 1),
@@ -68,13 +65,7 @@ struct PostEditView_Previews: PreviewProvider {
                 startDate: BackendDate(seconds: 1, nanoseconds: 1),
                 endDate: BackendDate(seconds: 1, nanoseconds: 1),
                 recurring: true
-            ))))
-    }
-}
-
-// to take care of optional self calls
-extension Binding {
-     func toUnwrapped<T>(defaultValue: T) -> Binding<T> where Value == Optional<T>  {
-        Binding<T>(get: { self.wrappedValue ?? defaultValue }, set: { self.wrappedValue = $0 })
+            )
+        )))
     }
 }
