@@ -7,7 +7,7 @@
 
 import Foundation
 
-class DealViewModel: ObservableObject{
+class DealViewModel: Identifiable, ObservableObject{
     
     let id = UUID()
         
@@ -82,4 +82,7 @@ class DealViewModel: ObservableObject{
         }
     }
     
+    let weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+    
 }
+
