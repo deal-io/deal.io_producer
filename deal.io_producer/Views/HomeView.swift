@@ -9,16 +9,20 @@ import SwiftUI
 
 struct HomeView: View {
     let deals: [DealViewModel]
+    @State var selectedDeal: DealViewModel?
     var body: some View {
         VStack {
-            Text("deal.io")
-                .font(.largeTitle)
-                .foregroundColor(.white)
+            Image("dealio_white_on_bg")
+                .resizable()
+                .frame(width: 100, height: 100)
             FeedView(deals: deals)
             Spacer()
-            Button("Post") {
-                
-            }
+            PlusButtonView()
+                .onTapGesture {
+                } .sheet(item: $selectedDeal,
+                       onDismiss: { self.selectedDeal = nil }) { deal in
+                    PostCreationView()
+                }
         }
         .background(Deal_ioColor.background)
         
@@ -49,6 +53,48 @@ struct HomeView_Previews: PreviewProvider {
                 dealAttributes: DealAttributes(
                     dealName: "BOGO Beers - Study Time",
                     restaurantName: "Miner's Saloon",
+                    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis eu augue rutrum, pellentesque enim at, congue ipsum. Pellentesque fermentum iaculis vehicula. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.",
+                    daysActive: [false, true, false, false, false, false, false],
+                    startDate: BackendDate(seconds: 1, nanoseconds: 1),
+                    endDate: BackendDate(seconds: 1, nanoseconds: 1),
+                    recurring: true
+                )
+            )),
+            DealViewModel(deal: Deal(
+                dealID: "63a69226faa7bfcc41a75a47e1d89f4b",
+                restaurantID: "fa3996112edddfe72acf59b6595625d9",
+                enterDate: BackendDate(seconds: 1, nanoseconds: 1),
+                dealAttributes: DealAttributes(
+                    dealName: "25% Off Tab: Funky Fits",
+                    restaurantName: "Old Capitol Grill",
+                    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis eu augue rutrum, pellentesque enim at, congue ipsum. Pellentesque fermentum iaculis vehicula. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.",
+                    daysActive: [false, true, false, false, false, false, false],
+                    startDate: BackendDate(seconds: 1, nanoseconds: 1),
+                    endDate: BackendDate(seconds: 1, nanoseconds: 1),
+                    recurring: true
+                )
+            )),
+            DealViewModel(deal: Deal(
+                dealID: "63a69226faa7bfcc41a75a47e1d89f4b",
+                restaurantID: "fa3996112edddfe72acf59b6595625d9",
+                enterDate: BackendDate(seconds: 1, nanoseconds: 1),
+                dealAttributes: DealAttributes(
+                    dealName: "20% Off Flatbreads",
+                    restaurantName: "Indulge Wine Bar",
+                    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis eu augue rutrum, pellentesque enim at, congue ipsum. Pellentesque fermentum iaculis vehicula. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.",
+                    daysActive: [false, true, false, false, false, false, false],
+                    startDate: BackendDate(seconds: 1, nanoseconds: 1),
+                    endDate: BackendDate(seconds: 1, nanoseconds: 1),
+                    recurring: true
+                )
+            )),
+            DealViewModel(deal: Deal(
+                dealID: "63a69226faa7bfcc41a75a47e1d89f4b",
+                restaurantID: "fa3996112edddfe72acf59b6595625d9",
+                enterDate: BackendDate(seconds: 1, nanoseconds: 1),
+                dealAttributes: DealAttributes(
+                    dealName: "$2 Beers",
+                    restaurantName: "The Golden Mill",
                     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis eu augue rutrum, pellentesque enim at, congue ipsum. Pellentesque fermentum iaculis vehicula. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.",
                     daysActive: [false, true, false, false, false, false, false],
                     startDate: BackendDate(seconds: 1, nanoseconds: 1),
