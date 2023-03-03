@@ -39,13 +39,13 @@ struct LoginView: View {
                 .padding(10)
             Spacer()
             .padding(12)
-            Button("Submit") {
-                loginVM.isLoggedIn = loginVM.validateLogin()
-            }
-            .alert(isPresented: $loginVM.isLoggedIn) {
-                Alert(title: Text("Invalid User ID or Password"), message: Text("Please enter a valid User ID or Password."), dismissButton: .default(Text("Okay")))
-            }
             Group {
+                Button("Submit") {
+                    loginVM.isLoggedIn = loginVM.validateLogin()
+                }
+                .alert(isPresented: $loginVM.isLoggedIn) {
+                    Alert(title: Text("Invalid User ID or Password"), message: Text("Please enter a valid User ID or Password."), dismissButton: .default(Text("Okay")))
+                }
                 Spacer()
                 Button("How do I get a login?") {
                     showHowToGetLoginInfo = true
