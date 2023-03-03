@@ -45,14 +45,6 @@ struct PostEditView: View {
                             .colorScheme(.dark)
             }
             DateDropdownView()
-            HStack {
-                Spacer()
-                Text(dealVM.restaurantName)
-                    .font(.title3)
-                    .padding(3)
-                Spacer()
-            }
-                Spacer()
         }
         .background(Deal_ioColor.background)
         .foregroundColor(.white)

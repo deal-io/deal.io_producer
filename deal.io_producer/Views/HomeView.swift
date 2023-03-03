@@ -9,7 +9,7 @@ import SwiftUI
 
 struct HomeView: View {
     let deals: [DealViewModel]
-    @State var selectedDeal: DealViewModel?
+    @State var newDealToggle = false
     var body: some View {
         VStack {
             Image("dealio_white_on_bg")
@@ -19,8 +19,8 @@ struct HomeView: View {
             Spacer()
             PlusButtonView()
                 .onTapGesture {
-                } .sheet(item: $selectedDeal,
-                       onDismiss: { self.selectedDeal = nil }) { deal in
+                    newDealToggle = true
+                } .sheet(isPresented: $newDealToggle) {
                     PostCreationView()
                 }
         }
