@@ -12,42 +12,58 @@ struct PostEditView: View {
     @State var dealName: String?
     @State var fromDate: Date?
     @State var toDate: Date?
+    @State var dealDescription: String?
     @State var selectedWeekdays: Set<String> = []
+    @State var toggleDropdown = false
     
     init(dealVM: DealViewModel) {
         self.dealVM = dealVM
         self.dealName = dealVM.dealName
+        self.dealDescription = dealVM.description
         self.fromDate = dealVM.startDate
         self.toDate = dealVM.endDate
     }
     
     var body: some View {
-        VStack{
-            Image("dealio_white_on_bg")
-                .resizable()
-                .frame(width: 150, height: 120)
-            Text("Edit Deal:")
-            TextField("", text: $dealName.toUnwrapped(defaultValue: ""))
-                .font(.title)
-                .foregroundColor(.white)
-                .multilineTextAlignment(.center)
-            HStack {
-                Text("From: ")
-                    .font(.title3)
-                DatePicker("", selection: $fromDate.toUnwrapped(defaultValue: Date()), displayedComponents: .hourAndMinute)
-                            .labelsHidden()
-                            .colorScheme(.dark)
+        ScrollView {
+            VStack{
+                Image("dealio_white_on_bg")
+                    .resizable()
+                    .frame(width: 150, height: 120)
+                Text("Edit Deal Title:")
+                TextField("", text: $dealName.toUnwrapped(defaultValue: "test"))
+                    .font(.title)
                     .foregroundColor(.white)
-                Text("To: ")
-                    .font(.title3)
-                DatePicker("", selection: $toDate.toUnwrapped(defaultValue: Date()), displayedComponents: .hourAndMinute)
-                            .labelsHidden()
-                            .colorScheme(.dark)
+                    .multilineTextAlignment(.center)
+                HStack {
+                    Text("From: ")
+                        .font(.title3)
+                    DatePicker("", selection: $fromDate.toUnwrapped(defaultValue: Date()), displayedComponents: .hourAndMinute)
+                        .labelsHidden()
+                        .colorScheme(.dark)
+                        .foregroundColor(.white)
+                    Text("To: ")
+                        .font(.title3)
+                    DatePicker("", selection: $toDate.toUnwrapped(defaultValue: Date()), displayedComponents: .hourAndMinute)
+                        .labelsHidden()
+                        .colorScheme(.dark)
+                }
+                DateContractedView()
+                    .onTapGesture{
+                        toggleDropdown.toggle()
+                    }
+                if toggleDropdown {
+                    DateDropdownView()
+                }
+                Text("Edit Description:")
+                TextField("", text: $dealDescription.toUnwrapped(defaultValue: "test"))
+                    .font(.callout)
+                    .foregroundColor(.white)
+                    .multilineTextAlignment(.center)
             }
-            DateDropdownView()
+            .background(Deal_ioColor.background)
+            .foregroundColor(.white)
         }
-        .background(Deal_ioColor.background)
-        .foregroundColor(.white)
     }
 }
 

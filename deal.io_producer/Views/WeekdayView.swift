@@ -15,6 +15,7 @@ struct WeekdayView: View {
                 .font(.callout)
                 .padding(10)
                 .foregroundColor(.white)
+                .contentShape(Rectangle())
         }
         .background(Deal_ioColor.background)
     }
