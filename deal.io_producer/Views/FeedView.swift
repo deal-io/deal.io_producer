@@ -11,11 +11,13 @@ struct FeedView: View {
     let deals: [DealViewModel]
     // can't figure out the background color, but the detail card is pretty sick
     var body: some View {
-        VStack{
-            ForEach(self.deals, id:\.id) { deal in
-                DealView(dealVM: deal)
+        ScrollView{
+            VStack{
+                ForEach(self.deals, id:\.id) { deal in
+                    DealView(dealVM: deal)
+                }
+                .background(Deal_ioColor.background)
             }
-        .background(Deal_ioColor.background)
         }
     }
     }
