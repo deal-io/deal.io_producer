@@ -11,7 +11,7 @@ struct PlusButtonView: View {
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 10)
-                .fill(Color.red)
+                .fill(Color.green)
                 .frame(width: 120, height: 60)
             Image(systemName: "plus")
                 .resizable()

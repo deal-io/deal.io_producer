@@ -13,6 +13,7 @@ struct PostEditView: View {
     @State var description: String
     @State var fromDate: Date
     @State var toDate: Date
+    @State var recurring: Bool
     
     init(dealVM: DealViewModel) {
         self.dealVM = dealVM
@@ -20,6 +21,7 @@ struct PostEditView: View {
         _description = State(wrappedValue: dealVM.description)
         _fromDate = State(wrappedValue: dealVM.startDate)
         _toDate = State(wrappedValue: dealVM.endDate)
+        _recurring = State(wrappedValue: dealVM.recurring)
     }
     
     @State var selectedWeekdays: Set<String> = []
@@ -37,6 +39,7 @@ struct PostEditView: View {
                     .font(.title)
                     .foregroundColor(.white)
                     .multilineTextAlignment(.center)
+                    .padding(.bottom, 10)
                 HStack {
                     Spacer()
                     Text("From: ")
@@ -70,6 +73,14 @@ struct PostEditView: View {
                 if toggleDropdown {
                     DateDropdownView()
                 }
+                HStack {
+                    Text("Toggle Recurring")
+                        .foregroundColor(.white)
+                    
+                    Toggle("", isOn: $recurring)
+                        .labelsHidden()
+                }
+                .padding(.bottom, 14)
                 Text("Edit Description:")
                     .font(.title3)
                 TextField("", text: $description, axis: .vertical)
@@ -77,8 +88,12 @@ struct PostEditView: View {
                     .foregroundColor(.white)
                     .multilineTextAlignment(.center)
                     .padding(10)
-                SubmitButton()
-                    .padding(10)
+                HStack {
+                    DeleteButton()
+                        .padding(10)
+                    SubmitButton()
+                        .padding(10)
+                }
             }
             .background(Deal_ioColor.background)
             .foregroundColor(.white)
