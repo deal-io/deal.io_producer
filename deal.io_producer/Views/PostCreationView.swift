@@ -8,8 +8,38 @@
 import SwiftUI
 
 struct PostCreationView: View {
+    @State var dealName: String?
+    @State var fromDate: Date?
+    @State var toDate: Date?
+    @State var selectedWeekdays: Set<String> = []
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack{
+            Image("dealio_white_on_bg")
+                .resizable()
+                .frame(width: 150, height: 120)
+            Text("Create Deal:")
+            TextField("", text: $dealName.toUnwrapped(defaultValue: ""))
+                .font(.title)
+                .foregroundColor(.white)
+                .multilineTextAlignment(.center)
+            HStack {
+                Text("From: ")
+                    .font(.title3)
+                DatePicker("", selection: $fromDate.toUnwrapped(defaultValue: Date()), displayedComponents: .hourAndMinute)
+                            .labelsHidden()
+                            .colorScheme(.dark)
+                    .foregroundColor(.white)
+                Text("To: ")
+                    .font(.title3)
+                DatePicker("", selection: $toDate.toUnwrapped(defaultValue: Date()), displayedComponents: .hourAndMinute)
+                            .labelsHidden()
+                            .colorScheme(.dark)
+            }
+            DateDropdownView()
+        }
+        .background(Deal_ioColor.background)
+        .foregroundColor(.white)
     }
 }
 

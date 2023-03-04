@@ -9,53 +9,80 @@ import SwiftUI
 
 struct PostEditView: View {
     @ObservedObject var dealVM: DealViewModel
-    @State var dealName: String?
-    @State var fromDate: Date?
-    @State var toDate: Date?
-    @State var selectedWeekdays: Set<String> = []
+    @State var title: String
+    @State var description: String
+    @State var fromDate: Date
+    @State var toDate: Date
     
     init(dealVM: DealViewModel) {
         self.dealVM = dealVM
-        self.dealName = dealVM.dealName
-        self.fromDate = dealVM.startDate
-        self.toDate = dealVM.endDate
+        _title = State(wrappedValue: dealVM.dealName)
+        _description = State(wrappedValue: dealVM.description)
+        _fromDate = State(wrappedValue: dealVM.startDate)
+        _toDate = State(wrappedValue: dealVM.endDate)
     }
     
+    @State var selectedWeekdays: Set<String> = []
+    @State var toggleDropdown = false
+    
     var body: some View {
-        VStack{
-            Image("dealio_white_on_bg")
-                .resizable()
-                .frame(width: 150, height: 120)
-            Text("Edit Deal:")
-            TextField("", text: $dealName.toUnwrapped(defaultValue: ""))
-                .font(.title)
-                .foregroundColor(.white)
-                .multilineTextAlignment(.center)
-            HStack {
-                Text("From: ")
+        ScrollView {
+            VStack{
+                Image("dealio_white_on_bg")
+                    .resizable()
+                    .frame(width: 150, height: 120)
+                Text("Edit Deal Title:")
                     .font(.title3)
-                DatePicker("", selection: $fromDate.toUnwrapped(defaultValue: Date()), displayedComponents: .hourAndMinute)
-                            .labelsHidden()
-                            .colorScheme(.dark)
+                TextField("", text: $title)
+                    .font(.title)
                     .foregroundColor(.white)
-                Text("To: ")
+                    .multilineTextAlignment(.center)
+                HStack {
+                    Spacer()
+                    Text("From: ")
+                        .font(.title3)
+                    DatePicker("", selection: $fromDate, displayedComponents: .hourAndMinute)
+                        .labelsHidden()
+                        .colorScheme(.dark)
+                        .foregroundColor(.white)
+                    Spacer()
+                    Text("To: ")
+                        .font(.title3)
+                    DatePicker("", selection: $toDate, displayedComponents: .hourAndMinute)
+                        .labelsHidden()
+                        .colorScheme(.dark)
+                    Spacer()
+                }
+                HStack {
+                    Spacer()
+                    DateContractedView()
+                    if toggleDropdown {
+                        Text("v ")
+                    } else {
+                        Text("> ")
+                    }
+                    Spacer()
+                }
+                    .contentShape(Rectangle())
+                    .onTapGesture{
+                        toggleDropdown.toggle()
+                    }
+                if toggleDropdown {
+                    DateDropdownView()
+                }
+                Text("Edit Description:")
                     .font(.title3)
-                DatePicker("", selection: $toDate.toUnwrapped(defaultValue: Date()), displayedComponents: .hourAndMinute)
-                            .labelsHidden()
-                            .colorScheme(.dark)
+                TextField("", text: $description, axis: .vertical)
+                    .font(.callout)
+                    .foregroundColor(.white)
+                    .multilineTextAlignment(.center)
+                    .padding(10)
+                SubmitButton()
+                    .padding(10)
             }
-            DateDropdownView()
-            HStack {
-                Spacer()
-                Text(dealVM.restaurantName)
-                    .font(.title3)
-                    .padding(3)
-                Spacer()
-            }
-                Spacer()
+            .background(Deal_ioColor.background)
+            .foregroundColor(.white)
         }
-        .background(Deal_ioColor.background)
-        .foregroundColor(.white)
     }
 }
 
