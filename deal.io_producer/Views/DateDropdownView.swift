@@ -12,24 +12,32 @@ struct DateDropdownView: View {
     @State var selectedWeekdays: Set<String> = []
     
     var body: some View {
-        List(weekdays, id: \.self) { weekday in
-            HStack {
-                Text(weekday)
-                Spacer()
-                if selectedWeekdays.contains(weekday) {
-                    Image(systemName: "checkmark")
-                        .foregroundColor(.blue)
-                }
+            VStack {
+                ForEach(weekdays, id: \.self) { weekday in
+                    Group {
+                        HStack {
+                            WeekdayView(weekday: weekday)
+                                .padding(.leading, 10)
+                            Spacer()
+                            if selectedWeekdays.contains(weekday) {
+                                Image(systemName: "checkmark")
+                                    .foregroundColor(.blue)
+                                    .padding(10)
+                            }
+                        }
+                    }
+                    .contentShape(Rectangle())
+                    .onTapGesture {
+                        if selectedWeekdays.contains(weekday) {
+                            selectedWeekdays.remove(weekday)
+                        } else {
+                            selectedWeekdays.insert(weekday)
+                        }
+                    }
             }
             .contentShape(Rectangle())
-            .onTapGesture {
-                if selectedWeekdays.contains(weekday) {
-                    selectedWeekdays.remove(weekday)
-                } else {
-                    selectedWeekdays.insert(weekday)
-                }
-            }
         }
+        .background(Deal_ioColor.background)
         .navigationTitle("Weekdays")
     }
 }
