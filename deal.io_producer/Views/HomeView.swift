@@ -15,7 +15,8 @@ struct HomeView: View {
             VStack {
                 Image("dealio_white_on_bg")
                     .resizable()
-                    .frame(width: 100, height: 100)
+                    .frame(width: 100, height: 50)
+                    .padding(.vertical, 10)
                 FeedView(deals: deals)
                 Spacer()
                 PlusButtonView()
@@ -36,12 +37,13 @@ struct HomeView: View {
                                 recurring: true
                             )))
                         PostCreationView(dealVM: newVM)
+                            .background(Deal_ioColor.background)
                     }
                     .padding(.top, 10)
             }
-            .background(Deal_ioColor.background)
+            .background(Deal_ioColor.background.edgesIgnoringSafeArea(.all))
         }
-        .background(Deal_ioColor.background)
+        .background(Deal_ioColor.background.edgesIgnoringSafeArea(.all))
     }
 }
 

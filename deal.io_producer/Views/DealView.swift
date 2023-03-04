@@ -52,6 +52,7 @@ struct DealView: View {
             } .sheet(item: $selectedDeal,
                      onDismiss: { self.selectedDeal = nil }) { deal in
                 PostEditView(dealVM: deal)
+                    .background(Deal_ioColor.background)
             }
             Spacer()
         }

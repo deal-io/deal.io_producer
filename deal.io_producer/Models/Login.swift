@@ -14,4 +14,5 @@ struct Login: Codable {
     var verifiedUserID: String
     var verifiedPassword: String
     var restaurants: [Producer]
+    
 }

@@ -15,6 +15,7 @@ struct FeedView: View {
             VStack{
                 ForEach(self.deals, id:\.id) { deal in
                     DealView(dealVM: deal)
+                        .background(Deal_ioColor.background)
                 }
                 .background(Deal_ioColor.background)
             }

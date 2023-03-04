@@ -10,6 +10,13 @@ import SwiftUI
 struct ContentView: View {
     @ObservedObject var loginVM: LoginViewModel
     @ObservedObject var homeVM: HomeViewModel
+    @State var isLoggedIn: Bool
+    
+    init(loginVM: LoginViewModel, homeVM: HomeViewModel) {
+        self.loginVM = loginVM
+        self.homeVM = homeVM
+        _isLoggedIn = State(wrappedValue: loginVM.isLoggedIn)
+    }
 
     var body: some View {
         if loginVM.isLoggedIn {

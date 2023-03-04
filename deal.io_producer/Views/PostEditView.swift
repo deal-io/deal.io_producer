@@ -14,6 +14,8 @@ struct PostEditView: View {
     @State var fromDate: Date
     @State var toDate: Date
     @State var recurring: Bool
+    let titleCharLimit = 25
+    let descriptionCharLimit = 250
     
     init(dealVM: DealViewModel) {
         self.dealVM = dealVM
@@ -32,10 +34,16 @@ struct PostEditView: View {
             VStack{
                 Image("dealio_white_on_bg")
                     .resizable()
-                    .frame(width: 150, height: 120)
+                    .frame(width: 150, height: 70)
+                    .padding(.vertical, 12)
                 Text("Edit Deal Title:")
                     .font(.title3)
                 TextField("", text: $title)
+                    .onChange(of: title) { newValue in
+                        if newValue.count > titleCharLimit {
+                            title = String(newValue.prefix(titleCharLimit))
+                        }
+                    }
                     .font(.title)
                     .foregroundColor(.white)
                     .multilineTextAlignment(.center)
@@ -72,6 +80,7 @@ struct PostEditView: View {
                     }
                 if toggleDropdown {
                     DateDropdownView()
+                        .padding(.bottom, 14)
                 }
                 HStack {
                     Text("Toggle Recurring")
@@ -84,6 +93,11 @@ struct PostEditView: View {
                 Text("Edit Description:")
                     .font(.title3)
                 TextField("", text: $description, axis: .vertical)
+                    .onChange(of: description) { newValue in
+                        if newValue.count > descriptionCharLimit {
+                            description = String(newValue.prefix(descriptionCharLimit))
+                        }
+                    }
                     .font(.callout)
                     .foregroundColor(.white)
                     .multilineTextAlignment(.center)
@@ -98,6 +112,7 @@ struct PostEditView: View {
             .background(Deal_ioColor.background)
             .foregroundColor(.white)
         }
+        .background(Deal_ioColor.background)
     }
 }
 

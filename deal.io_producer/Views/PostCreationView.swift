@@ -14,6 +14,8 @@ struct PostCreationView: View {
     @State var fromDate: Date
     @State var toDate: Date
     @State var recurring: Bool
+    let titleCharLimit = 25
+    let descriptionCharLimit = 250
     
     init(dealVM: DealViewModel) {
         self.dealVM = dealVM
@@ -32,10 +34,17 @@ struct PostCreationView: View {
             VStack{
                 Image("dealio_white_on_bg")
                     .resizable()
-                    .frame(width: 150, height: 120)
+                    .frame(width: 150, height: 70)
+                    .padding(.vertical, 15)
                 Text("Enter Deal Title:")
                     .font(.title3)
-                TextField("", text: $title)
+                TextField("Deal Title", text: $title)
+                    .onChange(of: title) { newValue in
+                        if newValue.count > titleCharLimit {
+                            title = String(newValue.prefix(titleCharLimit))
+                        }
+                    }
+                    .accentColor(.white)
                     .padding(.bottom, 10)
                     .font(.title)
                     .foregroundColor(.white)
@@ -72,6 +81,7 @@ struct PostCreationView: View {
                     }
                 if toggleDropdown {
                     DateDropdownView()
+                        .padding(.bottom, 12)
                 }
                 HStack {
                     Text("Toggle Recurring")
@@ -83,8 +93,14 @@ struct PostCreationView: View {
                 .padding(.bottom, 12)
                 Text("Enter Description:")
                     .font(.title3)
-                TextField("", text: $description, axis: .vertical)
+                TextField("Description", text: $description, axis: .vertical)
+                    .onChange(of: description) { newValue in
+                        if newValue.count > descriptionCharLimit {
+                            description = String(newValue.prefix(descriptionCharLimit))
+                        }
+                    }
                     .font(.callout)
+                    .accentColor(.white)
                     .foregroundColor(.white)
                     .multilineTextAlignment(.center)
                     .padding(10)
@@ -96,6 +112,7 @@ struct PostCreationView: View {
             .background(Deal_ioColor.background)
             .foregroundColor(.white)
         }
+        .background(Deal_ioColor.background)
     }
 }
 
@@ -106,9 +123,9 @@ struct PostCreationView_Previews: PreviewProvider {
             restaurantID: "81dc9bdb52d04dc20036dbd8313ed055",
             enterDate: BackendDate(seconds: 1, nanoseconds: 1),
             dealAttributes: DealAttributes(
-                dealName: "Enter deal title here",
+                dealName: "",
                 restaurantName: "",
-                description: "Enter deal description here",
+                description: "",
                 daysActive: [false, false, false, false, false, false, false],
                 startDate: BackendDate(seconds: 1, nanoseconds: 1),
                 endDate: BackendDate(seconds: 1, nanoseconds: 1),

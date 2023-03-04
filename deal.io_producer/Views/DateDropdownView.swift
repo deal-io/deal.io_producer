@@ -17,12 +17,14 @@ struct DateDropdownView: View {
                     Group {
                         HStack {
                             WeekdayView(weekday: weekday)
-                                .padding(.leading, 10)
+                                .padding(.leading, 70)
                             Spacer()
                             if selectedWeekdays.contains(weekday) {
                                 Image(systemName: "checkmark")
+                                    .resizable()
+                                    .frame(width: 15, height: 15)
                                     .foregroundColor(.blue)
-                                    .padding(10)
+                                    .padding(.trailing, 70)
                             }
                         }
                     }
@@ -38,7 +40,6 @@ struct DateDropdownView: View {
             .contentShape(Rectangle())
         }
         .background(Deal_ioColor.background)
-        .navigationTitle("Weekdays")
     }
 }
 struct DateDropdownView_Previews: PreviewProvider {
