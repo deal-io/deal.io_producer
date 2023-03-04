@@ -9,20 +9,21 @@ import SwiftUI
 
 struct PostEditView: View {
     @ObservedObject var dealVM: DealViewModel
-    @State var dealName: String?
-    @State var fromDate: Date?
-    @State var toDate: Date?
-    @State var dealDescription: String?
-    @State var selectedWeekdays: Set<String> = []
-    @State var toggleDropdown = false
+    @State var title: String
+    @State var description: String
+    @State var fromDate: Date
+    @State var toDate: Date
     
     init(dealVM: DealViewModel) {
         self.dealVM = dealVM
-        self.dealName = dealVM.dealName
-        self.dealDescription = dealVM.description
-        self.fromDate = dealVM.startDate
-        self.toDate = dealVM.endDate
+        _title = State(wrappedValue: dealVM.dealName)
+        _description = State(wrappedValue: dealVM.description)
+        _fromDate = State(wrappedValue: dealVM.startDate)
+        _toDate = State(wrappedValue: dealVM.endDate)
     }
+    
+    @State var selectedWeekdays: Set<String> = []
+    @State var toggleDropdown = false
     
     var body: some View {
         ScrollView {
@@ -31,24 +32,38 @@ struct PostEditView: View {
                     .resizable()
                     .frame(width: 150, height: 120)
                 Text("Edit Deal Title:")
-                TextField("", text: $dealName.toUnwrapped(defaultValue: "test"))
+                    .font(.title3)
+                TextField("", text: $title)
                     .font(.title)
                     .foregroundColor(.white)
                     .multilineTextAlignment(.center)
                 HStack {
+                    Spacer()
                     Text("From: ")
                         .font(.title3)
-                    DatePicker("", selection: $fromDate.toUnwrapped(defaultValue: Date()), displayedComponents: .hourAndMinute)
+                    DatePicker("", selection: $fromDate, displayedComponents: .hourAndMinute)
                         .labelsHidden()
                         .colorScheme(.dark)
                         .foregroundColor(.white)
+                    Spacer()
                     Text("To: ")
                         .font(.title3)
-                    DatePicker("", selection: $toDate.toUnwrapped(defaultValue: Date()), displayedComponents: .hourAndMinute)
+                    DatePicker("", selection: $toDate, displayedComponents: .hourAndMinute)
                         .labelsHidden()
                         .colorScheme(.dark)
+                    Spacer()
                 }
-                DateContractedView()
+                HStack {
+                    Spacer()
+                    DateContractedView()
+                    if toggleDropdown {
+                        Text("v ")
+                    } else {
+                        Text("> ")
+                    }
+                    Spacer()
+                }
+                    .contentShape(Rectangle())
                     .onTapGesture{
                         toggleDropdown.toggle()
                     }
@@ -56,10 +71,14 @@ struct PostEditView: View {
                     DateDropdownView()
                 }
                 Text("Edit Description:")
-                TextField("", text: $dealDescription.toUnwrapped(defaultValue: "test"))
+                    .font(.title3)
+                TextField("", text: $description, axis: .vertical)
                     .font(.callout)
                     .foregroundColor(.white)
                     .multilineTextAlignment(.center)
+                    .padding(10)
+                SubmitButton()
+                    .padding(10)
             }
             .background(Deal_ioColor.background)
             .foregroundColor(.white)

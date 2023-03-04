@@ -10,10 +10,10 @@ import SwiftUI
 struct DateContractedView: View {
     var body: some View {
         HStack {
-            Text("Active On: ")
+            Text("Active On:")
                 .padding(10)
                 .foregroundColor(.white)
-                .font(.callout)
+                .font(.title3)
         }
         .background(Deal_ioColor.accent)
     }

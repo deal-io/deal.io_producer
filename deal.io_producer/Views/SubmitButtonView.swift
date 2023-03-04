@@ -9,7 +9,14 @@ import SwiftUI
 
 struct SubmitButton: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ZStack {
+            RoundedRectangle(cornerRadius: 10)
+                .fill(Color.blue)
+                .frame(width: 160, height: 80)
+            Text("Submit")
+                .font(.title)
+                .foregroundColor(.white)
+        }
     }
 }
 

@@ -14,20 +14,24 @@ struct DateDropdownView: View {
     var body: some View {
             VStack {
                 ForEach(weekdays, id: \.self) { weekday in
-                    HStack {
-                        WeekdayView(weekday: weekday)
-                            .onTapGesture {
-                                if selectedWeekdays.contains(weekday) {
-                                    selectedWeekdays.remove(weekday)
-                                } else {
-                                    selectedWeekdays.insert(weekday)
-                                }
+                    Group {
+                        HStack {
+                            WeekdayView(weekday: weekday)
+                                .padding(.leading, 10)
+                            Spacer()
+                            if selectedWeekdays.contains(weekday) {
+                                Image(systemName: "checkmark")
+                                    .foregroundColor(.blue)
+                                    .padding(10)
                             }
-                        Spacer()
+                        }
+                    }
+                    .contentShape(Rectangle())
+                    .onTapGesture {
                         if selectedWeekdays.contains(weekday) {
-                            Image(systemName: "checkmark")
-                                .foregroundColor(.blue)
-                                .padding(10)
+                            selectedWeekdays.remove(weekday)
+                        } else {
+                            selectedWeekdays.insert(weekday)
                         }
                     }
             }
