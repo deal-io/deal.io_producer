@@ -14,6 +14,7 @@ struct PostCreationView: View {
     @State var fromDate: Date
     @State var toDate: Date
     @State var recurring: Bool
+    @State var date = Date()
     let titleCharLimit = 25
     let descriptionCharLimit = 250
     
@@ -32,57 +33,28 @@ struct PostCreationView: View {
     var body: some View {
         ScrollView {
             VStack{
-                Image("dealio_white_on_bg")
-                    .resizable()
-                    .frame(width: 150, height: 70)
-                    .padding(.vertical, 15)
-                Text("Enter Deal Title:")
-                    .font(.title3)
-                TextField("Deal Title", text: $title)
-                    .onChange(of: title) { newValue in
-                        if newValue.count > titleCharLimit {
-                            title = String(newValue.prefix(titleCharLimit))
+                Group {
+                    Image("dealio_white_on_bg")
+                        .resizable()
+                        .frame(width: 150, height: 70)
+                        .padding(.vertical, 15)
+                    Text("Enter Deal Title:")
+                        .font(.title3)
+                    TextField("Deal Title", text: $title)
+                        .onChange(of: title) { newValue in
+                            if newValue.count > titleCharLimit {
+                                title = String(newValue.prefix(titleCharLimit))
+                            }
                         }
-                    }
-                    .accentColor(.white)
-                    .padding(.bottom, 10)
-                    .font(.title)
-                    .foregroundColor(.white)
-                    .multilineTextAlignment(.center)
-                HStack {
-                    Spacer()
-                    Text("From: ")
-                        .font(.title3)
-                    DatePicker("", selection: $fromDate, displayedComponents: .hourAndMinute)
-                        .labelsHidden()
-                        .colorScheme(.dark)
+                        .accentColor(.white)
+                        .padding(.bottom, 10)
+                        .font(.title)
                         .foregroundColor(.white)
-                    Spacer()
-                    Text("To: ")
-                        .font(.title3)
-                    DatePicker("", selection: $toDate, displayedComponents: .hourAndMinute)
-                        .labelsHidden()
-                        .colorScheme(.dark)
-                    Spacer()
+                        .multilineTextAlignment(.center)
+                    FromToTimesView(fromDate: fromDate, toDate: toDate)
+                        .padding(.bottom, 16)
                 }
-                HStack {
-                    Spacer()
-                    DateContractedView()
-                    if toggleDropdown {
-                        Text("v ")
-                    } else {
-                        Text("> ")
-                    }
-                    Spacer()
-                }
-                    .contentShape(Rectangle())
-                    .onTapGesture{
-                        toggleDropdown.toggle()
-                    }
-                if toggleDropdown {
-                    DateDropdownView()
-                        .padding(.bottom, 12)
-                }
+                Spacer()
                 HStack {
                     Text("Toggle Recurring")
                         .foregroundColor(.white)
@@ -90,8 +62,39 @@ struct PostCreationView: View {
                     Toggle("", isOn: $recurring)
                         .labelsHidden()
                 }
-                .padding(.bottom, 12)
+                .padding(.bottom, 4)
+                if recurring {
+                    HStack {
+                        Spacer()
+                        DateContractedView()
+                        if toggleDropdown {
+                            Text("v ")
+                        } else {
+                            Text("> ")
+                        }
+                        Spacer()
+                    }
+                    .contentShape(Rectangle())
+                    .onTapGesture{
+                        toggleDropdown.toggle()
+                    }
+                    if toggleDropdown {
+                        DateDropdownView()
+                    }
+                } else {
+                    HStack {
+                        Text("Deal Date:")
+                            .padding(.leading, 40)
+                        DatePicker("", selection: $date, displayedComponents: .date)
+                            .padding(.trailing, 40)
+                            .labelsHidden()
+                            .colorScheme(.dark)
+                            .foregroundColor(.white)
+                    }
+                    .padding(.vertical, 14)
+                }
                 Text("Enter Description:")
+                    .padding(.top, 8)
                     .font(.title3)
                 TextField("Description", text: $description, axis: .vertical)
                     .onChange(of: description) { newValue in
@@ -129,7 +132,7 @@ struct PostCreationView_Previews: PreviewProvider {
                 daysActive: [false, false, false, false, false, false, false],
                 startDate: BackendDate(seconds: 1, nanoseconds: 1),
                 endDate: BackendDate(seconds: 1, nanoseconds: 1),
-                recurring: true
+                recurring: false
             ))))
     }
 }

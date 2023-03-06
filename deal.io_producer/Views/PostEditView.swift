@@ -13,6 +13,7 @@ struct PostEditView: View {
     @State var description: String
     @State var fromDate: Date
     @State var toDate: Date
+    @State var date = Date()
     @State var recurring: Bool
     let titleCharLimit = 25
     let descriptionCharLimit = 250
@@ -65,31 +66,44 @@ struct PostEditView: View {
                     Spacer()
                 }
                 HStack {
-                    Spacer()
-                    DateContractedView()
-                    if toggleDropdown {
-                        Text("v ")
-                    } else {
-                        Text("> ")
-                    }
-                    Spacer()
-                }
-                    .contentShape(Rectangle())
-                    .onTapGesture{
-                        toggleDropdown.toggle()
-                    }
-                if toggleDropdown {
-                    DateDropdownView()
-                        .padding(.bottom, 14)
-                }
-                HStack {
                     Text("Toggle Recurring")
                         .foregroundColor(.white)
                     
                     Toggle("", isOn: $recurring)
                         .labelsHidden()
                 }
-                .padding(.bottom, 14)
+                .padding(.top, 6)
+                if recurring {
+                    HStack {
+                        Spacer()
+                        DateContractedView()
+                        if toggleDropdown {
+                            Text("v ")
+                        } else {
+                            Text("> ")
+                        }
+                        Spacer()
+                    }
+                    .padding(.bottom, 4)
+                    .contentShape(Rectangle())
+                    .onTapGesture{
+                        toggleDropdown.toggle()
+                    }
+                    if toggleDropdown {
+                        DateDropdownView()
+                    }
+                } else {
+                    HStack {
+                        Text("Deal Date:")
+                            .padding(.leading, 40)
+                        DatePicker("", selection: $date, displayedComponents: .date)
+                            .padding(.trailing, 40)
+                            .labelsHidden()
+                            .colorScheme(.dark)
+                            .foregroundColor(.white)
+                    }
+                    .padding(.vertical, 14)
+                }
                 Text("Edit Description:")
                     .font(.title3)
                 TextField("", text: $description, axis: .vertical)

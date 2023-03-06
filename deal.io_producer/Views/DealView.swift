@@ -21,27 +21,12 @@ struct DealView: View {
                     .multilineTextAlignment(.center)
                 
                 HStack {
-                    Spacer()
                     Text(dealVM.restaurantName)
                         .font(.title3)
-                        .padding(3)
+                        .padding(.leading, 35)
                     Spacer()
-                    if (dealVM.active) {
-                        Text("\(dealVM.hoursToEnd)")
-                            .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
-                            .background(Color.gray)
-                            .foregroundColor(Color.white)
-                            .cornerRadius(10)
-                            .padding(3)
-                    } else {
-                        Text("\(dealVM.hoursToStart) hrs")
-                            .padding(EdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5))
-                            .background(Deal_ioColor.oneHourColor)
-                            .foregroundColor(Color.white)
-                            .cornerRadius(10)
-                            .padding(3)
-                    }
-                    Spacer()
+                    HourView(dealVM: dealVM)
+                        .padding(.trailing, 35)
                 }
                 Spacer()
             }
