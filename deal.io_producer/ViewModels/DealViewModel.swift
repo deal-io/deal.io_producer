@@ -41,8 +41,8 @@ class DealViewModel: Identifiable, ObservableObject{
     }
     
     var endDate: Date {
-        let seconds = self.deal.dealAttributes.startDate.seconds
-        let nanoseconds = self.deal.dealAttributes.startDate.nanoseconds
+        let seconds = self.deal.dealAttributes.endDate.seconds
+        let nanoseconds = self.deal.dealAttributes.endDate.nanoseconds
         let timeInterval = TimeInterval(seconds + (nanoseconds / 1_000_000_000))
         return Date(timeIntervalSinceReferenceDate: timeInterval)
     }
@@ -71,7 +71,12 @@ class DealViewModel: Identifiable, ObservableObject{
     }
     
     var hourAtStart: String {
-        return "\(Calendar.current.component(.hour, from: self.startDate))"
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.dateFormat = "h a"
+        formatter.amSymbol = "AM"
+        formatter.pmSymbol = "PM"
+        return formatter.string(from: self.startDate)
     }
     
     var active: Bool {
