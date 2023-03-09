@@ -1,9 +1,5 @@
 //
-<<<<<<< HEAD
 //  DealView.swift
-=======
-//  ContractedDealView.swift
->>>>>>> basic_producer_ui
 //  deal.io_producer
 //
 //  Created by Tyler Keller on 3/1/23.
