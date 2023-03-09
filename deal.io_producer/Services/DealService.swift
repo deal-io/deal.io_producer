@@ -8,10 +8,10 @@
 import Foundation
 
 class DealService {
-    private let apiUrl = "https://dealio-backend-production.web.app/deal/active"
+    private let apiUrl = "https://dealio-backend-production.web.app"
     
     func fetchDeals(completion: @escaping (Result<[Deal], Error>) -> Void) {
-        guard let url = URL(string: apiUrl) else {
+        guard let url = URL(string: "\(apiUrl)/deal/active") else {
             completion(.failure(NSError(domain: "DealService", code: 0, userInfo: [NSLocalizedDescriptionKey: "Invalid URL"])))
             return
         }
@@ -125,9 +125,10 @@ class DealService {
         }
     }
 
-    func deleteDeal(dealId: String, completion: @escaping (Result<Void, Error>) -> Void) {
-        guard let url = URL(string: "\(apiUrl)/deal/\(dealId)") else {
+    func deleteDeal(deal: Deal, completion: @escaping (Result<Void, Error>) -> Void) {
+        guard let url = URL(string: "\(apiUrl)/deal/\(deal.id)") else {
             completion(.failure(NSError(domain: "DealService", code: 0, userInfo: [NSLocalizedDescriptionKey: "Invalid URL"])))
+            return
         }
         
         var request = URLRequest(url: url)
