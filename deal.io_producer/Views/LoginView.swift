@@ -97,6 +97,6 @@ struct PasswordTextField: View {
 
 struct LoginView_Previews: PreviewProvider {
     static var previews: some View {
-        LoginView(loginVM: LoginViewModel(login: Login(enteredUserID: "", enteredPassword: "", verifiedUserID: "1234", verifiedPassword: "password", restaurants: [Producer(restaurantID: "abcd", restaurantName: "Buffalo Rose", location: "1234 East Ave")])))
+        LoginView(loginVM: LoginViewModel(login: Login(enteredUserID: "", enteredPassword: "", verifiedUserID: "1234", verifiedPassword: "password", restaurants: [Restaurant(id: "abcd", name: "Buffalo Rose", location: "1234 East Ave")])))
     }
 }

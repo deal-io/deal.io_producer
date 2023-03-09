@@ -13,6 +13,6 @@ struct Login: Codable {
     var enteredPassword: String
     var verifiedUserID: String
     var verifiedPassword: String
-    var restaurants: [Producer]
+    var restaurants: [Restaurant]
     
 }
