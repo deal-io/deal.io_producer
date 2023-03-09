@@ -14,7 +14,7 @@ struct Deal_ioProducerApp: App {
 
     var body: some Scene {
         WindowGroup {
-            LoginView(loginVM: LoginViewModel(login: Login(enteredUserID: "", enteredPassword: "", verifiedUserID: "1234", verifiedPassword: "password", restaurants: [Producer(restaurantID: "abcd", restaurantName: "Buffalo Rose", location: "1234 East Ave")]))).environment(\.managedObjectContext, persistenceController.container.viewContext)
+            ContentView().environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }
 }
