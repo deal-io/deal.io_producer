@@ -7,11 +7,11 @@
 
 import Foundation
 
-struct Producer: Codable {
+struct Restaurant: Codable {
     
     // initialized values from database
-    var restaurantID: String
-    var restaurantName: String
+    var id: String
+    var name: String
     var location: String
     
 }
