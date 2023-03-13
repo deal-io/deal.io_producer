@@ -161,13 +161,13 @@
 				AD00904329A59E2600FDB1D3 /* Views */,
 				AD00904429A59E2F00FDB1D3 /* ViewModels */,
 				AD00904529A59E4000FDB1D3 /* Models */,
-				AD00903429A59DC800FDB1D3 /* Assets.xcassets */,
+				ADF687F929AFF80B00E86022 /* Services */,
 				ADF6879D29AED04800E86022 /* Persistence.swift */,
+				AD00903429A59DC800FDB1D3 /* Assets.xcassets */,
 				AD00903B29A59DC800FDB1D3 /* deal_io_producer.xcdatamodeld */,
 				ADF687FC29B001E600E86022 /* ContentView.swift */,
 				ADF6879B29AECFDC00E86022 /* Deal_ioProducerApp.swift */,
 				ADF687F829AFF80400E86022 /* Fonts */,
-				ADF687F929AFF80B00E86022 /* Services */,
 				ADF6879A29AECFBF00E86022 /* Preview Content */,
 			);
 			path = deal.io_producer;
