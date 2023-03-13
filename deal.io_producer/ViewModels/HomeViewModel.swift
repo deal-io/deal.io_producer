@@ -33,42 +33,6 @@ class HomeViewModel: ObservableObject {
         }
     }
     
-    func createNewDeal(deal: Deal) {
-        mDealService.createDeal(deal: deal) { result in
-            switch result {
-            case .success(let deal):
-                print("Created Deal: \(deal)")
-            case .failure(let error):
-                //TODO handle error
-                print("Error: \(error.localizedDescription)")
-            }
-        }
-    }
-    
-    func updateDeal(deal: Deal) {
-        mDealService.updateDeal(deal: deal) { result in
-            switch result {
-            case .success(let deal):
-                print("Updated Deal: \(deal)")
-            case .failure(let error):
-                //TODO handle error
-                print("Error: \(error.localizedDescription)")
-            }
-        }
-    }
-    
-    func deleteDeal(deal: Deal) {
-        mDealService.deleteDeal(deal: deal) { result in
-            switch result {
-            case .success(let deal):
-                print("Deleted Deal: \(deal)")
-            case .failure(let error):
-                //TODO handle error
-                print("Error: \(error.localizedDescription)")
-            }
-        }
-    }
-    
     func getAllRestaurantsDeals(restaurant: Restaurant) -> [Deal]? {
         var restaurantsDeals: [Deal] = []
         
@@ -82,7 +46,7 @@ class HomeViewModel: ObservableObject {
     }
     
     func generateNewDealViewModel(restaurant: Restaurant) -> DealViewModel {
-        return DealViewModel(deal: Deal(id: self.generateNewDealID(), restaurantID: self.getRestaurant().id, enterDate: DateUtil().dateToSeconds(date: Date()), dealAttributes: DealAttributes(dealName: "", description: "", daysActive: [false, false, false, false, false, false, false], startDate: DateUtil().dateToSeconds(date: Date()), endDate: DateUtil().dateToSeconds(date: Date()), recurring: false)))
+        return DealViewModel(deal: Deal(id: self.generateNewDealID(), restaurantID: self.getRestaurant().id, enterDate: DateUtil().dateToSeconds(date: Date()), dealAttributes: DealAttributes(daysActive: [false, false, false, false, false, false, false], dealName: "", description: "", startDate: DateUtil().dateToSeconds(date: Date()), endDate: DateUtil().dateToSeconds(date: Date()), recurring: false)))
     }
     
     /*

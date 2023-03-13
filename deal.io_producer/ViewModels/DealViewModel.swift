@@ -9,6 +9,8 @@ import Foundation
 
 class DealViewModel: ObservableObject, Identifiable {
     
+    private let mDealService = DealService();
+    
     var deal: Deal
     
     init(deal: Deal) {
@@ -79,6 +81,42 @@ class DealViewModel: ObservableObject, Identifiable {
             return nextDayUpcoming
         } else {
             return "Not upcoming"
+        }
+    }
+    
+    func createNewDeal(deal: Deal) {
+        mDealService.createDeal(deal: deal) { result in
+            switch result {
+            case .success(let deal):
+                print("Created Deal: \(deal)")
+            case .failure(let error):
+                //TODO handle error
+                print("Error: \(error.localizedDescription)")
+            }
+        }
+    }
+    
+    func updateDeal(deal: Deal) {
+        mDealService.updateDeal(deal: deal) { result in
+            switch result {
+            case .success(let deal):
+                print("Updated Deal: \(deal)")
+            case .failure(let error):
+                //TODO handle error
+                print("Error: \(error.localizedDescription)")
+            }
+        }
+    }
+    
+    func deleteDeal(deal: Deal) {
+        mDealService.deleteDeal(deal: deal) { result in
+            switch result {
+            case .success(let deal):
+                print("Deleted Deal: \(deal)")
+            case .failure(let error):
+                //TODO handle error
+                print("Error: \(error.localizedDescription)")
+            }
         }
     }
     
