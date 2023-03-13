@@ -19,9 +19,9 @@ struct Deal: Codable {
 
 struct DealAttributes: Codable {
     // initialized values from database
+    var daysActive: [Bool]
     var dealName: String
     var description: String
-    var daysActive: [Bool]
     var startDate: BackendDate
     var endDate: BackendDate
     var recurring: Bool
