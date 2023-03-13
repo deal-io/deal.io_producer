@@ -15,6 +15,7 @@ struct PostCreationView: View {
     @State var toDate: Date
     @State var recurring: Bool
     @State var date = Date()
+    @State var isShowingConfirmation = false
     let titleCharLimit = 25
     let descriptionCharLimit = 250
     
@@ -40,13 +41,14 @@ struct PostCreationView: View {
                         .padding(.vertical, 15)
                     Text("Enter Deal Title:")
                         .font(.title3)
+                        .foregroundColor(.white)
                     TextField("Deal Title", text: $title)
                         .onChange(of: title) { newValue in
                             if newValue.count > titleCharLimit {
                                 title = String(newValue.prefix(titleCharLimit))
                             }
                         }
-                        .accentColor(.white)
+                        .colorScheme(.dark)
                         .padding(.bottom, 10)
                         .font(.title)
                         .foregroundColor(.white)
@@ -67,6 +69,7 @@ struct PostCreationView: View {
                     HStack {
                         Spacer()
                         DateContractedView()
+                            .foregroundColor(.white)
                         if toggleDropdown {
                             Text("v ")
                         } else {
@@ -80,11 +83,13 @@ struct PostCreationView: View {
                     }
                     if toggleDropdown {
                         DateDropdownView()
+                            .foregroundColor(.white)
                     }
                 } else {
                     HStack {
                         Text("Deal Date:")
                             .padding(.leading, 40)
+                            .foregroundColor(.white)
                         DatePicker("", selection: $date, displayedComponents: .date)
                             .padding(.trailing, 40)
                             .labelsHidden()
@@ -94,28 +99,42 @@ struct PostCreationView: View {
                     .padding(.vertical, 14)
                 }
                 Text("Enter Description:")
+                    .foregroundColor(.white)
                     .padding(.top, 8)
                     .font(.title3)
-                TextField("Description", text: $description, axis: .vertical)
-                    .onChange(of: description) { newValue in
-                        if newValue.count > descriptionCharLimit {
-                            description = String(newValue.prefix(descriptionCharLimit))
+                VStack {
+                    TextField("Description", text: $description, axis: .vertical)
+                        .onChange(of: description) { newValue in
+                            if newValue.count > descriptionCharLimit {
+                                description = String(newValue.prefix(descriptionCharLimit))
+                            }
                         }
-                    }
-                    .font(.callout)
-                    .accentColor(.white)
-                    .foregroundColor(.white)
-                    .multilineTextAlignment(.center)
-                    .padding(10)
+                        .font(.callout)
+                        .colorScheme(.dark)
+                        .foregroundColor(.white)
+                        .multilineTextAlignment(.center)
+                        .padding(10)
+                }
                 HStack {
                     SubmitButton()
                         .padding(10)
+                        .onTapGesture{
+                            isShowingConfirmation.toggle()
+                        }
+                        .confirmationDialog("Are you sure you want to submit?", isPresented: $isShowingConfirmation, titleVisibility: .visible) {
+                            Button("Yes") {
+                                dealVM.createNewDeal(deal: dealVM.deal)
+                                isShowingConfirmation = false
+                            }
+                            Button("No") {
+                                isShowingConfirmation = false
+                            }
+                        }
                 }
+                .background(Deal_ioColor.background)
             }
             .background(Deal_ioColor.background)
-            .foregroundColor(.white)
         }
-        .background(Deal_ioColor.background)
     }
+    
 }
-
