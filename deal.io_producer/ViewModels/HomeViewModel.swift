@@ -15,17 +15,15 @@ class HomeViewModel: ObservableObject {
     @Published var deals: [Deal] = []
     
     private let mDealService = DealService();
-    @Published var currentRestaurant: Restaurant = Restaurant(id: "etqUyuDRR51Co6iTqX2p", name: "test", location: "test")
-
+    @Published var currentRestaurant: Restaurant
        // Use a computed property to update `restaurantDeals`
-       @Published var restaurantDeals: [Deal] {
-           didSet {
-               objectWillChange.send() // Trigger an update whenever `restaurantDeals` changes
-           }
-       }
+    @Published var restaurantDeals: [Deal]
+    
     init() {
-        getAllActiveDeals()
+        self.currentRestaurant = Restaurant(id: "fIkcRQvIWinFbnrCYeYI", name: "test", location: "test")
+        self.restaurantDeals = []
     }
+    
     
     func getAllActiveDeals() {
            mDealService.fetchDeals { result in
@@ -43,16 +41,17 @@ class HomeViewModel: ObservableObject {
            }
        }
     
-    func getAllRestaurantsDeals(restaurant: Restaurant) {
-            guard let restaurant = restaurant else {
-                return
-            }
-            restarauntDeals = deals.filter { $0.restaurantID == restaurant.id }
-        }
+    func getAllRestaurantsDeals(restaurant: Restaurant) -> [Deal] {
+            return deals.filter { $0.restaurantID == restaurant.id }
+    }
+    
+    //TODO remove everything below here - Levi
     
     func generateNewDealViewModel(restaurant: Restaurant) -> DealViewModel {
         return DealViewModel(deal: Deal(id: self.generateNewDealID(), restaurantID: self.getRestaurant().id, enterDate: DateUtil().dateToSeconds(date: Date()), dealAttributes: DealAttributes(daysActive: [false, false, false, false, false, false, false], dealName: "", description: "", startDate: DateUtil().dateToSeconds(date: Date()), endDate: DateUtil().dateToSeconds(date: Date()), recurring: false)))
     }
+    
+
     
     /*
      TODO: don't know if backend needs this but if it needs a new ID to be codable and sent to backend then this needs to be implemented
@@ -67,5 +66,7 @@ class HomeViewModel: ObservableObject {
     func getRestaurant() -> Restaurant {
         return Restaurant(id: "", name: "", location: "")
     }
+    
+
     
 }

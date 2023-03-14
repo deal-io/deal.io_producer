@@ -10,24 +10,34 @@ import SwiftUI
 struct FeedView: View {
     @ObservedObject var homeVM: HomeViewModel
     
-    
     init(homeVM: HomeViewModel) {
         self.homeVM = homeVM
-        // TODO: need to get Restaurant object from backend after proper authentication
     }
-    // can't figure out the background color, but the detail card is pretty sick
+    
     var body: some View {
-        ScrollView{
-            VStack{
-                ForEach(homeVM.restaurantDeals, id:\.id) { deal in
-                    DealView(deal: deal)
-                        .background(Deal_ioColor.background)
+        
+        if self.homeVM.restaurantDeals.isEmpty {
+            VStack {
+                ProgressView("Loading deals...")
+                    .progressViewStyle(CircularProgressViewStyle(tint: Color.white))
+                    .scaleEffect(2.0)
+                    .padding()
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(Deal_ioColor.background)
+        } else {
+            ScrollView {
+                VStack{
+                    ForEach(homeVM.restaurantDeals, id:\.id) { deal in
+                        DealView(deal: deal)
+                            .background(Deal_ioColor.background)
+                    }
+                    .background(Deal_ioColor.background)
                 }
                 .background(Deal_ioColor.background)
             }
             .background(Deal_ioColor.background)
         }
-        .background(Deal_ioColor.background)
     }
 }
     
