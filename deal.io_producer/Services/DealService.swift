@@ -10,8 +10,9 @@ import Foundation
 class DealService {
     private let apiUrl = "https://dealio-backend-production.web.app"
     
+    
     func fetchDeals(completion: @escaping (Result<[Deal], Error>) -> Void) {
-        guard let url = URL(string: "\(apiUrl)/deal/active") else {
+        guard let url = URL(string: "\(apiUrl)/deal/raw") else {
             completion(.failure(NSError(domain: "DealService", code: 0, userInfo: [NSLocalizedDescriptionKey: "Invalid URL"])))
             return
         }
