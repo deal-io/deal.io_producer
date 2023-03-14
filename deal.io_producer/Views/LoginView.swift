@@ -92,11 +92,3 @@ struct PasswordTextField: View {
             .shadow(color: Deal_ioColor.lightShadow, radius: 1, x: -2, y: -2)
     }
 }
-
-
-
-struct LoginView_Previews: PreviewProvider {
-    static var previews: some View {
-        LoginView(loginVM: LoginViewModel(login: Login(enteredUserID: "", enteredPassword: "", verifiedUserID: "1234", verifiedPassword: "password", restaurants: [Restaurant(id: "abcd", name: "Buffalo Rose", location: "1234 East Ave")])))
-    }
-}

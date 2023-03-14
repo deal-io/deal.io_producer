@@ -42,8 +42,3 @@ struct DateDropdownView: View {
         .background(Deal_ioColor.background)
     }
 }
-struct DateDropdownView_Previews: PreviewProvider {
-    static var previews: some View {
-        DateDropdownView()
-    }
-}

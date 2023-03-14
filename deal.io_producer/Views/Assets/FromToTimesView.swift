@@ -31,8 +31,3 @@ struct FromToTimesView: View {
     }
 }
 
-struct FromToTimesView_Previews: PreviewProvider {
-    static var previews: some View {
-        FromToTimesView(fromDate: Date(), toDate: Date())
-    }
-}
