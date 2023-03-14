@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct HomeView: View {
-    @ObservedObject var homeVM: HomeViewModel
+    @ObservedObject var viewModel: ProducerViewModel
     @State var newDealToggle = false
     
     var body: some View {
@@ -18,13 +18,13 @@ struct HomeView: View {
                 .frame(width: 100, height: 50)
                 .padding(.vertical, 10)
                 .padding(.horizontal, 150)
-            FeedView(homeVM: homeVM)
+            FeedView(viewModel: viewModel)
             Spacer()
             PlusButtonView()
                 .onTapGesture {
                     newDealToggle = true
                 } .sheet(isPresented: $newDealToggle) {
-                    PostCreationView(dealVM: homeVM.generateNewDealViewModel(restaurant: homeVM.getRestaurant()))
+                    PostCreationView(dealVM: viewModel.generateNewDealViewModel(restaurant: viewModel.getRestaurant()))
                         .background(Deal_ioColor.background)
                 }
                 .padding(.top, 10)
@@ -35,6 +35,6 @@ struct HomeView: View {
 
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
-        HomeView(homeVM: HomeViewModel())
+        HomeView(viewModel: ProducerViewModel())
     }
 }
