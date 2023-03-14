@@ -176,21 +176,14 @@
 		AD00904329A59E2600FDB1D3 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				ADA633E029C13A7E0032EF44 /* Colors */,
+				ADA633DF29C13A730032EF44 /* Assets */,
 				AD00904A29A59E8F00FDB1D3 /* LoginView.swift */,
 				AD00904C29A59EB200FDB1D3 /* HomeView.swift */,
 				AD00904E29A59EC300FDB1D3 /* PostCreationView.swift */,
 				ADF687AF29AFD60500E86022 /* PostEditView.swift */,
-				ADF687B329AFE6DB00E86022 /* Deal_ioColor.swift */,
 				ADF687EC29AFF44F00E86022 /* FeedView.swift */,
 				ADF687EE29AFF46600E86022 /* DealView.swift */,
-				ADF687FE29B0796000E86022 /* DateDropdownView.swift */,
-				ADA633B629B1CA8D0032EF44 /* PlusButtonView.swift */,
-				ADA633B829B288450032EF44 /* WeekdayView.swift */,
-				ADA633BA29B2941C0032EF44 /* DateContractedView.swift */,
-				ADA633BC29B296E40032EF44 /* SubmitButtonView.swift */,
-				ADA633BE29B2D9DC0032EF44 /* DeleteButtonView.swift */,
-				ADA633C629B2FD2B0032EF44 /* HourView.swift */,
-				ADA633C829B5A5260032EF44 /* FromToTimesView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -222,6 +215,29 @@
 				ADA633DD29BA92710032EF44 /* BindingUtil.swift */,
 			);
 			path = Utils;
+			sourceTree = "<group>";
+		};
+		ADA633DF29C13A730032EF44 /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				ADF687FE29B0796000E86022 /* DateDropdownView.swift */,
+				ADA633B629B1CA8D0032EF44 /* PlusButtonView.swift */,
+				ADA633B829B288450032EF44 /* WeekdayView.swift */,
+				ADA633BA29B2941C0032EF44 /* DateContractedView.swift */,
+				ADA633BE29B2D9DC0032EF44 /* DeleteButtonView.swift */,
+				ADA633C829B5A5260032EF44 /* FromToTimesView.swift */,
+				ADA633BC29B296E40032EF44 /* SubmitButtonView.swift */,
+				ADA633C629B2FD2B0032EF44 /* HourView.swift */,
+			);
+			path = Assets;
+			sourceTree = "<group>";
+		};
+		ADA633E029C13A7E0032EF44 /* Colors */ = {
+			isa = PBXGroup;
+			children = (
+				ADF687B329AFE6DB00E86022 /* Deal_ioColor.swift */,
+			);
+			path = Colors;
 			sourceTree = "<group>";
 		};
 		ADF6879A29AECFBF00E86022 /* Preview Content */ = {
