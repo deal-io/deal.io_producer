@@ -19,8 +19,3 @@ struct DateContractedView: View {
     }
 }
 
-struct DateContractedView_Previews: PreviewProvider {
-    static var previews: some View {
-        DateContractedView()
-    }
-}

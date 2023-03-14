@@ -32,9 +32,3 @@ struct HomeView: View {
         .background(Deal_ioColor.background)
     }
 }
-
-struct HomeView_Previews: PreviewProvider {
-    static var previews: some View {
-        HomeView(homeVM: HomeViewModel())
-    }
-}

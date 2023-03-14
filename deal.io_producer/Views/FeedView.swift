@@ -40,9 +40,3 @@ struct FeedView: View {
         }
     }
 }
-    
-struct FeedView_Previews: PreviewProvider {
-    static var previews: some View {
-        FeedView(homeVM: HomeViewModel())
-    }
-}
