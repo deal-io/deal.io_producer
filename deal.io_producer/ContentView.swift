@@ -9,17 +9,17 @@ import SwiftUI
 
 struct ContentView: View {
     @State var isLoading = true // initial state is "loading"
-    @ObservedObject var homeVM: HomeViewModel
+    @ObservedObject var viewModel: ProducerViewModel
     
-    init(homeVM: HomeViewModel = HomeViewModel()) {
-        self.homeVM = homeVM
-        self.homeVM.getAllActiveDeals()
+    init(viewModel: ProducerViewModel = ProducerViewModel()) {
+        self.viewModel = viewModel
+        self.viewModel.getAllActiveDeals()
     }
     
     var body: some View {
         ZStack {
             // Main view
-            HomeView(homeVM: homeVM)
+            HomeView(viewModel: viewModel)
                 .opacity(isLoading ? 0 : 1) // hide if loading
                 .disabled(isLoading) // disable if loading
             
@@ -50,6 +50,6 @@ struct LoadingView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView(homeVM: HomeViewModel())
+        ContentView(viewModel: ProducerViewModel())
     }
 }

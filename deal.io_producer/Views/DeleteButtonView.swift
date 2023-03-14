@@ -1,4 +1,4 @@
-//
+    //
 //  DeleteButtonView.swift
 //  deal.io_producer
 //

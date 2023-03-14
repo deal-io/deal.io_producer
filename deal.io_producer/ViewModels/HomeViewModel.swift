@@ -11,7 +11,7 @@ import Foundation
  This ViewModel would handle switching to different views (ie, postcreation, postediting)
  The main page is the restaurant feed though
  */
-class HomeViewModel: ObservableObject {
+class ProducerViewModel: ObservableObject {
     @Published var deals: [Deal] = []
     
     private let mDealService = DealService();
