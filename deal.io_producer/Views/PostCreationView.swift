@@ -8,24 +8,27 @@
 import SwiftUI
 
 struct PostCreationView: View {
-    @ObservedObject var dealVM: DealViewModel
+    @ObservedObject var viewModel: ProducerViewModel
+
     @State var title: String
     @State var description: String
     @State var fromDate: Date
     @State var toDate: Date
     @State var recurring: Bool
-    @State var date = Date()
+    
+    
     @State var isShowingConfirmation = false
     let titleCharLimit = 25
     let descriptionCharLimit = 250
     
-    init(dealVM: DealViewModel) {
-        self.dealVM = dealVM
-        _title = State(wrappedValue: dealVM.dealName)
-        _description = State(wrappedValue: dealVM.description)
-        _fromDate = State(wrappedValue: dealVM.startDate)
-        _toDate = State(wrappedValue: dealVM.endDate)
-        _recurring = State(wrappedValue: dealVM.recurring)
+    init(viewModel: ProducerViewModel) {
+        self.viewModel = viewModel
+        self.viewModel.currentWorkingDeal = GenerateEmptyDeal()
+        self.title = viewModel.currentWorkingDeal.dealAttributes.dealName
+        self.description = viewModel.currentWorkingDeal.dealAttributes.description
+        self.fromDate = viewModel.currentWorkingDeal.dealAttributes.startDate
+        self.toDate = viewModel.currentWorkingDeal.dealAttributes.endDate
+        self.recurring = viewModel.currentWorkingDeal.dealAttributes.recurring
     }
     
     @State var selectedWeekdays: Set<String> = []
@@ -123,7 +126,8 @@ struct PostCreationView: View {
                         }
                         .confirmationDialog("Are you sure you want to submit?", isPresented: $isShowingConfirmation, titleVisibility: .visible) {
                             Button("Yes") {
-                                dealVM.createNewDeal(deal: dealVM.deal)
+                                console.log(viewModel.currentWorkingDeal)
+                                console.log(description)
                                 isShowingConfirmation = false
                             }
                             Button("No") {

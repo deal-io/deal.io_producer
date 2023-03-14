@@ -24,7 +24,7 @@ struct HomeView: View {
                 .onTapGesture {
                     newDealToggle = true
                 } .sheet(isPresented: $newDealToggle) {
-                    PostCreationView(dealVM: viewModel.generateNewDealViewModel(restaurant: viewModel.getRestaurant()))
+                    PostCreationView(viewModel: viewModel))
                         .background(Deal_ioColor.background)
                 }
                 .padding(.top, 10)

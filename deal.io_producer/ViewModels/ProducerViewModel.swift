@@ -19,9 +19,12 @@ class ProducerViewModel: ObservableObject {
        // Use a computed property to update `restaurantDeals`
     @Published var restaurantDeals: [Deal]
     
+    @Published var currentWorkingDeal: Deal
+    
     init() {
         self.currentRestaurant = Restaurant(id: "fIkcRQvIWinFbnrCYeYI", name: "test", location: "test")
         self.restaurantDeals = []
+        self.currentWorkingDeal = GenerateEmptyDeal()
     }
     
     
