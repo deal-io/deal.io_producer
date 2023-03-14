@@ -14,7 +14,11 @@ import Foundation
 class HomeViewModel: ObservableObject {
     @Published var deals: [Deal] = []
     
+    @Published var restaurantDeals: [Deal] = []
+    
     private let mDealService = DealService();
+    
+    private let _currentRestaurant = Restaurant(id: "etqUyuDRR51Co6iTqX2p", name: "test", location: "test")
     
     init() {
         getAllActiveDeals()
@@ -25,7 +29,10 @@ class HomeViewModel: ObservableObject {
             switch result {
             case .success(let deals):
                 print("Deals: \(deals)")
-                self.deals = deals;
+                DispatchQueue.main.async { // Add this line to update `deals` on the main thread
+                    self.deals = deals
+                }
+                self.getAllRestaurantsDeals(restaurant: self._currentRestaurant)
             case .failure(let error):
                 //TODO handle error
                 print("Error: \(error.localizedDescription)")
@@ -33,16 +40,13 @@ class HomeViewModel: ObservableObject {
         }
     }
     
-    func getAllRestaurantsDeals(restaurant: Restaurant) -> [Deal]? {
-        var restaurantsDeals: [Deal] = []
-        
+    func getAllRestaurantsDeals(restaurant: Restaurant) {
         for deal in deals {
             if deal.restaurantID == restaurant.id {
-                restaurantsDeals.append(deal)
+                restaurantDeals.append(deal)
             }
         }
         
-        return restaurantsDeals
     }
     
     func generateNewDealViewModel(restaurant: Restaurant) -> DealViewModel {
