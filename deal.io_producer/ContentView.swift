@@ -11,6 +11,7 @@ struct ContentView: View {
     @State var isLoading = true // initial state is "loading"
     @ObservedObject var viewModel: ProducerViewModel
     
+    // TODO replace restaurant with actual login restaurant id 
     init(viewModel: ProducerViewModel = ProducerViewModel(restaurant: Restaurant(id: "", name: "", location: ""))) {
         self.viewModel = viewModel
         self.viewModel.getAllActiveDeals()
