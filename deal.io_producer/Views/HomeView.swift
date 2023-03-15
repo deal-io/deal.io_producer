@@ -32,4 +32,3 @@ struct HomeView: View {
         .background(Deal_ioColor.background)
     }
 }
-
