@@ -38,14 +38,14 @@ struct DealView: View {
             }
             .background(Deal_ioColor.background)
             .foregroundColor(.white)
-            .onTapGesture {
-                self.selectedDeal = dealVM
-            } .sheet(item: $selectedDeal,
-                     onDismiss: { self.selectedDeal = nil }) { deal in
-                PostEditView(dealVM: deal)
-                    .background(Deal_ioColor.background)
-            }
-            Spacer()
+//            .onTapGesture {
+//                self.selectedDeal = dealVM
+//            } .sheet(item: $selectedDeal,
+//                     onDismiss: { self.selectedDeal = nil }) { deal in
+//                PostEditView(viewModel: )
+//                    .background(Deal_ioColor.background)
+//            }
+//            Spacer()
         }
     }
 
