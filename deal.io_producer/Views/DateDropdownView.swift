@@ -10,6 +10,7 @@ import SwiftUI
 struct DateDropdownView: View {
     let weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
     @State var selectedWeekdays: Set<String> = []
+    //@ObservedObject var viewModel: DealViewModel
     
     var body: some View {
             VStack {

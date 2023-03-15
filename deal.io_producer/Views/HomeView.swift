@@ -24,7 +24,7 @@ struct HomeView: View {
                 .onTapGesture {
                     newDealToggle = true
                 } .sheet(isPresented: $newDealToggle) {
-                    PostCreationView(viewModel: viewModel))
+                    PostCreationView(viewModel: viewModel)
                         .background(Deal_ioColor.background)
                 }
                 .padding(.top, 10)
@@ -33,8 +33,3 @@ struct HomeView: View {
     }
 }
 
-struct HomeView_Previews: PreviewProvider {
-    static var previews: some View {
-        HomeView(viewModel: ProducerViewModel())
-    }
-}
