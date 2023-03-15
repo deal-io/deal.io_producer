@@ -12,8 +12,8 @@ struct PostCreationView: View {
     
     @State private var dealName: String
     @State private var description: String
-    @State private var startDate: BackendDate
-    @State private var endDate: BackendDate
+    @State private var startDate: Date
+    @State private var endDate: Date
     @State private var recurring: Bool
     @State private var daysActive: [Bool]
     
@@ -22,13 +22,13 @@ struct PostCreationView: View {
         self.viewModel = viewModel
         self.dealName = viewModel.currentWorkingDeal.dealAttributes.dealName
         self.description = viewModel.currentWorkingDeal.dealAttributes.description
-        self.startDate = viewModel.currentWorkingDeal.dealAttributes.startDate
-        self.endDate = viewModel.currentWorkingDeal.dealAttributes.endDate
+        self.startDate = Date()
+        self.endDate = Date()
         self.recurring = viewModel.currentWorkingDeal.dealAttributes.recurring
         self.daysActive = viewModel.currentWorkingDeal.dealAttributes.daysActive
         
     }
-
+    
     @State var isShowingConfirmation = false
     let titleCharLimit = 25
     let descriptionCharLimit = 250
@@ -59,9 +59,9 @@ struct PostCreationView: View {
                         .foregroundColor(.white)
                         .multilineTextAlignment(.center)
                 }
-                    /*
-                    FromToTimesView(fromDate: fromDate, toDate: toDate)
-                        .padding(.bottom, 16)
+                
+                FromToTimesView(fromDate: startDate, toDate: endDate)
+                    .padding(.bottom, 16)
                 Spacer()
                 HStack {
                     Text("Toggle Recurring")
@@ -108,8 +108,8 @@ struct PostCreationView: View {
                     .foregroundColor(.white)
                     .padding(.top, 8)
                     .font(.title3)
-                    */
-               
+                
+                
                 VStack {
                     TextField("Description", text: $description, axis: .vertical)
                         .onChange(of: description) { newValue in
@@ -123,7 +123,7 @@ struct PostCreationView: View {
                         .multilineTextAlignment(.center)
                         .padding(10)
                 }
-                 
+                
                 HStack {
                     SubmitButton()
                         .padding(10)
@@ -135,6 +135,15 @@ struct PostCreationView: View {
                                 isShowingConfirmation = false
                                 viewModel.currentWorkingDeal.dealAttributes.dealName = dealName
                                 viewModel.currentWorkingDeal.dealAttributes.description = description
+                                viewModel.currentWorkingDeal.dealAttributes.recurring = recurring
+                                viewModel.currentWorkingDeal.dealAttributes.daysActive = daysActive
+                                
+                                /*
+                                 TODO -> convert start and end date state values to backend times 
+                                 
+                                viewModel.currentWorkingDeal.dealAttributes.startDate = startDate
+                                viewModel.currentWorkingDeal.dealAttributes.endDate = endDate
+                                 */
                                 print(viewModel.currentWorkingDeal)
                             }
                             Button("No") {
