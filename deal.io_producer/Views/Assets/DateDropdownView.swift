@@ -8,38 +8,19 @@
 import SwiftUI
 
 struct DateDropdownView: View {
-    let weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
-    @State var selectedWeekdays: Set<String> = []
-    //@ObservedObject var viewModel: DealViewModel
-    
+    @Binding var daysActive: [Bool]
+    let weekdays = ["Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"]
+
     var body: some View {
-            VStack {
-                ForEach(weekdays, id: \.self) { weekday in
-                    Group {
-                        HStack {
-                            WeekdayView(weekday: weekday)
-                                .padding(.leading, 70)
-                            Spacer()
-                            if selectedWeekdays.contains(weekday) {
-                                Image(systemName: "checkmark")
-                                    .resizable()
-                                    .frame(width: 15, height: 15)
-                                    .foregroundColor(.blue)
-                                    .padding(.trailing, 70)
-                            }
-                        }
-                    }
-                    .contentShape(Rectangle())
-                    .onTapGesture {
-                        if selectedWeekdays.contains(weekday) {
-                            selectedWeekdays.remove(weekday)
-                        } else {
-                            selectedWeekdays.insert(weekday)
-                        }
-                    }
+        VStack(alignment: HorizontalAlignment.leading, spacing: 10) {
+            ForEach(0..<weekdays.count) { index in
+                Button(action: {
+                    daysActive[index] = !($daysActive[index].wrappedValue)
+                }) {
+                    Label(weekdays[index], systemImage: $daysActive[index].wrappedValue ? "checkmark.circle.fill" : "circle")
+                }
+                .fixedSize()
             }
-            .contentShape(Rectangle())
         }
-        .background(Deal_ioColor.background)
     }
 }

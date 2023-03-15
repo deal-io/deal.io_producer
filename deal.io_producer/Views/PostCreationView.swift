@@ -16,17 +16,18 @@ struct PostCreationView: View {
     @State private var endDate: Date
     @State private var recurring: Bool
     @State private var daysActive: [Bool]
+    @State private var dates: Set<DateComponents>
     
     
     init(viewModel: ProducerViewModel){
         self.viewModel = viewModel
-        self.dealName = viewModel.currentWorkingDeal.dealAttributes.dealName
-        self.description = viewModel.currentWorkingDeal.dealAttributes.description
-        self.startDate = Date()
-        self.endDate = Date()
-        self.recurring = viewModel.currentWorkingDeal.dealAttributes.recurring
-        self.daysActive = viewModel.currentWorkingDeal.dealAttributes.daysActive
-        
+        self._dealName = State(initialValue: viewModel.currentWorkingDeal.dealAttributes.dealName)
+        self._description = State(initialValue: viewModel.currentWorkingDeal.dealAttributes.description)
+        self._startDate = State(initialValue: Date())
+        self._endDate = State(initialValue: Date())
+        self._recurring = State(initialValue: viewModel.currentWorkingDeal.dealAttributes.recurring)
+        self._daysActive = State(initialValue: Array(repeating: false, count:7))//viewModel.currentWorkingDeal.dealAttributes.daysActive)
+        self._dates = State(initialValue: Set<DateComponents>())
     }
     
     @State var isShowingConfirmation = false
@@ -62,6 +63,7 @@ struct PostCreationView: View {
                 
                 FromToTimesView(fromDate: startDate, toDate: endDate)
                     .padding(.bottom, 16)
+                    .foregroundColor(.white)
                 Spacer()
                 HStack {
                     Text("Toggle Recurring")
@@ -72,32 +74,13 @@ struct PostCreationView: View {
                 }
                 .padding(.bottom, 4)
                 if recurring {
-                    HStack {
-                        Spacer()
-                        DateContractedView()
-                            .foregroundColor(.white)
-                        if toggleDropdown {
-                            Text("v ")
-                        } else {
-                            Text("> ")
-                        }
-                        Spacer()
-                    }
-                    .contentShape(Rectangle())
-                    .onTapGesture{
-                        toggleDropdown.toggle()
-                    }
-                    if toggleDropdown {
-                        DateDropdownView(viewModel: viewModel)
-                            .foregroundColor(.white)
-                    }
+                    DateDropdownView(daysActive: $daysActive)
+                        .foregroundColor(.white)
+                    
                 } else {
                     HStack {
-                        Text("Deal Date:")
-                            .padding(.leading, 40)
-                            .foregroundColor(.white)
-                        DatePicker("", selection: $date, displayedComponents: .date)
-                            .padding(.trailing, 40)
+                        MultiDatePicker("", selection: $dates)
+                            .padding(.horizontal, 20)
                             .labelsHidden()
                             .colorScheme(.dark)
                             .foregroundColor(.white)
