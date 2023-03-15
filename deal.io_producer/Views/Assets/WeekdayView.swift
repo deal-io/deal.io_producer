@@ -20,9 +20,3 @@ struct WeekdayView: View {
         .background(Deal_ioColor.background)
     }
 }
-
-struct WeekdayView_Previews: PreviewProvider {
-    static var previews: some View {
-        WeekdayView(weekday: "Monday")
-    }
-}
