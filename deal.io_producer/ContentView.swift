@@ -11,7 +11,7 @@ struct ContentView: View {
     @State var isLoading = true // initial state is "loading"
     @ObservedObject var viewModel: ProducerViewModel
     
-    init(viewModel: ProducerViewModel = ProducerViewModel()) {
+    init(viewModel: ProducerViewModel = ProducerViewModel(restaurant: Restaurant(id: "", name: "", location: ""))) {
         self.viewModel = viewModel
         self.viewModel.getAllActiveDeals()
     }
@@ -48,8 +48,3 @@ struct LoadingView: View {
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView(viewModel: ProducerViewModel())
-    }
-}

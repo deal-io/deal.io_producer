@@ -9,27 +9,19 @@ import SwiftUI
 
 struct PostCreationView: View {
     @ObservedObject var viewModel: ProducerViewModel
+    
+    @State private var dealName: String
+    @State private var description: String
+    
+    init(viewModel: ProducerViewModel){
+        self.viewModel = viewModel
+        self.dealName = viewModel.currentWorkingDeal.dealAttributes.dealName
+        self.description = viewModel.currentWorkingDeal.dealAttributes.description
+    }
 
-    @State var title: String
-    @State var description: String
-    @State var fromDate: Date
-    @State var toDate: Date
-    @State var recurring: Bool
-    
-    
     @State var isShowingConfirmation = false
     let titleCharLimit = 25
     let descriptionCharLimit = 250
-    
-    init(viewModel: ProducerViewModel) {
-        self.viewModel = viewModel
-        self.viewModel.currentWorkingDeal = GenerateEmptyDeal()
-        self.title = viewModel.currentWorkingDeal.dealAttributes.dealName
-        self.description = viewModel.currentWorkingDeal.dealAttributes.description
-        self.fromDate = viewModel.currentWorkingDeal.dealAttributes.startDate
-        self.toDate = viewModel.currentWorkingDeal.dealAttributes.endDate
-        self.recurring = viewModel.currentWorkingDeal.dealAttributes.recurring
-    }
     
     @State var selectedWeekdays: Set<String> = []
     @State var toggleDropdown = false
@@ -45,10 +37,10 @@ struct PostCreationView: View {
                     Text("Enter Deal Title:")
                         .font(.title3)
                         .foregroundColor(.white)
-                    TextField("Deal Title", text: $title)
-                        .onChange(of: title) { newValue in
+                    TextField("Deal Title", text: $dealName)
+                        .onChange(of: dealName) { newValue in
                             if newValue.count > titleCharLimit {
-                                title = String(newValue.prefix(titleCharLimit))
+                                dealName = String(newValue.prefix(titleCharLimit))
                             }
                         }
                         .colorScheme(.dark)
@@ -56,9 +48,10 @@ struct PostCreationView: View {
                         .font(.title)
                         .foregroundColor(.white)
                         .multilineTextAlignment(.center)
+                }
+                    /*
                     FromToTimesView(fromDate: fromDate, toDate: toDate)
                         .padding(.bottom, 16)
-                }
                 Spacer()
                 HStack {
                     Text("Toggle Recurring")
@@ -85,7 +78,7 @@ struct PostCreationView: View {
                         toggleDropdown.toggle()
                     }
                     if toggleDropdown {
-                        DateDropdownView()
+                        DateDropdownView(viewModel: viewModel)
                             .foregroundColor(.white)
                     }
                 } else {
@@ -105,8 +98,10 @@ struct PostCreationView: View {
                     .foregroundColor(.white)
                     .padding(.top, 8)
                     .font(.title3)
+                    */
+                /*
                 VStack {
-                    TextField("Description", text: $description, axis: .vertical)
+                    TextField("Description", text: , axis: .vertical)
                         .onChange(of: description) { newValue in
                             if newValue.count > descriptionCharLimit {
                                 description = String(newValue.prefix(descriptionCharLimit))
@@ -118,6 +113,7 @@ struct PostCreationView: View {
                         .multilineTextAlignment(.center)
                         .padding(10)
                 }
+                 */
                 HStack {
                     SubmitButton()
                         .padding(10)
@@ -126,9 +122,11 @@ struct PostCreationView: View {
                         }
                         .confirmationDialog("Are you sure you want to submit?", isPresented: $isShowingConfirmation, titleVisibility: .visible) {
                             Button("Yes") {
-                                console.log(viewModel.currentWorkingDeal)
-                                console.log(description)
                                 isShowingConfirmation = false
+                                viewModel.currentWorkingDeal.dealAttributes.dealName = dealName
+                                viewModel.currentWorkingDeal.dealAttributes.description = description
+                                print(viewModel.currentWorkingDeal)
+                                print(description)
                             }
                             Button("No") {
                                 isShowingConfirmation = false

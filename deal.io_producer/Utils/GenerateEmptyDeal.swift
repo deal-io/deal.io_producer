@@ -8,7 +8,7 @@
 import Foundation
 
 
-func GenerateEmptyDeal() -> Deal{
-    var attributes = new DealAttributes(daysActive: [false, false, false, false, false, false, false], dealName: "Deal Name", description: "Deal Description", startDate: new BackendDate(_seconds: <#T##Int64#>, _nanoseconds: <#T##Int64#>), endDate: new BackendDate(_seconds: <#T##Int64#>, _nanoseconds: <#T##Int64#>), recurring: false)
-    return new Deal(restaurantID: "", dealAttributes: attributes)
+func GenerateEmptyDeal(restaurant: Restaurant) -> Deal{
+    var attributes = DealAttributes(daysActive: [false, false, false, false, false, false, false], dealName: "Deal Name", description: "Deal Description", startDate: DateUtil().dateToSeconds(date: Date()), endDate: DateUtil().dateToSeconds(date: Date()), recurring: false)
+    return Deal(restaurantID: restaurant.id, dealAttributes: attributes)
 }

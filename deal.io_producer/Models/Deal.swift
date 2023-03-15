@@ -11,9 +11,9 @@ import Foundation
 struct Deal: Codable {
     
     // initialized values from database
-    var id: String
+    var id: String?
     var restaurantID: String
-    var enterDate: BackendDate
+    var enterDate: BackendDate?
     var dealAttributes: DealAttributes
 }
 

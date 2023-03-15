@@ -21,10 +21,10 @@ class ProducerViewModel: ObservableObject {
     
     @Published var currentWorkingDeal: Deal
     
-    init() {
-        self.currentRestaurant = Restaurant(id: "fIkcRQvIWinFbnrCYeYI", name: "test", location: "test")
+    init(restaurant: Restaurant) {
+        self.currentRestaurant = restaurant
         self.restaurantDeals = []
-        self.currentWorkingDeal = GenerateEmptyDeal()
+        self.currentWorkingDeal = GenerateEmptyDeal(restaurant: restaurant)
     }
     
     
