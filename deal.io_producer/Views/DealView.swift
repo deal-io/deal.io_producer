@@ -8,44 +8,45 @@
 import SwiftUI
 
 struct DealView: View {
-    var deal: Deal
-    @ObservedObject var dealVM: DealViewModel
-    @State var selectedDeal: DealViewModel? = nil
+    @ObservedObject var viewModel: ProducerViewModel
+    @State var deal: Deal
+    @State var editDealToggle = false
     
-    init(deal: Deal) {
-        self.deal = deal
-        self.dealVM = DealViewModel(deal: deal)
+    init(viewModel: ProducerViewModel, deal: Deal) {
+        self.viewModel = viewModel
+        self._deal = State(initialValue: deal)
     }
 
     var body: some View {
             VStack{
                 Spacer()
-                Text(dealVM.dealName)
+                Text(deal.dealAttributes.dealName)
                     .font(.title)
                     .foregroundColor(.white)
                     .padding(.horizontal, 4.5)
                     .multilineTextAlignment(.center)
                 
                 HStack {
-                    Text(dealVM.restaurantName)
+                    Text(viewModel.currentRestaurant.name)
                         .font(.title3)
                         .padding(.leading, 35)
                     Spacer()
-                    HourView(dealVM: dealVM)
+                    HourView(viewModel: viewModel, deal: deal)
                         .padding(.trailing, 35)
                 }
                 Spacer()
             }
             .background(Deal_ioColor.background)
             .foregroundColor(.white)
-//            .onTapGesture {
-//                self.selectedDeal = dealVM
-//            } .sheet(item: $selectedDeal,
-//                     onDismiss: { self.selectedDeal = nil }) { deal in
-//                PostEditView(viewModel: )
-//                    .background(Deal_ioColor.background)
-//            }
-//            Spacer()
+            .onTapGesture {
+                self.viewModel.currentWorkingDeal = deal
+                editDealToggle = true
+            }  .sheet(isPresented: $editDealToggle) {
+                PostEditView(viewModel: viewModel)
+                    .background(Deal_ioColor.background)
+            }
+            .padding(.top, 10)
+            Spacer()
         }
     }
 
