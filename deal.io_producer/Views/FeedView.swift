@@ -29,7 +29,7 @@ struct FeedView: View {
             ScrollView {
                 VStack{
                     ForEach(viewModel.restaurantDeals, id:\.id) { deal in
-                        DealView(deal: deal)
+                        DealView(viewModel: viewModel, deal: deal)
                             .background(Deal_ioColor.background)
                     }
                     .background(Deal_ioColor.background)
