@@ -9,6 +9,7 @@ import SwiftUI
 
 struct PostCreationView: View {
     @ObservedObject var viewModel: ProducerViewModel
+    @Environment(\.presentationMode) var presentationMode
     
     @State private var dealName: String
     @State private var description: String
@@ -128,6 +129,7 @@ struct PostCreationView: View {
                                 viewModel.currentWorkingDeal.dealAttributes.endDate = endDate
                                  */
                                 print(viewModel.currentWorkingDeal)
+                                self.presentationMode.wrappedValue.dismiss()
                             }
                             Button("No") {
                                 isShowingConfirmation = false

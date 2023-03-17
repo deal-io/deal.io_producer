@@ -36,8 +36,6 @@ struct DealView: View {
                 }
                 Spacer()
             }
-            .background(Deal_ioColor.background)
-            .foregroundColor(.white)
             .onTapGesture {
                 self.viewModel.currentWorkingDeal = deal
                 editDealToggle = true
