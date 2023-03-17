@@ -32,6 +32,7 @@ struct PostEditView: View {
     }
     
     @State var isShowingConfirmation = false
+    @State var isDeletingConfirmation = false
     let titleCharLimit = 25
     let descriptionCharLimit = 250
     
@@ -128,6 +129,24 @@ struct PostEditView: View {
                             }
                             Button("No") {
                                 isShowingConfirmation = false
+                            }
+                        }
+                    DeleteButton()
+                        .padding(10)
+                        .onTapGesture{
+                            isDeletingConfirmation.toggle()
+                        }
+                        .confirmationDialog("Are you sure you want to delete?", isPresented: $isDeletingConfirmation, titleVisibility: .visible) {
+                            Button("Yes") {
+                                isDeletingConfirmation = false
+                                
+                                viewModel.postNewDeal()
+                            
+                                print(viewModel.currentWorkingDeal)
+                                self.presentationMode.wrappedValue.dismiss()
+                            }
+                            Button("No") {
+                                isDeletingConfirmation = false
                             }
                         }
                 }
