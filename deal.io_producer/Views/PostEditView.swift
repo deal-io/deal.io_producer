@@ -9,6 +9,7 @@ import SwiftUI
 
 struct PostEditView: View {
     @ObservedObject var viewModel: ProducerViewModel
+    @Environment(\.presentationMode) var presentationMode
     
     @State private var dealName: String
     @State private var description: String
@@ -17,7 +18,6 @@ struct PostEditView: View {
     @State private var recurring: Bool
     @State private var daysActive: [Bool]
     @State private var dates: Set<DateComponents>
-    
     
     init(viewModel: ProducerViewModel){
         self.viewModel = viewModel
@@ -31,11 +31,9 @@ struct PostEditView: View {
     }
     
     @State var isShowingConfirmation = false
+    @State var toggleDropdown = false
     let titleCharLimit = 25
     let descriptionCharLimit = 250
-    
-    @State var selectedWeekdays: Set<String> = []
-    @State var toggleDropdown = false
     
     var body: some View {
         ScrollView {
@@ -128,6 +126,7 @@ struct PostEditView: View {
                                 viewModel.currentWorkingDeal.dealAttributes.endDate = endDate
                                  */
                                 print(viewModel.currentWorkingDeal)
+                                self.presentationMode.wrappedValue.dismiss()
                             }
                             Button("No") {
                                 isShowingConfirmation = false
