@@ -48,6 +48,22 @@ class ProducerViewModel: ObservableObject {
             return deals.filter { $0.restaurantID == restaurant.id }
     }
     
+    func postNewDeal(){
+
+        mDealService.createDeal(deal: currentWorkingDeal) { result in
+            switch result {
+            case .success(let deals):
+                print("Deals: \(deals)")
+                DispatchQueue.main.async {
+                    print("Successful Deal Creation")
+                }
+            case .failure(let error):
+                //TODO handle error
+                print("Error: \(error.localizedDescription)")
+            }
+        }        
+    }
+    
     //TODO remove everything below here - Levi
     
     func generateNewDealViewModel(restaurant: Restaurant) -> DealViewModel {

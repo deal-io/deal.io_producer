@@ -65,6 +65,7 @@
 		ADF687FD29B001E600E86022 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF687FC29B001E600E86022 /* ContentView.swift */; };
 		ADF687FF29B0796000E86022 /* DateDropdownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF687FE29B0796000E86022 /* DateDropdownView.swift */; };
 		FB1937E829C13C0800EA5541 /* GenerateEmptyDeal.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB1937E729C13C0800EA5541 /* GenerateEmptyDeal.swift */; };
+		FBF03C0F29C3E08B0088FA35 /* DateMultipickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBF03C0E29C3E08B0088FA35 /* DateMultipickerView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -100,6 +101,7 @@
 		ADF687FC29B001E600E86022 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		ADF687FE29B0796000E86022 /* DateDropdownView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateDropdownView.swift; sourceTree = "<group>"; };
 		FB1937E729C13C0800EA5541 /* GenerateEmptyDeal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenerateEmptyDeal.swift; sourceTree = "<group>"; };
+		FBF03C0E29C3E08B0088FA35 /* DateMultipickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateMultipickerView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -231,6 +233,7 @@
 				ADA633C829B5A5260032EF44 /* FromToTimesView.swift */,
 				ADA633BC29B296E40032EF44 /* SubmitButtonView.swift */,
 				ADA633C629B2FD2B0032EF44 /* HourView.swift */,
+				FBF03C0E29C3E08B0088FA35 /* DateMultipickerView.swift */,
 			);
 			path = Assets;
 			sourceTree = "<group>";
@@ -375,6 +378,7 @@
 				ADA633C729B2FD2B0032EF44 /* HourView.swift in Sources */,
 				AD00905129A59EE200FDB1D3 /* ProducerViewModel.swift in Sources */,
 				ADA633BD29B296E40032EF44 /* SubmitButtonView.swift in Sources */,
+				FBF03C0F29C3E08B0088FA35 /* DateMultipickerView.swift in Sources */,
 				ADF687FD29B001E600E86022 /* ContentView.swift in Sources */,
 				ADA633BB29B2941C0032EF44 /* DateContractedView.swift in Sources */,
 				ADA633D929BA80A10032EF44 /* DealService.swift in Sources */,
