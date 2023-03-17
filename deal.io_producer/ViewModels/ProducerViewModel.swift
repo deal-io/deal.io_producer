@@ -30,7 +30,7 @@ class ProducerViewModel: ObservableObject {
     }
     
     
-    func getAllActiveDeals() {
+    func getDeals() {
            mDealService.fetchDeals { result in
                switch result {
                case .success(let deals):
@@ -54,14 +54,14 @@ class ProducerViewModel: ObservableObject {
 
         mDealService.createDeal(deal: currentWorkingDeal) { result in
             switch result {
-            case .success(let deal):
-                print("\(self.LOG_TAG)Deal: \(deal)")
+            case .success():
                 DispatchQueue.main.async {
                     print("\(self.LOG_TAG)Successful Deal Creation")
                 }
+                self.getDeals()
             case .failure(let error):
                 //TODO handle error
-                print("\(self.LOG_TAG)Error: \(error.localizedDescription)")
+                print("\(self.LOG_TAG)Post Error: \(error)")
             }
         }        
     }
@@ -70,14 +70,14 @@ class ProducerViewModel: ObservableObject {
 
         mDealService.updateDeal(deal: currentWorkingDeal) { result in
             switch result {
-            case .success(let deal):
+            case .success():
                 DispatchQueue.main.async {
-                    print("\(self.LOG_TAG)Deal: \(deal)")
                     print("\(self.LOG_TAG)Successful Deal Update")
                 }
+                self.getDeals()
             case .failure(let error):
                 //TODO handle error
-                print("\(self.LOG_TAG)Error: \(error.localizedDescription)")
+                print("\(self.LOG_TAG)Update Error: \(error.localizedDescription)")
             }
         }
     }
@@ -91,9 +91,10 @@ class ProducerViewModel: ObservableObject {
                 DispatchQueue.main.async {
                     print("\(self.LOG_TAG)Successful Deal Delete")
                 }
+                self.getDeals()
             case .failure(let error):
                 //TODO handle error
-                print("\(self.LOG_TAG)Error: \(error.localizedDescription)")
+                print("\(self.LOG_TAG)Delete Error: \(error.localizedDescription)")
             }
         }
     }

@@ -130,9 +130,7 @@ struct PostCreationView: View {
                                 isShowingConfirmation = false
                             }
                         }
-                    DeleteButton() {
-                        
-                    }
+                   
                 }
                 .background(Deal_ioColor.background)
             }

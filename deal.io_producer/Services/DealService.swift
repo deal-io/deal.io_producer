@@ -9,6 +9,7 @@ import Foundation
 
 class DealService {
     private let apiUrl = "https://dealio-backend-production.web.app"
+    private let LOG_TAG = "DEAL_SERVICE"
     
     
     func fetchDeals(completion: @escaping (Result<[Deal], Error>) -> Void) {
@@ -42,7 +43,7 @@ class DealService {
         }.resume()
     }
     
-    func createDeal(deal: Deal, completion: @escaping (Result<Deal, Error>) -> Void) {
+    func createDeal(deal: Deal, completion: @escaping (Result<Void, Error>) -> Void) {
         guard let url = URL(string: "\(apiUrl)/deal") else {
             completion(.failure(NSError(domain: "DealService", code: 0, userInfo: [NSLocalizedDescriptionKey: "Invalid URL"])))
             return
@@ -58,33 +59,28 @@ class DealService {
             
             URLSession.shared.dataTask(with: request) { data, response, error in
                 if let error = error {
+                    print("\(self.LOG_TAG)1")
                     completion(.failure(error))
+                    
                     return
                 }
                 
                 guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+                    print("\(self.LOG_TAG)2")
                     completion(.failure(NSError(domain: "DealService", code: 0, userInfo: [NSLocalizedDescriptionKey: "Invalid HTTP response"])))
+                    
                     return
                 }
                 
-                guard let data = data else {
-                    completion(.failure(NSError(domain: "DealService", code: 0, userInfo: [NSLocalizedDescriptionKey: "Invalid data"])))
-                    return
-                }
+                completion(.success(()))
                 
-                do {
-                    let createdDeal = try JSONDecoder().decode(Deal.self, from: data)
-                    completion(.success(createdDeal))
-                } catch {
-                    completion(.failure(error))
-                }
             }.resume()
         } catch {
             completion(.failure(error))
         }
     }
     
-    func updateDeal(deal: Deal, completion: @escaping (Result<Deal, Error>) -> Void) {
+    func updateDeal(deal: Deal, completion: @escaping (Result<Void, Error>) -> Void) {
         guard let unwrappedId = deal.id  else {
             completion(.failure(NSError(domain: "DealService", code: 0, userInfo: [NSLocalizedDescriptionKey: "Deal has no ID"])))
             return
@@ -114,17 +110,7 @@ class DealService {
                     return
                 }
                 
-                guard let data = data else {
-                    completion(.failure(NSError(domain: "DealService", code: 0, userInfo: [NSLocalizedDescriptionKey: "Invalid data"])))
-                    return
-                }
-                
-                do {
-                    let updatedDeal = try JSONDecoder().decode(Deal.self, from: data)
-                    completion(.success(updatedDeal))
-                } catch {
-                    completion(.failure(error))
-                }
+                completion(.success(()))
             }.resume()
         } catch {
             completion(.failure(error))
