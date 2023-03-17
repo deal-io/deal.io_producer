@@ -140,7 +140,7 @@ struct PostEditView: View {
                             Button("Yes") {
                                 isDeletingConfirmation = false
                                 
-                                viewModel.postNewDeal()
+                                viewModel.deleteDeal()
                             
                                 print(viewModel.currentWorkingDeal)
                                 self.presentationMode.wrappedValue.dismiss()

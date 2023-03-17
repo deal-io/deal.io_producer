@@ -14,7 +14,7 @@ struct ContentView: View {
     // TODO replace restaurant with actual login restaurant id 
     init(viewModel: ProducerViewModel = ProducerViewModel(restaurant: Restaurant(id: "fIkcRQvIWinFbnrCYeYI", name: "", location: ""))) {
         self.viewModel = viewModel
-        self.viewModel.getAllActiveDeals()
+        self.viewModel.getDeals()
     }
     
     var body: some View {
