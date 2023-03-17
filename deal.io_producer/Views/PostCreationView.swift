@@ -26,7 +26,7 @@ struct PostCreationView: View {
         self._startDate = State(initialValue: Date())
         self._endDate = State(initialValue: Date())
         self._recurring = State(initialValue: viewModel.currentWorkingDeal.dealAttributes.recurring)
-        self._daysActive = State(initialValue: Array(repeating: false, count:7))//viewModel.currentWorkingDeal.dealAttributes.daysActive)
+        self._daysActive = State(initialValue: viewModel.currentWorkingDeal.dealAttributes.daysActive)
         self._dates = State(initialValue: Set<DateComponents>())
     }
     
@@ -50,8 +50,10 @@ struct PostCreationView: View {
                         .foregroundColor(.white)
                     TextField("Deal Title", text: $dealName)
                         .onChange(of: dealName) { newValue in
-                            if newValue.count > titleCharLimit {
+                            viewModel.currentWorkingDeal.dealAttributes.dealName = dealName
+                            if dealName.count > titleCharLimit {
                                 dealName = String(newValue.prefix(titleCharLimit))
+                               
                             }
                         }
                         .colorScheme(.dark)
@@ -61,9 +63,9 @@ struct PostCreationView: View {
                         .multilineTextAlignment(.center)
                 }
                 
-                FromToTimesView(fromDate: startDate, toDate: endDate)
-                    .padding(.bottom, 16)
-                    .foregroundColor(.white)
+//                FromToTimesView(fromDate: startDate, toDate: endDate)
+//                    .padding(.bottom, 16)
+//                    .foregroundColor(.white)
                 Spacer()
                 HStack {
                     Text("Toggle Recurring")
@@ -71,19 +73,19 @@ struct PostCreationView: View {
                     
                     Toggle("", isOn: $recurring)
                         .labelsHidden()
+                        .onChange(of: recurring) { newValue in
+                            viewModel.currentWorkingDeal.dealAttributes.recurring = recurring
+                        }
                 }
                 .padding(.bottom, 4)
                 if recurring {
-                    DateDropdownView(daysActive: $daysActive)
+                    DateDropdownView(viewModel: viewModel)
                         .foregroundColor(.white)
                     
                 } else {
                     HStack {
-                        MultiDatePicker("", selection: $dates)
-                            .padding(.horizontal, 20)
-                            .labelsHidden()
-                            .colorScheme(.dark)
-                            .foregroundColor(.white)
+                    
+                        DateMultipickerView(viewModel: viewModel, dates: $dates)
                     }
                     .padding(.vertical, 14)
                 }
@@ -96,6 +98,7 @@ struct PostCreationView: View {
                 VStack {
                     TextField("Description", text: $description, axis: .vertical)
                         .onChange(of: description) { newValue in
+                            viewModel.currentWorkingDeal.dealAttributes.description = description
                             if newValue.count > descriptionCharLimit {
                                 description = String(newValue.prefix(descriptionCharLimit))
                             }
@@ -116,17 +119,9 @@ struct PostCreationView: View {
                         .confirmationDialog("Are you sure you want to submit?", isPresented: $isShowingConfirmation, titleVisibility: .visible) {
                             Button("Yes") {
                                 isShowingConfirmation = false
-                                viewModel.currentWorkingDeal.dealAttributes.dealName = dealName
-                                viewModel.currentWorkingDeal.dealAttributes.description = description
-                                viewModel.currentWorkingDeal.dealAttributes.recurring = recurring
-                                viewModel.currentWorkingDeal.dealAttributes.daysActive = daysActive
                                 
-                                /*
-                                 TODO -> convert start and end date state values to backend times 
-                                 
-                                viewModel.currentWorkingDeal.dealAttributes.startDate = startDate
-                                viewModel.currentWorkingDeal.dealAttributes.endDate = endDate
-                                 */
+                                viewModel.postNewDeal()
+                            
                                 print(viewModel.currentWorkingDeal)
                             }
                             Button("No") {
@@ -137,7 +132,9 @@ struct PostCreationView: View {
                 .background(Deal_ioColor.background)
             }
             .background(Deal_ioColor.background)
+            
         }
     }
+        
     
 }

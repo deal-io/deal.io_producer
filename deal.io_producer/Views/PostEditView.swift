@@ -74,7 +74,7 @@ struct PostEditView: View {
                 }
                 .padding(.bottom, 4)
                 if recurring {
-                    DateDropdownView(daysActive: $daysActive)
+                    DateDropdownView(viewModel: viewModel)
                         .foregroundColor(.white)
                     
                 } else {
