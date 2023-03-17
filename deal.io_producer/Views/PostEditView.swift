@@ -19,6 +19,7 @@ struct PostEditView: View {
     @State private var daysActive: [Bool]
     @State private var dates: Set<DateComponents>
     
+    
     init(viewModel: ProducerViewModel){
         self.viewModel = viewModel
         self._dealName = State(initialValue: viewModel.currentWorkingDeal.dealAttributes.dealName)
@@ -26,14 +27,16 @@ struct PostEditView: View {
         self._startDate = State(initialValue: Date())
         self._endDate = State(initialValue: Date())
         self._recurring = State(initialValue: viewModel.currentWorkingDeal.dealAttributes.recurring)
-        self._daysActive = State(initialValue: Array(repeating: false, count:7))//viewModel.currentWorkingDeal.dealAttributes.daysActive)
+        self._daysActive = State(initialValue: viewModel.currentWorkingDeal.dealAttributes.daysActive)
         self._dates = State(initialValue: Set<DateComponents>())
     }
     
     @State var isShowingConfirmation = false
-    @State var toggleDropdown = false
     let titleCharLimit = 25
     let descriptionCharLimit = 250
+    
+    @State var selectedWeekdays: Set<String> = []
+    @State var toggleDropdown = false
     
     var body: some View {
         ScrollView {
@@ -48,8 +51,10 @@ struct PostEditView: View {
                         .foregroundColor(.white)
                     TextField("Deal Title", text: $dealName)
                         .onChange(of: dealName) { newValue in
-                            if newValue.count > titleCharLimit {
+                            viewModel.currentWorkingDeal.dealAttributes.dealName = dealName
+                            if dealName.count > titleCharLimit {
                                 dealName = String(newValue.prefix(titleCharLimit))
+                               
                             }
                         }
                         .colorScheme(.dark)
@@ -59,9 +64,9 @@ struct PostEditView: View {
                         .multilineTextAlignment(.center)
                 }
                 
-                FromToTimesView(fromDate: startDate, toDate: endDate)
-                    .padding(.bottom, 16)
-                    .foregroundColor(.white)
+//                FromToTimesView(fromDate: startDate, toDate: endDate)
+//                    .padding(.bottom, 16)
+//                    .foregroundColor(.white)
                 Spacer()
                 HStack {
                     Text("Toggle Recurring")
@@ -69,6 +74,9 @@ struct PostEditView: View {
                     
                     Toggle("", isOn: $recurring)
                         .labelsHidden()
+                        .onChange(of: recurring) { newValue in
+                            viewModel.currentWorkingDeal.dealAttributes.recurring = recurring
+                        }
                 }
                 .padding(.bottom, 4)
                 if recurring {
@@ -77,11 +85,8 @@ struct PostEditView: View {
                     
                 } else {
                     HStack {
-                        MultiDatePicker("", selection: $dates)
-                            .padding(.horizontal, 20)
-                            .labelsHidden()
-                            .colorScheme(.dark)
-                            .foregroundColor(.white)
+                    
+                        DateMultipickerView(viewModel: viewModel, dates: $dates)
                     }
                     .padding(.vertical, 14)
                 }
@@ -94,6 +99,7 @@ struct PostEditView: View {
                 VStack {
                     TextField("Description", text: $description, axis: .vertical)
                         .onChange(of: description) { newValue in
+                            viewModel.currentWorkingDeal.dealAttributes.description = description
                             if newValue.count > descriptionCharLimit {
                                 description = String(newValue.prefix(descriptionCharLimit))
                             }
@@ -114,17 +120,9 @@ struct PostEditView: View {
                         .confirmationDialog("Are you sure you want to submit?", isPresented: $isShowingConfirmation, titleVisibility: .visible) {
                             Button("Yes") {
                                 isShowingConfirmation = false
-                                viewModel.currentWorkingDeal.dealAttributes.dealName = dealName
-                                viewModel.currentWorkingDeal.dealAttributes.description = description
-                                viewModel.currentWorkingDeal.dealAttributes.recurring = recurring
-                                viewModel.currentWorkingDeal.dealAttributes.daysActive = daysActive
                                 
-                                /*
-                                 TODO -> convert start and end date state values to backend times
-                                 
-                                viewModel.currentWorkingDeal.dealAttributes.startDate = startDate
-                                viewModel.currentWorkingDeal.dealAttributes.endDate = endDate
-                                 */
+                                viewModel.updateDeal()
+                            
                                 print(viewModel.currentWorkingDeal)
                                 self.presentationMode.wrappedValue.dismiss()
                             }
@@ -136,8 +134,10 @@ struct PostEditView: View {
                 .background(Deal_ioColor.background)
             }
             .background(Deal_ioColor.background)
+            
         }
     }
+        
 }
 
 

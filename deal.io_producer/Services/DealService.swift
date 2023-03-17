@@ -85,7 +85,12 @@ class DealService {
     }
     
     func updateDeal(deal: Deal, completion: @escaping (Result<Deal, Error>) -> Void) {
-        guard let url = URL(string: "\(apiUrl)/deal/\(deal.id)") else {
+        guard let unwrappedId = deal.id  else {
+            completion(.failure(NSError(domain: "DealService", code: 0, userInfo: [NSLocalizedDescriptionKey: "Deal has no ID"])))
+            return
+        }
+        
+        guard let url = URL(string: "\(apiUrl)/deal/\(unwrappedId)") else {
             completion(.failure(NSError(domain: "DealService", code: 0, userInfo: [NSLocalizedDescriptionKey: "Invalid URL"])))
             return
         }
@@ -127,7 +132,12 @@ class DealService {
     }
 
     func deleteDeal(deal: Deal, completion: @escaping (Result<Void, Error>) -> Void) {
-        guard let url = URL(string: "\(apiUrl)/deal/\(deal.id)") else {
+        guard let unwrappedId = deal.id  else {
+            completion(.failure(NSError(domain: "DealService", code: 0, userInfo: [NSLocalizedDescriptionKey: "Deal has no ID"])))
+            return
+        }
+        
+        guard let url = URL(string: "\(apiUrl)/deal/\(unwrappedId)") else {
             completion(.failure(NSError(domain: "DealService", code: 0, userInfo: [NSLocalizedDescriptionKey: "Invalid URL"])))
             return
         }

@@ -12,6 +12,8 @@ import Foundation
  The main page is the restaurant feed though
  */
 class ProducerViewModel: ObservableObject {
+    private var LOG_TAG = "ProducerViewModel "
+    
     @Published var deals: [Deal] = []
     
     private let mDealService = DealService();
@@ -52,40 +54,52 @@ class ProducerViewModel: ObservableObject {
 
         mDealService.createDeal(deal: currentWorkingDeal) { result in
             switch result {
-            case .success(let deals):
-                print("Deals: \(deals)")
+            case .success(let deal):
+                print("\(self.LOG_TAG)Deal: \(deal)")
                 DispatchQueue.main.async {
-                    print("Successful Deal Creation")
+                    print("\(self.LOG_TAG)Successful Deal Creation")
                 }
             case .failure(let error):
                 //TODO handle error
-                print("Error: \(error.localizedDescription)")
+                print("\(self.LOG_TAG)Error: \(error.localizedDescription)")
             }
         }        
     }
     
-    //TODO remove everything below here - Levi
-    
-    func generateNewDealViewModel(restaurant: Restaurant) -> DealViewModel {
-        return DealViewModel(deal: Deal(id: self.generateNewDealID(), restaurantID: self.getRestaurant().id, enterDate: DateUtil().dateToSeconds(date: Date()), dealAttributes: DealAttributes(daysActive: [false, false, false, false, false, false, false], dealName: "", description: "", startDate: DateUtil().dateToSeconds(date: Date()), endDate: DateUtil().dateToSeconds(date: Date()), recurring: false)))
+    func updateDeal(){
+
+        mDealService.updateDeal(deal: currentWorkingDeal) { result in
+            switch result {
+            case .success(let deal):
+                DispatchQueue.main.async {
+                    print("\(self.LOG_TAG)Deal: \(deal)")
+                    print("\(self.LOG_TAG)Successful Deal Update")
+                }
+            case .failure(let error):
+                //TODO handle error
+                print("\(self.LOG_TAG)Error: \(error.localizedDescription)")
+            }
+        }
     }
+    
+    func deleteDeal(){
+
+        mDealService.deleteDeal(deal: currentWorkingDeal) { result in
+            switch result {
+            case .success():
+                
+                DispatchQueue.main.async {
+                    print("\(self.LOG_TAG)Successful Deal Delete")
+                }
+            case .failure(let error):
+                //TODO handle error
+                print("\(self.LOG_TAG)Error: \(error.localizedDescription)")
+            }
+        }
+    }
+    
     
 
-    
-    /*
-     TODO: don't know if backend needs this but if it needs a new ID to be codable and sent to backend then this needs to be implemented
-     */
-    func generateNewDealID() -> String {
-        return "12344567"
-    }
-    
-    /*
-     TODO: return restaurant in VM?
-     */
-    func getRestaurant() -> Restaurant {
-        return Restaurant(id: "", name: "", location: "")
-    }
-    
 
     
 }

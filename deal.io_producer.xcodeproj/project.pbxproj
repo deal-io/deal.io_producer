@@ -61,7 +61,6 @@
 		ADF687EB29AFEBCA00E86022 /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = ADF687EA29AFEBCA00E86022 /* FirebaseStorageCombine-Community */; };
 		ADF687ED29AFF44F00E86022 /* FeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF687EC29AFF44F00E86022 /* FeedView.swift */; };
 		ADF687EF29AFF46600E86022 /* DealView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF687EE29AFF46600E86022 /* DealView.swift */; };
-		ADF687F529AFF59700E86022 /* DealViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF687F429AFF59700E86022 /* DealViewModel.swift */; };
 		ADF687FD29B001E600E86022 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF687FC29B001E600E86022 /* ContentView.swift */; };
 		ADF687FF29B0796000E86022 /* DateDropdownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF687FE29B0796000E86022 /* DateDropdownView.swift */; };
 		FB1937E829C13C0800EA5541 /* GenerateEmptyDeal.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB1937E729C13C0800EA5541 /* GenerateEmptyDeal.swift */; };
@@ -97,7 +96,6 @@
 		ADF687B329AFE6DB00E86022 /* Deal_ioColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deal_ioColor.swift; sourceTree = "<group>"; };
 		ADF687EC29AFF44F00E86022 /* FeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedView.swift; sourceTree = "<group>"; };
 		ADF687EE29AFF46600E86022 /* DealView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DealView.swift; sourceTree = "<group>"; };
-		ADF687F429AFF59700E86022 /* DealViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DealViewModel.swift; sourceTree = "<group>"; };
 		ADF687FC29B001E600E86022 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		ADF687FE29B0796000E86022 /* DateDropdownView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateDropdownView.swift; sourceTree = "<group>"; };
 		FB1937E729C13C0800EA5541 /* GenerateEmptyDeal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenerateEmptyDeal.swift; sourceTree = "<group>"; };
@@ -197,7 +195,6 @@
 			children = (
 				AD00905029A59EE200FDB1D3 /* ProducerViewModel.swift */,
 				ADF687B129AFD61F00E86022 /* LoginViewModel.swift */,
-				ADF687F429AFF59700E86022 /* DealViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -398,7 +395,6 @@
 				ADF687EF29AFF46600E86022 /* DealView.swift in Sources */,
 				ADF687B029AFD60500E86022 /* PostEditView.swift in Sources */,
 				AD00904B29A59E8F00FDB1D3 /* LoginView.swift in Sources */,
-				ADF687F529AFF59700E86022 /* DealViewModel.swift in Sources */,
 				ADA633DC29BA864D0032EF44 /* DateUtil.swift in Sources */,
 				ADF0BC5129AD28F800FF24F6 /* Login.swift in Sources */,
 				ADF6879E29AED04800E86022 /* Persistence.swift in Sources */,
