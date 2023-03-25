@@ -9,8 +9,8 @@ import SwiftUI
 
 struct DateDropdownView: View {
     @ObservedObject var viewModel: ProducerViewModel
+    @Binding var daysActive: [Bool]
     
-    @State private var daysActive = Array(repeating: false, count:7)
     let weekdays = ["Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"]
 
     var body: some View {
