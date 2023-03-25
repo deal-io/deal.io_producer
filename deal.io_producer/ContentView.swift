@@ -32,7 +32,7 @@ struct ContentView: View {
         .onAppear {
             // Perform any initialization/loading here
             // When finished, set isLoading to false to show the main view
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                 isLoading = false
             }
         }

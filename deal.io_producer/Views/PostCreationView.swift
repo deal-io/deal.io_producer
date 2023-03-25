@@ -21,6 +21,7 @@ struct PostCreationView: View {
     
     
     init(viewModel: ProducerViewModel){
+        
         self.viewModel = viewModel
         self._dealName = State(initialValue: viewModel.currentWorkingDeal.dealAttributes.dealName)
         self._description = State(initialValue: viewModel.currentWorkingDeal.dealAttributes.description)
