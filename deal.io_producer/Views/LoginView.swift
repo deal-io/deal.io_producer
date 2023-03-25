@@ -53,6 +53,9 @@ struct LoginView: View {
                         } else {
                             // Login successful
                             isLoggedIn = true
+                            if let user = result?.user {
+                                print("User UID: \(user.uid)")
+                            }
                         }
                     }
                     }
