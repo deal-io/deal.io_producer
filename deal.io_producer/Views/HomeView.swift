@@ -11,6 +11,11 @@ struct HomeView: View {
     @ObservedObject var viewModel: ProducerViewModel
     @State var newDealToggle = false
     
+    init(viewModel: ProducerViewModel) {
+        self.viewModel = viewModel
+        self.viewModel.getDeals()
+    }
+    
     var body: some View {
         VStack {
             Image("dealio_white_on_bg")
