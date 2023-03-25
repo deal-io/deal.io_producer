@@ -54,7 +54,7 @@ class DateUtil {
         let today = Date()
         let weekday = calendar.component(.weekday, from: today)
 
-        let weekdays = ["Mon", "Tues", "Wed", "Thurs", "Fri", "Sat", "Sun"]
+        let weekdays = ["Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"]
 
         var dayOfWeekDict = [Int: String]()
 
@@ -66,6 +66,21 @@ class DateUtil {
         }
         
         return dayOfWeekDict
+    }
+    
+    // TODO: 
+    func dateComponentSetsToDaysActiveArray(dateSet: Set<DateComponents>) -> [Bool] {
+        return [false]
+    }
+    
+    func weekdaysFromDaysActiveArray(daysActive: [Bool]) -> Set<String> {
+        var activeDays: Set<String> = []
+        for (index, isActive) in daysActive.enumerated() {
+            if isActive, let weekday = todaysDict[index] {
+                activeDays.insert(weekday)
+            }
+        }
+        return activeDays
     }
     
 }

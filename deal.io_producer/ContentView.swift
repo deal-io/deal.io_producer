@@ -9,17 +9,18 @@ import SwiftUI
 
 struct ContentView: View {
     @State var isLoading = true // initial state is "loading"
-    @ObservedObject var homeVM: HomeViewModel
+    @ObservedObject var viewModel: ProducerViewModel
     
-    init(homeVM: HomeViewModel = HomeViewModel()) {
-        self.homeVM = homeVM
-        self.homeVM.getAllActiveDeals()
+    // TODO replace restaurant with actual login restaurant id 
+    init(viewModel: ProducerViewModel = ProducerViewModel(restaurant: Restaurant(id: "fIkcRQvIWinFbnrCYeYI", name: "", location: ""))) {
+        self.viewModel = viewModel
+        self.viewModel.getDeals()
     }
     
     var body: some View {
         ZStack {
             // Main view
-            HomeView(homeVM: homeVM)
+            HomeView(viewModel: viewModel)
                 .opacity(isLoading ? 0 : 1) // hide if loading
                 .disabled(isLoading) // disable if loading
             
@@ -45,11 +46,5 @@ struct LoadingView: View {
             ProgressView()
                 .progressViewStyle(CircularProgressViewStyle())
         }
-    }
-}
-
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView(homeVM: HomeViewModel())
     }
 }

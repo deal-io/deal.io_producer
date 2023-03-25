@@ -8,25 +8,32 @@
 import SwiftUI
 
 struct PostCreationView: View {
-    @ObservedObject var dealVM: DealViewModel
-    @State var title: String
-    @State var description: String
-    @State var fromDate: Date
-    @State var toDate: Date
-    @State var recurring: Bool
-    @State var date = Date()
+    @ObservedObject var viewModel: ProducerViewModel
+    @Environment(\.presentationMode) var presentationMode
+    
+    @State private var dealName: String
+    @State private var description: String
+    @State private var startDate: Date
+    @State private var endDate: Date
+    @State private var recurring: Bool
+    @State private var daysActive: [Bool]
+    @State private var dates: Set<DateComponents>
+    
+    
+    init(viewModel: ProducerViewModel){
+        self.viewModel = viewModel
+        self._dealName = State(initialValue: viewModel.currentWorkingDeal.dealAttributes.dealName)
+        self._description = State(initialValue: viewModel.currentWorkingDeal.dealAttributes.description)
+        self._startDate = State(initialValue: Date())
+        self._endDate = State(initialValue: Date())
+        self._recurring = State(initialValue: viewModel.currentWorkingDeal.dealAttributes.recurring)
+        self._daysActive = State(initialValue: viewModel.currentWorkingDeal.dealAttributes.daysActive)
+        self._dates = State(initialValue: Set<DateComponents>())
+    }
+    
     @State var isShowingConfirmation = false
     let titleCharLimit = 25
     let descriptionCharLimit = 250
-    
-    init(dealVM: DealViewModel) {
-        self.dealVM = dealVM
-        _title = State(wrappedValue: dealVM.dealName)
-        _description = State(wrappedValue: dealVM.description)
-        _fromDate = State(wrappedValue: dealVM.startDate)
-        _toDate = State(wrappedValue: dealVM.endDate)
-        _recurring = State(wrappedValue: dealVM.recurring)
-    }
     
     @State var selectedWeekdays: Set<String> = []
     @State var toggleDropdown = false
@@ -42,10 +49,12 @@ struct PostCreationView: View {
                     Text("Enter Deal Title:")
                         .font(.title3)
                         .foregroundColor(.white)
-                    TextField("Deal Title", text: $title)
-                        .onChange(of: title) { newValue in
-                            if newValue.count > titleCharLimit {
-                                title = String(newValue.prefix(titleCharLimit))
+                    TextField("Deal Title", text: $dealName)
+                        .onChange(of: dealName) { newValue in
+                            viewModel.currentWorkingDeal.dealAttributes.dealName = dealName
+                            if dealName.count > titleCharLimit {
+                                dealName = String(newValue.prefix(titleCharLimit))
+                               
                             }
                         }
                         .colorScheme(.dark)
@@ -53,9 +62,11 @@ struct PostCreationView: View {
                         .font(.title)
                         .foregroundColor(.white)
                         .multilineTextAlignment(.center)
-                    FromToTimesView(fromDate: fromDate, toDate: toDate)
-                        .padding(.bottom, 16)
                 }
+                
+//                FromToTimesView(fromDate: startDate, toDate: endDate)
+//                    .padding(.bottom, 16)
+//                    .foregroundColor(.white)
                 Spacer()
                 HStack {
                     Text("Toggle Recurring")
@@ -63,38 +74,19 @@ struct PostCreationView: View {
                     
                     Toggle("", isOn: $recurring)
                         .labelsHidden()
+                        .onChange(of: recurring) { newValue in
+                            viewModel.currentWorkingDeal.dealAttributes.recurring = recurring
+                        }
                 }
                 .padding(.bottom, 4)
                 if recurring {
-                    HStack {
-                        Spacer()
-                        DateContractedView()
-                            .foregroundColor(.white)
-                        if toggleDropdown {
-                            Text("v ")
-                        } else {
-                            Text("> ")
-                        }
-                        Spacer()
-                    }
-                    .contentShape(Rectangle())
-                    .onTapGesture{
-                        toggleDropdown.toggle()
-                    }
-                    if toggleDropdown {
-                        DateDropdownView()
-                            .foregroundColor(.white)
-                    }
+                    DateDropdownView(viewModel: viewModel)
+                        .foregroundColor(.white)
+                    
                 } else {
                     HStack {
-                        Text("Deal Date:")
-                            .padding(.leading, 40)
-                            .foregroundColor(.white)
-                        DatePicker("", selection: $date, displayedComponents: .date)
-                            .padding(.trailing, 40)
-                            .labelsHidden()
-                            .colorScheme(.dark)
-                            .foregroundColor(.white)
+                    
+                        DateMultipickerView(viewModel: viewModel, dates: $dates)
                     }
                     .padding(.vertical, 14)
                 }
@@ -102,9 +94,12 @@ struct PostCreationView: View {
                     .foregroundColor(.white)
                     .padding(.top, 8)
                     .font(.title3)
+                
+                
                 VStack {
                     TextField("Description", text: $description, axis: .vertical)
                         .onChange(of: description) { newValue in
+                            viewModel.currentWorkingDeal.dealAttributes.description = description
                             if newValue.count > descriptionCharLimit {
                                 description = String(newValue.prefix(descriptionCharLimit))
                             }
@@ -115,6 +110,7 @@ struct PostCreationView: View {
                         .multilineTextAlignment(.center)
                         .padding(10)
                 }
+                
                 HStack {
                     SubmitButton()
                         .padding(10)
@@ -123,18 +119,25 @@ struct PostCreationView: View {
                         }
                         .confirmationDialog("Are you sure you want to submit?", isPresented: $isShowingConfirmation, titleVisibility: .visible) {
                             Button("Yes") {
-                                dealVM.createNewDeal(deal: dealVM.deal)
                                 isShowingConfirmation = false
+                                
+                                viewModel.postNewDeal()
+                            
+                                print(viewModel.currentWorkingDeal)
+                                self.presentationMode.wrappedValue.dismiss()
                             }
                             Button("No") {
                                 isShowingConfirmation = false
                             }
                         }
+                   
                 }
                 .background(Deal_ioColor.background)
             }
             .background(Deal_ioColor.background)
+            
         }
     }
+        
     
 }
