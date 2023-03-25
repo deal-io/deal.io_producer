@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Firebase
 
 /*
  needs to get refactored, very ugly
@@ -14,50 +15,67 @@ import SwiftUI
  but it wouldn't work
  */
 struct LoginView: View {
-    @ObservedObject var loginVM: LoginViewModel
+    @State private var email = ""
+    @State private var password = ""
+    @State private var isLoggedIn = false
     @State private var showHowToGetLoginInfo = false
 
     var body: some View {
-        VStack {
-            Spacer()
-            Image("dealio_white_on_bg")
-                .resizable()
-                .frame(width: 350, height: 150)
-                .padding(.vertical, 80)
-            Spacer()
-            Group {
-                Text("User ID: ")
-                    .multilineTextAlignment(.center)
-                    .foregroundColor(.white)
-                    .font(.title3)
-                UserIDTextField(userID: loginVM.userIDBinding)
-                    .padding(.bottom, 10)
-                Text("Password: ")
-                    .multilineTextAlignment(.center)
-                    .foregroundColor(.white)
-                    .font(.title3)
-                    .padding(.top)
-                PasswordTextField(password: loginVM.passwordBinding)
-                    .padding(.bottom, 10)
+        NavigationView {
+            VStack {
+                Spacer()
+                Image("dealio_white_on_bg")
+                    .resizable()
+                    .frame(width: 350, height: 150)
+                    .padding(.vertical, 80)
+                Spacer()
+                Group {
+                    Text("User ID: ")
+                        .multilineTextAlignment(.center)
+                        .foregroundColor(.white)
+                        .font(.title3)
+                    UserIDTextField(userID: $email)
+                        .padding(.bottom, 10)
+                    Text("Password: ")
+                        .multilineTextAlignment(.center)
+                        .foregroundColor(.white)
+                        .font(.title3)
+                        .padding(.top)
+                    PasswordTextField(password: $password)
+                        .padding(.bottom, 10)
+                }
+                Spacer()
+                    .padding(12)
+                Button("Submit") {
+                    Auth.auth().signIn(withEmail: email, password: password) { result, error in
+                        if let error = error {
+                            // Handle login error
+                            print("Error logging in: \(error.localizedDescription)")
+                        } else {
+                            // Login successful
+                            isLoggedIn = true
+                        }
+                    }
+                    }
+                    Spacer()
+                    Button("How do I get a login?") {
+                        showHowToGetLoginInfo = true
+                    }
+                    .alert(isPresented: $showHowToGetLoginInfo) {
+                        Alert(title: Text("How do I get a login?"), message: Text("Please email deal.io.help@gmail.com to recieve your login information."), dismissButton: .default(Text("Got It")))
+                    }
+                }.background(Deal_ioColor.background)
             }
-            Spacer()
-            .padding(12)
-            Button("Submit") {
-                loginVM.isLoggedIn = loginVM.validateLogin()
-            }
-            .alert(isPresented: $loginVM.isLoggedIn) {
-                Alert(title: Text("Invalid User ID or Password"), message: Text("Please enter a valid User ID or Password."), dismissButton: .default(Text("Okay")))
-            }
-            Spacer()
-            Button("How do I get a login?") {
-                showHowToGetLoginInfo = true
-            }
-            .alert(isPresented: $showHowToGetLoginInfo) {
-                Alert(title: Text("How do I get a login?"), message: Text("Please email deal.io.help@gmail.com to recieve your login information."), dismissButton: .default(Text("Got It")))
-            }
-        }.background(Deal_ioColor.background)
+            .background(
+                NavigationLink(
+                    destination: HomeView(viewModel: ProducerViewModel(restaurant: Restaurant(id: "fIkcRQvIWinFbnrCYeYI", name: "Buffalo Rose", location: "123 East St"))),
+                    isActive: $isLoggedIn,
+                    label: {}
+                )
+                .hidden()
+            )
+        }
     }
-}
 
 struct UserIDTextField: View {
     @Binding var userID: String
