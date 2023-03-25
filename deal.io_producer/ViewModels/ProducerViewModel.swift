@@ -29,16 +29,49 @@ class ProducerViewModel: ObservableObject {
         self.currentWorkingDeal = GenerateEmptyDeal(restaurant: restaurant)
     }
     
+    private func printDeals(deals: [Deal]){
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = .prettyPrinted
+
+        for deal in deals{
+            do {
+                let jsonData = try encoder.encode(deal)
+                let jsonString = String(data: jsonData, encoding: .utf8)
+                print("Deal: \(jsonString!)")
+            } catch {
+                print("Error encoding object: \(error.localizedDescription)")
+            }
+        }
+        
+        
+    }
+    
+    func clearCurrentDeal(){
+        DispatchQueue.main.async {
+            self.currentWorkingDeal = GenerateEmptyDeal(restaurant: self.currentRestaurant)
+        }
+        
+    }
+    
     
     func getDeals() {
            mDealService.fetchDeals { result in
                switch result {
                case .success(let deals):
-                   print("Deals: \(deals)")
                    DispatchQueue.main.async {
+                       self.restaurantDeals.removeAll()
+                       print("\(self.LOG_TAG)Successful Deal Fetching")
+                   }
+                   
+                   //self.printDeals(deals: deals)
+                   
+                   // allow for loading icon
+                   DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                        self.deals = deals
                        self.restaurantDeals = self.getAllRestaurantsDeals(restaurant: self.currentRestaurant)
+                       self.printDeals(deals: self.restaurantDeals)
                    }
+                  
                case .failure(let error):
                    //TODO handle error
                    print("Error: \(error.localizedDescription)")
@@ -57,8 +90,9 @@ class ProducerViewModel: ObservableObject {
             case .success():
                 DispatchQueue.main.async {
                     print("\(self.LOG_TAG)Successful Deal Creation")
+                    self.getDeals()
                 }
-                self.getDeals()
+               
             case .failure(let error):
                 //TODO handle error
                 print("\(self.LOG_TAG)Post Error: \(error)")
@@ -67,14 +101,15 @@ class ProducerViewModel: ObservableObject {
     }
     
     func updateDeal(){
-
         mDealService.updateDeal(deal: currentWorkingDeal) { result in
             switch result {
             case .success():
                 DispatchQueue.main.async {
                     print("\(self.LOG_TAG)Successful Deal Update")
+                    self.getDeals()
                 }
-                self.getDeals()
+                
+                
             case .failure(let error):
                 //TODO handle error
                 print("\(self.LOG_TAG)Update Error: \(error.localizedDescription)")
@@ -90,8 +125,8 @@ class ProducerViewModel: ObservableObject {
                 
                 DispatchQueue.main.async {
                     print("\(self.LOG_TAG)Successful Deal Delete")
+                    self.getDeals()
                 }
-                self.getDeals()
             case .failure(let error):
                 //TODO handle error
                 print("\(self.LOG_TAG)Delete Error: \(error.localizedDescription)")
