@@ -28,6 +28,7 @@ struct HomeView: View {
             PlusButtonView()
                 .onTapGesture {
                     newDealToggle = true
+                    viewModel.clearCurrentDeal()
                 } .sheet(isPresented: $newDealToggle) {
                     PostCreationView(viewModel: viewModel)
                         .background(Deal_ioColor.background)
