@@ -21,7 +21,6 @@ struct LoginView: View {
     @State private var showHowToGetLoginInfo = false
 
     var body: some View {
-        NavigationView {
             VStack {
                 Spacer()
                 Image("dealio_white_on_bg")
@@ -64,16 +63,11 @@ struct LoginView: View {
                     .alert(isPresented: $showHowToGetLoginInfo) {
                         Alert(title: Text("How do I get a login?"), message: Text("Please email deal.io.help@gmail.com to recieve your login information."), dismissButton: .default(Text("Got It")))
                     }
-                }.background(Deal_ioColor.background)
-            }
-            .background(
-                NavigationLink(
-                    destination: HomeView(viewModel: ProducerViewModel(restaurant: Restaurant(id: "fIkcRQvIWinFbnrCYeYI", name: "Buffalo Rose", location: "123 East St"))),
-                    isActive: $isLoggedIn,
-                    label: {}
-                )
-                .hidden()
-            )
+                }
+                .background(Deal_ioColor.background)
+                .fullScreenCover(isPresented: $isLoggedIn, content: {
+                    HomeView(viewModel: ProducerViewModel(restaurant: Restaurant(id: "fIkcRQvIWinFbnrCYeYI", name: "Buffalo Rose", location: "123 East St")))
+                })
         }
     }
 
