@@ -15,7 +15,6 @@
 		AD00904D29A59EB200FDB1D3 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD00904C29A59EB200FDB1D3 /* HomeView.swift */; };
 		AD00904F29A59EC300FDB1D3 /* PostCreationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD00904E29A59EC300FDB1D3 /* PostCreationView.swift */; };
 		AD00905129A59EE200FDB1D3 /* ProducerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD00905029A59EE200FDB1D3 /* ProducerViewModel.swift */; };
-		AD76781A29CF7BF7008728BB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AD76781929CF7BF7008728BB /* GoogleService-Info.plist */; };
 		ADA633B729B1CA8D0032EF44 /* PlusButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA633B629B1CA8D0032EF44 /* PlusButtonView.swift */; };
 		ADA633B929B288450032EF44 /* WeekdayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA633B829B288450032EF44 /* WeekdayView.swift */; };
 		ADA633BB29B2941C0032EF44 /* DateContractedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA633BA29B2941C0032EF44 /* DateContractedView.swift */; };
@@ -65,6 +64,7 @@
 		ADF687FD29B001E600E86022 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF687FC29B001E600E86022 /* ContentView.swift */; };
 		ADF687FF29B0796000E86022 /* DateDropdownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF687FE29B0796000E86022 /* DateDropdownView.swift */; };
 		FB1937E829C13C0800EA5541 /* GenerateEmptyDeal.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB1937E729C13C0800EA5541 /* GenerateEmptyDeal.swift */; };
+		FBCB2D4A29CF961500C1C9DA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FBCB2D4929CF961500C1C9DA /* GoogleService-Info.plist */; };
 		FBF03C0F29C3E08B0088FA35 /* DateMultipickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBF03C0E29C3E08B0088FA35 /* DateMultipickerView.swift */; };
 /* End PBXBuildFile section */
 
@@ -101,6 +101,7 @@
 		ADF687FC29B001E600E86022 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		ADF687FE29B0796000E86022 /* DateDropdownView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateDropdownView.swift; sourceTree = "<group>"; };
 		FB1937E729C13C0800EA5541 /* GenerateEmptyDeal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenerateEmptyDeal.swift; sourceTree = "<group>"; };
+		FBCB2D4929CF961500C1C9DA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		FBF03C0E29C3E08B0088FA35 /* DateMultipickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateMultipickerView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -161,6 +162,7 @@
 		AD00902F29A59DC700FDB1D3 /* deal.io_producer */ = {
 			isa = PBXGroup;
 			children = (
+				FBCB2D4929CF961500C1C9DA /* GoogleService-Info.plist */,
 				ADA633DA29BA86410032EF44 /* Utils */,
 				AD00904329A59E2600FDB1D3 /* Views */,
 				AD00904429A59E2F00FDB1D3 /* ViewModels */,
@@ -362,7 +364,7 @@
 			files = (
 				ADD318FE29B15A5C00800A46 /* test in Resources */,
 				AD00903529A59DC800FDB1D3 /* Assets.xcassets in Resources */,
-				AD76781A29CF7BF7008728BB /* GoogleService-Info.plist in Resources */,
+				FBCB2D4A29CF961500C1C9DA /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
