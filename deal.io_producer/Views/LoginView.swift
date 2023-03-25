@@ -18,6 +18,8 @@ struct LoginView: View {
     @State private var email = ""
     @State private var password = ""
     @State private var isLoggedIn = false
+    @State private var errorMessage = ""
+
     @State private var showHowToGetLoginInfo = false
 
     var body: some View {
@@ -49,7 +51,7 @@ struct LoginView: View {
                     Auth.auth().signIn(withEmail: email, password: password) { result, error in
                         if let error = error {
                             // Handle login error
-                            print("Error logging in: \(error.localizedDescription)")
+                            errorMessage = "Invalid email or password."
                         } else {
                             // Login successful
                             isLoggedIn = true
@@ -68,6 +70,9 @@ struct LoginView: View {
                     }
                 }
                 .background(Deal_ioColor.background)
+                .alert(isPresented: Binding<Bool>(get: { errorMessage != "" }, set: { _ in errorMessage = "" }), content: {
+                            Alert(title: Text("Error"), message: Text(errorMessage), dismissButton: .default(Text("OK")))
+                        })
                 .fullScreenCover(isPresented: $isLoggedIn, content: {
                     HomeView(viewModel: ProducerViewModel(restaurant: Restaurant(id: "fIkcRQvIWinFbnrCYeYI", name: "Buffalo Rose", location: "123 East St")))
                 })
