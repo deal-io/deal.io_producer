@@ -8,12 +8,12 @@
 import Foundation
 
 // Codable so that it can be JSON encoded and decoded for API calls
-struct Deal: Codable {
+struct Deal: Codable, Identifiable {
     
     // initialized values from database
-    var id: String
+    var id: String?
     var restaurantID: String
-    var enterDate: BackendDate
+    var enterDate: BackendDate?
     var dealAttributes: DealAttributes
 }
 

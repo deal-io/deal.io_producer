@@ -8,15 +8,15 @@
 import SwiftUI
 
 struct FeedView: View {
-    @ObservedObject var homeVM: HomeViewModel
+    @ObservedObject var viewModel: ProducerViewModel
     
-    init(homeVM: HomeViewModel) {
-        self.homeVM = homeVM
+    init(viewModel: ProducerViewModel) {
+        self.viewModel = viewModel
     }
     
     var body: some View {
         
-        if self.homeVM.restaurantDeals.isEmpty {
+        if self.viewModel.restaurantDeals.isEmpty {
             VStack {
                 ProgressView("Loading deals...")
                     .progressViewStyle(CircularProgressViewStyle(tint: Color.white))
@@ -28,8 +28,8 @@ struct FeedView: View {
         } else {
             ScrollView {
                 VStack{
-                    ForEach(homeVM.restaurantDeals, id:\.id) { deal in
-                        DealView(deal: deal)
+                    ForEach(viewModel.restaurantDeals, id:\.id) { deal in
+                        DealView(viewModel: viewModel, deal: deal)
                             .background(Deal_ioColor.background)
                     }
                     .background(Deal_ioColor.background)
@@ -38,11 +38,5 @@ struct FeedView: View {
             }
             .background(Deal_ioColor.background)
         }
-    }
-}
-    
-struct FeedView_Previews: PreviewProvider {
-    static var previews: some View {
-        FeedView(homeVM: HomeViewModel())
     }
 }

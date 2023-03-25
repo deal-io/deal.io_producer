@@ -1,4 +1,4 @@
-//
+    //
 //  DeleteButtonView.swift
 //  deal.io_producer
 //
@@ -20,8 +20,3 @@ struct DeleteButton: View {
     }
 }
 
-struct DeleteButton_Previews: PreviewProvider {
-    static var previews: some View {
-        DeleteButton()
-    }
-}
