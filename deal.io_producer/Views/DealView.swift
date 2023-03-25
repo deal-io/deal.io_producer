@@ -29,6 +29,7 @@ struct DealView: View {
                 HStack {
                     Text(viewModel.currentRestaurant.name)
                         .font(.title3)
+                        .foregroundColor(.white)
                         .padding(.leading, 35)
                     Spacer()
                     HourView(viewModel: viewModel, deal: deal)

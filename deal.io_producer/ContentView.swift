@@ -8,35 +8,11 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State var isLoading = true // initial state is "loading"
-    @ObservedObject var viewModel: ProducerViewModel
-    
-    // TODO replace restaurant with actual login restaurant id 
-    init(viewModel: ProducerViewModel = ProducerViewModel(restaurant: Restaurant(id: "fIkcRQvIWinFbnrCYeYI", name: "", location: ""))) {
-        self.viewModel = viewModel
-        self.viewModel.getDeals()
-    }
     
     var body: some View {
-        ZStack {
-            // Main view
-            HomeView(viewModel: viewModel)
-                .opacity(isLoading ? 0 : 1) // hide if loading
-                .disabled(isLoading) // disable if loading
-            
-            // Loading view
-            if isLoading {
-                LoadingView()
-            }
-        }
-        .onAppear {
-            // Perform any initialization/loading here
-            // When finished, set isLoading to false to show the main view
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                isLoading = false
-            }
-        }
+        LoginView()
     }
+    
 }
 
 struct LoadingView: View {
