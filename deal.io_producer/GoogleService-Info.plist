@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>974382621403-denppndvi41vtd5hd255rbd9bg2ci9k1.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.974382621403-denppndvi41vtd5hd255rbd9bg2ci9k1</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDjk00y0aoWO69oLkR4aYs_OV5gYQj5clw</string>
+	<key>GCM_SENDER_ID</key>
+	<string>974382621403</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.intropent.deal-io-producer</string>
+	<key>PROJECT_ID</key>
+	<string>dealio-backend-production</string>
+	<key>STORAGE_BUCKET</key>
+	<string>dealio-backend-production.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:974382621403:ios:199a823c6b4d6bdb8a22fe</string>
+</dict>
+</plist>
