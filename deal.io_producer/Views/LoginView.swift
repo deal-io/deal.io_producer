@@ -29,11 +29,11 @@ struct LoginView: View {
                     .padding(.vertical, 80)
                 Spacer()
                 Group {
-                    Text("User ID: ")
+                    Text("Email: ")
                         .multilineTextAlignment(.center)
                         .foregroundColor(.white)
                         .font(.title3)
-                    UserIDTextField(userID: $email)
+                    EmailTextField(email: $email)
                         .padding(.bottom, 10)
                     Text("Password: ")
                         .multilineTextAlignment(.center)
@@ -74,11 +74,11 @@ struct LoginView: View {
         }
     }
 
-struct UserIDTextField: View {
-    @Binding var userID: String
+struct EmailTextField: View {
+    @Binding var email: String
     
     var body: some View {
-        TextField("User ID", text: $userID)
+        TextField("Email", text: $email)
             .autocapitalization(.none)
             .disableAutocorrection(true)
             .multilineTextAlignment(.center)
