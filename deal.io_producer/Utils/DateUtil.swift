@@ -35,10 +35,34 @@ class DateUtil {
         return Calendar.current.dateComponents([.day, .year, .month], from: date)
     }
     
-    func diffCurrentDateToInputDate(date: Date) -> Int {
-        let diffComponents = Calendar.current.dateComponents([.hour], from: Date(), to: date)
-        let hours = diffComponents.hour
-        return hours!
+    func getHourDifference(inputHour: String) -> Int {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "h:mm a"
+        
+        let currentHour = formatter.string(from: Date())
+        
+        guard let currentHourDate = formatter.date(from: currentHour),
+              let inputHourDate = formatter.date(from: inputHour) else {
+            return 0
+        }
+        
+        let calendar = Calendar.current
+        let hourDifference = calendar.dateComponents([.hour], from: currentHourDate, to: inputHourDate).hour!
+        
+        return hourDifference
+    }
+    
+    func getFirstActiveWeekday(daysActive: [Bool]) -> String? {
+        var index = 0
+        
+        repeat {
+            if daysActive[index] {
+                return self.todaysDict[index]
+            }
+            index = (index + 1) % 7
+        } while true
+        
+        return nil
     }
     
     func formattedHourComponentFromDate(date: Date) -> String {
