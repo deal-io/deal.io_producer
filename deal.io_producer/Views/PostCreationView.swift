@@ -13,8 +13,8 @@ struct PostCreationView: View {
     
     @State private var dealName: String
     @State private var description: String
-    @State private var startDate: Date
-    @State private var endDate: Date
+    @State private var startTime: Date
+    @State private var endTime: Date
     @State private var recurring: Bool
     @State private var daysActive: [Bool]
     @State private var dates: Set<DateComponents>
@@ -25,8 +25,8 @@ struct PostCreationView: View {
         self.viewModel = viewModel
         self._dealName = State(initialValue: viewModel.currentWorkingDeal.dealAttributes.dealName)
         self._description = State(initialValue: viewModel.currentWorkingDeal.dealAttributes.description)
-        self._startDate = State(initialValue: Date())
-        self._endDate = State(initialValue: Date())
+        self._startTime = State(initialValue: DateUtil().timeFromString(dateString: "12:00 PM")!)
+        self._endTime = State(initialValue: DateUtil().timeFromString(dateString: "12:00 PM")!)
         self._recurring = State(initialValue: viewModel.currentWorkingDeal.dealAttributes.recurring)
         self._daysActive = State(initialValue: viewModel.currentWorkingDeal.dealAttributes.daysActive)
         self._dates = State(initialValue: Set<DateComponents>())
@@ -65,9 +65,9 @@ struct PostCreationView: View {
                         .multilineTextAlignment(.center)
                 }
                 
-//                FromToTimesView(fromDate: startDate, toDate: endDate)
-//                    .padding(.bottom, 16)
-//                    .foregroundColor(.white)
+                FromToTimesView(fromDate: startTime, toDate: endTime)
+                    .padding(.bottom, 16)
+                    .foregroundColor(.white)
                 Spacer()
                 HStack {
                     Text("Toggle Recurring")
