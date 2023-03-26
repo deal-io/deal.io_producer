@@ -43,7 +43,7 @@ class DealService {
         }.resume()
     }
     
-    func fetchOwner(uid: String, completion: @escaping (Result<Owner, Error>) -> Void) {
+    func fetchUser(uid: String, completion: @escaping (Result<User, Error>) -> Void) {
         guard let url = URL(string: "\(apiUrl)/user/\(uid)") else {
             completion(.failure(NSError(domain: "DealService", code: 0, userInfo: [NSLocalizedDescriptionKey: "Invalid URL"])))
             return
@@ -66,8 +66,8 @@ class DealService {
             }
             
             do {
-                let owner = try JSONDecoder().decode(Owner.self, from: data)
-                completion(.success(owner))
+                let User = try JSONDecoder().decode(User.self, from: data)
+                completion(.success(user))
             } catch {
                 completion(.failure(error))
             }

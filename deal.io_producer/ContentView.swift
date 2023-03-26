@@ -25,7 +25,7 @@ struct ContentView: View {
 class AuthState: ObservableObject {
     @Published var isLoggedIn = false
     @Published var user: User? = nil
-    @Published var owner: Owner? = nil
+    @Published var user: User? = nil
     @Published var restaurant: Restaurant? = nil
     var mDealService = DealService()
 
@@ -36,25 +36,25 @@ class AuthState: ObservableObject {
                 // User is signed in
                 self.isLoggedIn = true
                 self.user = user
-                self.getOwner()
+                self.getUser()
                 
             } else {
                 // User is not signed in
                 self.isLoggedIn = false
                 self.user = nil
-                self.owner = nil
+                self.user = nil
                 self.restaurant = nil
             }
         }
     }
     
-    func getOwner() {
-        mDealService.fetchOwner(uid: user!.uid) { result in
+    func getUser() {
+        mDealService.fetchUser(uid: user!.uid) { result in
                switch result {
-               case .success(let owner):
+               case .success(let user):
                    DispatchQueue.main.async {
-                       self.owner = owner
-                       self.getRestaurant(id: (self.owner!.restaurants[0]))
+                       self.user = user
+                       self.getRestaurant(id: (self.user!.restaurants[0]))
                    }
                   
                case .failure(let error):
