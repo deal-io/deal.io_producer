@@ -16,7 +16,7 @@ struct DateDropdownView: View {
         self.viewModel = viewModel
         let defaultDays = Array(repeating: false, count: 7)
         
-        self.daysActive = daysActive.isEmpty ?  defaultDays :  viewModel.currentWorkingDeal.dealAttributes.daysActive
+        self.daysActive = daysActive.isEmpty || daysActive.count != 7 ?  defaultDays :  viewModel.currentWorkingDeal.dealAttributes.daysActive
     }
 
     let weekdays = ["Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"]
