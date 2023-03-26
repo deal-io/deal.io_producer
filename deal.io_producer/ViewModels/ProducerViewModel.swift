@@ -12,7 +12,7 @@ import Foundation
  The main page is the restaurant feed though
  */
 class ProducerViewModel: ObservableObject {
-    private var LOG_TAG = "ProducerViewModel "
+    private var LOG_TAG = "LOG: ProducerViewModel "
     
     @Published var deals: [Deal] = []
     
@@ -29,22 +29,39 @@ class ProducerViewModel: ObservableObject {
         self.currentWorkingDeal = GenerateEmptyDeal(restaurant: restaurant)
     }
     
-    private func printDeals(deals: [Deal]){
+    private func printRestaurant(restaurant: Restaurant){
         let encoder = JSONEncoder()
         encoder.outputFormatting = .prettyPrinted
-
-        for deal in deals{
-            do {
-                let jsonData = try encoder.encode(deal)
-                let jsonString = String(data: jsonData, encoding: .utf8)
-                print("Deal: \(jsonString!)")
-            } catch {
-                print("Error encoding object: \(error.localizedDescription)")
-            }
+        
+        do {
+            let jsonData = try encoder.encode(restaurant)
+            let jsonString = String(data: jsonData, encoding: .utf8)
+            print("Restaurant: \(jsonString!)")
+        } catch {
+            print("Error encoding object: \(error.localizedDescription)")
         }
-        
-        
     }
+    
+    
+    private func printDeal(deal: Deal){
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = .prettyPrinted
+        
+        do {
+            let jsonData = try encoder.encode(deal)
+            let jsonString = String(data: jsonData, encoding: .utf8)
+            print("Deal: \(jsonString!)")
+        } catch {
+            print("Error encoding object: \(error.localizedDescription)")
+        }
+    }
+    
+    private func printDeals(deals: [Deal]){
+        for deal in deals{
+            printDeal(deal: deal)
+        }
+    }
+    
     
     func clearCurrentDeal(){
         DispatchQueue.main.async {
@@ -60,7 +77,7 @@ class ProducerViewModel: ObservableObject {
                case .success(let deals):
                    DispatchQueue.main.async {
                        self.restaurantDeals.removeAll()
-                       print("\(self.LOG_TAG)Successful Deal Fetching")
+                       print("\(self.LOG_TAG) Successful Deal Fetching")
                    }
                    
                    //self.printDeals(deals: deals)
@@ -89,13 +106,15 @@ class ProducerViewModel: ObservableObject {
             switch result {
             case .success():
                 DispatchQueue.main.async {
-                    print("\(self.LOG_TAG)Successful Deal Creation")
+                    print("\(self.LOG_TAG) Successful Deal Creation")
                     self.getDeals()
                 }
                
             case .failure(let error):
                 //TODO handle error
-                print("\(self.LOG_TAG)Post Error: \(error)")
+                print("\(self.LOG_TAG) Post Error: \(error)")
+                self.printDeal(deal: self.currentWorkingDeal)
+                self.printRestaurant(restaurant: self.currentRestaurant)
             }
         }        
     }
@@ -113,6 +132,8 @@ class ProducerViewModel: ObservableObject {
             case .failure(let error):
                 //TODO handle error
                 print("\(self.LOG_TAG)Update Error: \(error.localizedDescription)")
+                self.printDeal(deal: self.currentWorkingDeal)
+                self.printRestaurant(restaurant: self.currentRestaurant)
             }
         }
     }
@@ -130,6 +151,8 @@ class ProducerViewModel: ObservableObject {
             case .failure(let error):
                 //TODO handle error
                 print("\(self.LOG_TAG)Delete Error: \(error.localizedDescription)")
+                self.printDeal(deal: self.currentWorkingDeal)
+                self.printRestaurant(restaurant: self.currentRestaurant)
             }
         }
     }

@@ -8,12 +8,24 @@
 import SwiftUI
 
 struct ContentView: View {
-    
+    @StateObject var authState = AuthState()
+
     var body: some View {
-        LoginView()
-    }
-    
+        ZStack {
+            Color.gray.edgesIgnoringSafeArea(.all)
+              VStack {
+                  if (authState.isLoggedIn && authState.userInfoLoaded == true) {
+                      HomeView(viewModel: ProducerViewModel(restaurant: authState.restaurant!), authState: authState)
+                  } else {
+                      LoginView(authState: authState)
+                  }
+              }
+              .padding()
+              .background(Deal_ioColor.background)
+          }
+      }
 }
+
 
 struct LoadingView: View {
     var body: some View {
