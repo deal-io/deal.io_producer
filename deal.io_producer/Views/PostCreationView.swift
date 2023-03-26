@@ -65,7 +65,7 @@ struct PostCreationView: View {
                         .multilineTextAlignment(.center)
                 }
                 
-                FromToTimesView(fromDate: startTime, toDate: endTime)
+                FromToTimesView(viewModel: viewModel, fromDate: startTime, toDate: endTime)
                     .padding(.bottom, 16)
                     .foregroundColor(.white)
                 Spacer()

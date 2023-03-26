@@ -24,8 +24,8 @@ struct PostEditView: View {
         self.viewModel = viewModel
         self._dealName = State(initialValue: viewModel.currentWorkingDeal.dealAttributes.dealName)
         self._description = State(initialValue: viewModel.currentWorkingDeal.dealAttributes.description)
-        self._startTime = State(initialValue: DateUtil().timeFromString(dateString: "12:00 PM")!)
-        self._endTime = State(initialValue: DateUtil().timeFromString(dateString: "12:00 PM")!)
+        self._startTime = State(initialValue: DateUtil().timeFromString(dateString: viewModel.currentWorkingDeal.dealAttributes.startTime)!)
+        self._endTime = State(initialValue: DateUtil().timeFromString(dateString: viewModel.currentWorkingDeal.dealAttributes.endTime)!)
         self._recurring = State(initialValue: viewModel.currentWorkingDeal.dealAttributes.recurring)
         self._daysActive = State(initialValue: viewModel.currentWorkingDeal.dealAttributes.daysActive)
         self._dates = State(initialValue: viewModel.currentWorkingDeal.dealAttributes.recurring ? Set<DateComponents>() : DateUtil().activeArrayToDateComponentSet(daysActive: viewModel.currentWorkingDeal.dealAttributes.daysActive, viewModel: viewModel))
@@ -65,7 +65,7 @@ struct PostEditView: View {
                         .multilineTextAlignment(.center)
                 }
                 
-                FromToTimesView(fromDate: startTime, toDate: endTime)
+                FromToTimesView(viewModel: viewModel, fromDate: startTime, toDate: endTime)
                     .padding(.bottom, 16)
                     .foregroundColor(.white)
                 Spacer()
