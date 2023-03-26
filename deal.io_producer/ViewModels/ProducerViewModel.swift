@@ -60,7 +60,7 @@ class ProducerViewModel: ObservableObject {
                case .success(let deals):
                    DispatchQueue.main.async {
                        self.restaurantDeals.removeAll()
-                       print("\(self.LOG_TAG)Successful Deal Fetching")
+                       print("\(self.LOG_TAG) Successful Deal Fetching")
                    }
                    
                    //self.printDeals(deals: deals)
@@ -89,13 +89,13 @@ class ProducerViewModel: ObservableObject {
             switch result {
             case .success():
                 DispatchQueue.main.async {
-                    print("\(self.LOG_TAG)Successful Deal Creation")
+                    print("\(self.LOG_TAG) Successful Deal Creation")
                     self.getDeals()
                 }
                
             case .failure(let error):
                 //TODO handle error
-                print("\(self.LOG_TAG)Post Error: \(error)")
+                print("\(self.LOG_TAG) Post Error: \(error)")
             }
         }        
     }
