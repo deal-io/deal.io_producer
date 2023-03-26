@@ -32,10 +32,13 @@ struct PostCreationView: View {
         self._dates = State(initialValue: Set<DateComponents>())
     }
     
-    @State var isShowingConfirmation = false
     let titleCharLimit = 25
     let descriptionCharLimit = 250
     
+    @State var isShowingConfirmation = false
+    @State var isShowingAlert = false
+    @State var invalidDaysActive = false
+    @State var invalidStartTimeEndTime = false
     @State var selectedWeekdays: Set<String> = []
     @State var toggleDropdown = false
     
@@ -113,21 +116,34 @@ struct PostCreationView: View {
                 }
                 
                 HStack {
-                    SubmitButton{isShowingConfirmation.toggle()}
-                        .padding(10)
-                        .confirmationDialog("Are you sure you want to submit?", isPresented: $isShowingConfirmation, titleVisibility: .visible) {
-                            Button("Yes") {
-                                isShowingConfirmation = false
-                                
-                                viewModel.postNewDeal()
-                            
-                                print(viewModel.currentWorkingDeal)
-                                self.presentationMode.wrappedValue.dismiss()
-                            }
-                            Button("No") {
-                                isShowingConfirmation = false
-                            }
+                    SubmitButton {
+                        invalidDaysActive = !Validate().validateDaysActiveArrayNotEmpty(deal: viewModel.currentWorkingDeal)
+                        invalidStartTimeEndTime = !Validate().validateStartTimeBeforeEndTime(deal: viewModel.currentWorkingDeal)
+                        isShowingAlert = (invalidDaysActive || invalidStartTimeEndTime)
+                        isShowingConfirmation = !isShowingAlert
+                    }
+                    .padding(10)
+                    .alert(isPresented: $isShowingAlert) {
+                        isShowingConfirmation = false
+                        if invalidDaysActive {
+                            return Alert(title: Text("Invalid Days Active"), message: Text("You've tried to submit a deal without any active days. Please try again."), dismissButton: .default(Text("OK")))
+                        } else if invalidStartTimeEndTime {
+                            return Alert(title: Text("Invalid Start Time and End Time"), message: Text("You've tried to input a deal with a start time of \(viewModel.currentWorkingDeal.dealAttributes.startTime) and an end time of \(viewModel.currentWorkingDeal.dealAttributes.endTime). Please try again."), dismissButton: .default(Text("OK")))
+                        } else {
+                            return Alert(title: Text("Invalid Deal"), message: Text("The deal you've tried to enter is invalid. Please try again."), dismissButton: .default(Text("OK")))
                         }
+                    }
+                    .confirmationDialog("Are you sure you want to submit?", isPresented: $isShowingConfirmation, titleVisibility: .visible) {
+                        Button("Yes") {
+                            isShowingConfirmation = false
+                            viewModel.postNewDeal()
+                            print(viewModel.currentWorkingDeal)
+                            self.presentationMode.wrappedValue.dismiss()
+                        }
+                        Button("No") {
+                            isShowingConfirmation = false
+                        }
+                    }
                    
                 }
                 .background(Deal_ioColor.background)
