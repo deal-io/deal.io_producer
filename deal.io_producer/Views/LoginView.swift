@@ -18,7 +18,7 @@ struct LoginView: View {
     @ObservedObject private var authState: AuthState
     @State private var email = ""
     @State private var password = ""
-    @State private var owner = Owner(id: "", restaurants: [""])
+    @State private var user = User(id: "", restaurants: [""])
     @State private var restaurant = Restaurant(id: "", name: "", location: "")
     @State private var isLoggedIn = false
     @State private var errorMessage = ""
