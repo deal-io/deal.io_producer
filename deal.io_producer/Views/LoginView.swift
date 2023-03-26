@@ -32,7 +32,6 @@ struct LoginView: View {
     
     var body: some View {
         VStack {
-           
             Image("dealio_white_on_bg")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
@@ -66,7 +65,7 @@ struct LoginView: View {
                 showHowToGetLoginInfo = true
             }
             .alert(isPresented: $showHowToGetLoginInfo) {
-                Alert(title: Text("How do I get a login?"), message: Text("Please email deal.io.help@gmail.com to recieve your login information."), dismissButton: .default(Text("Got It")))
+                Alert(title: Text("How do I get a login?"), message: Text("Please email deal.io.help@gmail.com to recieve your login information."), dismissButton: .default(Text("OK")))
             }
 
         }

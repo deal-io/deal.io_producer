@@ -19,7 +19,6 @@ struct PostEditView: View {
     @State private var daysActive: [Bool]
     @State private var dates: Set<DateComponents>
     
-    
     init(viewModel: ProducerViewModel){
         self.viewModel = viewModel
         self._dealName = State(initialValue: viewModel.currentWorkingDeal.dealAttributes.dealName)
@@ -31,13 +30,16 @@ struct PostEditView: View {
         self._dates = State(initialValue: viewModel.currentWorkingDeal.dealAttributes.recurring ? Set<DateComponents>() : DateUtil().activeArrayToDateComponentSet(daysActive: viewModel.currentWorkingDeal.dealAttributes.daysActive, viewModel: viewModel))
     }
     
-    @State var isShowingConfirmation = false
-    @State var isDeletingConfirmation = false
     let titleCharLimit = 25
     let descriptionCharLimit = 250
     
+    @State var isShowingConfirmation = false
+    @State var isShowingAlert = false
+    @State var invalidDaysActive = false
+    @State var invalidStartTimeEndTime = false
     @State var selectedWeekdays: Set<String> = []
     @State var toggleDropdown = false
+    @State var isDeletingConfirmation = false
     
     var body: some View {
         ScrollView {
@@ -83,10 +85,8 @@ struct PostEditView: View {
                 if recurring {
                     DateDropdownView(viewModel: viewModel, daysActive: daysActive)
                         .foregroundColor(.white)
-                    
                 } else {
                     HStack {
-                    
                         DateMultipickerView(viewModel: viewModel, dates: $dates)
                     }
                     .padding(.vertical, 14)
@@ -95,8 +95,6 @@ struct PostEditView: View {
                     .foregroundColor(.white)
                     .padding(.top, 8)
                     .font(.title3)
-                
-                
                 VStack {
                     TextField("Description", text: $description, axis: .vertical)
                         .onChange(of: description) { newValue in
@@ -111,24 +109,35 @@ struct PostEditView: View {
                         .multilineTextAlignment(.center)
                         .padding(10)
                 }
-                
                 HStack {
-                    SubmitButton{isShowingConfirmation.toggle()}
-                        .padding(10)
-                        
-                        .confirmationDialog("Are you sure you want to submit?", isPresented: $isShowingConfirmation, titleVisibility: .visible) {
-                            Button("Yes") {
-                                isShowingConfirmation = false
-                                
-                                viewModel.updateDeal()
-                            
-                                print(viewModel.currentWorkingDeal)
-                                self.presentationMode.wrappedValue.dismiss()
-                            }
-                            Button("No") {
-                                isShowingConfirmation = false
-                            }
+                    SubmitButton {
+                        invalidDaysActive = !Validate().validateDaysActiveArrayNotEmpty(deal: viewModel.currentWorkingDeal)
+                        invalidStartTimeEndTime = !Validate().validateStartTimeBeforeEndTime(deal: viewModel.currentWorkingDeal)
+                        isShowingAlert = (invalidDaysActive || invalidStartTimeEndTime)
+                        isShowingConfirmation = !isShowingAlert
+                    }
+                    .padding(10)
+                    .alert(isPresented: $isShowingAlert) {
+                        isShowingConfirmation = false
+                        if invalidDaysActive {
+                            return Alert(title: Text("Invalid Days Active"), message: Text("You've tried to submit a deal without any active days. Please try again."), dismissButton: .default(Text("OK")))
+                        } else if invalidStartTimeEndTime {
+                            return Alert(title: Text("Invalid Start Time and End Time"), message: Text("You've tried to input a deal with a start time of \(viewModel.currentWorkingDeal.dealAttributes.startTime) and an end time of \(viewModel.currentWorkingDeal.dealAttributes.endTime). Please try again."), dismissButton: .default(Text("OK")))
+                        } else {
+                            return Alert(title: Text("Invalid Deal"), message: Text("The deal you've tried to enter is invalid. Please try again."), dismissButton: .default(Text("OK")))
                         }
+                    }
+                    .confirmationDialog("Are you sure you want to submit?", isPresented: $isShowingConfirmation, titleVisibility: .visible) {
+                        Button("Yes") {
+                            isShowingConfirmation = false
+                            viewModel.updateDeal()
+                            print(viewModel.currentWorkingDeal)
+                            self.presentationMode.wrappedValue.dismiss()
+                        }
+                        Button("No") {
+                            isShowingConfirmation = false
+                        }
+                    }
                     DeleteButton()
                         .padding(10)
                         .onTapGesture{
@@ -137,9 +146,7 @@ struct PostEditView: View {
                         .confirmationDialog("Are you sure you want to delete?", isPresented: $isDeletingConfirmation, titleVisibility: .visible) {
                             Button("Yes") {
                                 isDeletingConfirmation = false
-                                
                                 viewModel.deleteDeal()
-                            
                                 print(viewModel.currentWorkingDeal)
                                 self.presentationMode.wrappedValue.dismiss()
                             }
@@ -151,10 +158,8 @@ struct PostEditView: View {
                 .background(Deal_ioColor.background)
             }
             .background(Deal_ioColor.background)
-            
         }
     }
-        
 }
 
 
