@@ -8,12 +8,14 @@
 import SwiftUI
 
 struct HomeView: View {
+    private var LOG_TAG = "LOG: HomeView "
     @ObservedObject var viewModel: ProducerViewModel
     @State var newDealToggle = false
     
     init(viewModel: ProducerViewModel) {
         self.viewModel = viewModel
         self.viewModel.getDeals()
+        print("\(self.LOG_TAG) Init")
     }
     
     var body: some View {

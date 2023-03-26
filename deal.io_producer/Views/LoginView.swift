@@ -15,6 +15,7 @@ import Firebase
  but it wouldn't work
  */
 struct LoginView: View {
+    private var LOG_TAG = "LOG: LoginView "
     @ObservedObject private var authState: AuthState
     @State private var email = ""
     @State private var password = ""
@@ -26,6 +27,7 @@ struct LoginView: View {
 
     init(authState: AuthState) {
         self.authState = authState
+        print("\(self.LOG_TAG) Init")
     }
     
     var body: some View {
@@ -61,6 +63,7 @@ struct LoginView: View {
                                 errorMessage = "Invalid email or password."
                             } else {
                                 // Login successful
+                                authState.isLoggedIn = true
                             }
                         }
                     }

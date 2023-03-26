@@ -66,7 +66,7 @@ class DealService {
             }
             
             do {
-                let User = try JSONDecoder().decode(User.self, from: data)
+                let user = try JSONDecoder().decode(User.self, from: data)
                 completion(.success(user))
             } catch {
                 completion(.failure(error))
