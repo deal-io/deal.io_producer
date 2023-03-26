@@ -94,6 +94,18 @@ class DateUtil {
         return nil
     }
     
+    func stringFromTime(date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "h:mm a"
+
+        let hour = Calendar.current.component(.hour, from: date)
+        let minute = Calendar.current.component(.minute, from: date)
+
+        let formattedHour = dateFormatter.string(from: date)
+        
+        return formattedHour
+    }
+    
     
     func dateComponentSetsToDaysActiveArray(dateSet: Set<DateComponents>, viewModel: ProducerViewModel) -> Void {
         

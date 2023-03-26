@@ -24,6 +24,8 @@ struct DealAttributes: Codable {
     var description: String
     var startDate: BackendDate
     var endDate: BackendDate
+    var startTime: String
+    var endTime: String
     var recurring: Bool
 }
 
