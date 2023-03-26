@@ -31,57 +31,51 @@ struct LoginView: View {
     }
     
     var body: some View {
-            VStack {
-                Group {
-                    Spacer()
-                    Image("dealio_white_on_bg")
-                        .resizable()
-                        .frame(width: 350, height: 150)
-                        .padding(.vertical, 80)
-                    Spacer()
-                    Text("Email: ")
-                        .multilineTextAlignment(.center)
-                        .foregroundColor(.white)
-                        .font(.title3)
-                    EmailTextField(email: $email)
-                        .padding(.bottom, 10)
-                    Text("Password: ")
-                        .multilineTextAlignment(.center)
-                        .foregroundColor(.white)
-                        .font(.title3)
-                        .padding(.top)
-                    PasswordTextField(password: $password)
-                        .padding(.bottom, 10)
+        VStack {
+           
+            Image("dealio_white_on_bg")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .padding(.vertical, 20)
+            Spacer()
+            Text("Email: ")
+                .multilineTextAlignment(.center)
+                .foregroundColor(.white)
+                .font(.title3)
+            EmailTextField(email: $email)
+                .padding(.bottom, 10)
+            Text("Password: ")
+                .multilineTextAlignment(.center)
+                .foregroundColor(.white)
+                .font(.title3)
+                .padding(.top)
+            PasswordTextField(password: $password)
+                .padding(.bottom, 10)
+            Spacer()
+            SubmitButton{Auth.auth().signIn(withEmail: email, password: password) { result, error in
+                if let error = error {
+                    // Handle login error
+                    errorMessage = "Invalid Email or Password, try again."
+                } else {
+                    // Login successful
+                    authState.isLoggedIn = true
                 }
-                Spacer()
-                    .padding(12)
-                SubmitButton()
-                    .onTapGesture {
-                        Auth.auth().signIn(withEmail: email, password: password) { result, error in
-                            if let error = error {
-                                // Handle login error
-                                errorMessage = "Invalid email or password."
-                            } else {
-                                // Login successful
-                                authState.isLoggedIn = true
-                            }
-                        }
-                    }
-                    Spacer()
-                    Button("How do I get a login?") {
-                        showHowToGetLoginInfo = true
-                    }
-                    .alert(isPresented: $showHowToGetLoginInfo) {
-                        Alert(title: Text("How do I get a login?"), message: Text("Please email deal.io.help@gmail.com to recieve your login information."), dismissButton: .default(Text("Got It")))
-                    }
-                }
-                .background(Deal_ioColor.background)
-                .alert(isPresented: Binding<Bool>(get: { errorMessage != "" }, set: { _ in errorMessage = "" }), content: {
-                            Alert(title: Text("Error"), message: Text(errorMessage), dismissButton: .default(Text("OK")))
-                        })
-                .fullScreenCover(isPresented: $isLoggedIn, content: {
-                    HomeView(viewModel: ProducerViewModel(restaurant: authState.restaurant!))
-                })
+            }}
+            Spacer()
+            Button("How do I get a login?") {
+                showHowToGetLoginInfo = true
+            }
+            .alert(isPresented: $showHowToGetLoginInfo) {
+                Alert(title: Text("How do I get a login?"), message: Text("Please email deal.io.help@gmail.com to recieve your login information."), dismissButton: .default(Text("Got It")))
+            }
+
+        }
+        .padding(.horizontal, 20)
+        .alert(isPresented: Binding<Bool>(get: { errorMessage != "" }, set: { _ in errorMessage = "" }), content: {
+            Alert(title: Text("Error"), message: Text(errorMessage), dismissButton: .default(Text("OK")))
+        })
+        .edgesIgnoringSafeArea(.all)
+
         }
     }
 

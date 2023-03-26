@@ -10,10 +10,13 @@ import SwiftUI
 struct HomeView: View {
     private var LOG_TAG = "LOG: HomeView "
     @ObservedObject var viewModel: ProducerViewModel
+    @ObservedObject private var authState: AuthState
+    
     @State var newDealToggle = false
     
-    init(viewModel: ProducerViewModel) {
+    init(viewModel: ProducerViewModel, authState: AuthState) {
         self.viewModel = viewModel
+        self.authState = authState
         self.viewModel.getDeals()
         print("\(self.LOG_TAG) Init")
     }
@@ -31,12 +34,23 @@ struct HomeView: View {
                 .onTapGesture {
                     newDealToggle = true
                     viewModel.clearCurrentDeal()
-                } .sheet(isPresented: $newDealToggle) {
+                }
+                .sheet(isPresented: $newDealToggle) {
                     PostCreationView(viewModel: viewModel)
                         .background(Deal_ioColor.background)
                 }
-                .padding(.top, 10)
+                .padding(.vertical, 10)
+            Button(action: {
+                // Call the logout function here
+                authState.logout()
+            }) {
+                Text("Logout")
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background(Color.blue)
+                    .foregroundColor(.white)
+                    .cornerRadius(10)
+            }
         }
-        .background(Deal_ioColor.background)
     }
 }

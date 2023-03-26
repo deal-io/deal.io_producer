@@ -19,7 +19,7 @@
 		ADA633B729B1CA8D0032EF44 /* PlusButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA633B629B1CA8D0032EF44 /* PlusButtonView.swift */; };
 		ADA633B929B288450032EF44 /* WeekdayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA633B829B288450032EF44 /* WeekdayView.swift */; };
 		ADA633BB29B2941C0032EF44 /* DateContractedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA633BA29B2941C0032EF44 /* DateContractedView.swift */; };
-		ADA633BD29B296E40032EF44 /* SubmitButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA633BC29B296E40032EF44 /* SubmitButtonView.swift */; };
+		ADA633BD29B296E40032EF44 /* LoginButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA633BC29B296E40032EF44 /* LoginButtonView.swift */; };
 		ADA633BF29B2D9DC0032EF44 /* DeleteButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA633BE29B2D9DC0032EF44 /* DeleteButtonView.swift */; };
 		ADA633C729B2FD2B0032EF44 /* HourView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA633C629B2FD2B0032EF44 /* HourView.swift */; };
 		ADA633C929B5A5260032EF44 /* FromToTimesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA633C829B5A5260032EF44 /* FromToTimesView.swift */; };
@@ -65,6 +65,8 @@
 		ADF687FD29B001E600E86022 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF687FC29B001E600E86022 /* ContentView.swift */; };
 		ADF687FF29B0796000E86022 /* DateDropdownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF687FE29B0796000E86022 /* DateDropdownView.swift */; };
 		FB1937E829C13C0800EA5541 /* GenerateEmptyDeal.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB1937E729C13C0800EA5541 /* GenerateEmptyDeal.swift */; };
+		FB94B94E29D0ABFA0095E9F0 /* AuthState.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB94B94D29D0ABFA0095E9F0 /* AuthState.swift */; };
+		FB94B95029D0CE1F0095E9F0 /* SubmitButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB94B94F29D0CE1F0095E9F0 /* SubmitButtonView.swift */; };
 		FBCB2D4A29CF961500C1C9DA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FBCB2D4929CF961500C1C9DA /* GoogleService-Info.plist */; };
 		FBF03C0F29C3E08B0088FA35 /* DateMultipickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBF03C0E29C3E08B0088FA35 /* DateMultipickerView.swift */; };
 /* End PBXBuildFile section */
@@ -84,7 +86,7 @@
 		ADA633B629B1CA8D0032EF44 /* PlusButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusButtonView.swift; sourceTree = "<group>"; };
 		ADA633B829B288450032EF44 /* WeekdayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekdayView.swift; sourceTree = "<group>"; };
 		ADA633BA29B2941C0032EF44 /* DateContractedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateContractedView.swift; sourceTree = "<group>"; };
-		ADA633BC29B296E40032EF44 /* SubmitButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubmitButtonView.swift; sourceTree = "<group>"; };
+		ADA633BC29B296E40032EF44 /* LoginButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginButtonView.swift; sourceTree = "<group>"; };
 		ADA633BE29B2D9DC0032EF44 /* DeleteButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteButtonView.swift; sourceTree = "<group>"; };
 		ADA633C629B2FD2B0032EF44 /* HourView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HourView.swift; sourceTree = "<group>"; };
 		ADA633C829B5A5260032EF44 /* FromToTimesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FromToTimesView.swift; sourceTree = "<group>"; };
@@ -103,6 +105,8 @@
 		ADF687FC29B001E600E86022 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		ADF687FE29B0796000E86022 /* DateDropdownView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateDropdownView.swift; sourceTree = "<group>"; };
 		FB1937E729C13C0800EA5541 /* GenerateEmptyDeal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenerateEmptyDeal.swift; sourceTree = "<group>"; };
+		FB94B94D29D0ABFA0095E9F0 /* AuthState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthState.swift; sourceTree = "<group>"; };
+		FB94B94F29D0CE1F0095E9F0 /* SubmitButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubmitButtonView.swift; sourceTree = "<group>"; };
 		FBCB2D4929CF961500C1C9DA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		FBF03C0E29C3E08B0088FA35 /* DateMultipickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateMultipickerView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -164,6 +168,7 @@
 		AD00902F29A59DC700FDB1D3 /* deal.io_producer */ = {
 			isa = PBXGroup;
 			children = (
+				FB94B94C29D0ABCC0095E9F0 /* Auth */,
 				FBCB2D4929CF961500C1C9DA /* GoogleService-Info.plist */,
 				ADA633DA29BA86410032EF44 /* Utils */,
 				AD00904329A59E2600FDB1D3 /* Views */,
@@ -236,9 +241,10 @@
 				ADA633BA29B2941C0032EF44 /* DateContractedView.swift */,
 				ADA633BE29B2D9DC0032EF44 /* DeleteButtonView.swift */,
 				ADA633C829B5A5260032EF44 /* FromToTimesView.swift */,
-				ADA633BC29B296E40032EF44 /* SubmitButtonView.swift */,
+				ADA633BC29B296E40032EF44 /* LoginButtonView.swift */,
 				ADA633C629B2FD2B0032EF44 /* HourView.swift */,
 				FBF03C0E29C3E08B0088FA35 /* DateMultipickerView.swift */,
+				FB94B94F29D0CE1F0095E9F0 /* SubmitButtonView.swift */,
 			);
 			path = Assets;
 			sourceTree = "<group>";
@@ -272,6 +278,14 @@
 				ADA633D829BA80A10032EF44 /* DealService.swift */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		FB94B94C29D0ABCC0095E9F0 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				FB94B94D29D0ABFA0095E9F0 /* AuthState.swift */,
+			);
+			path = Auth;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -383,7 +397,8 @@
 				ADA633B929B288450032EF44 /* WeekdayView.swift in Sources */,
 				ADA633C729B2FD2B0032EF44 /* HourView.swift in Sources */,
 				AD00905129A59EE200FDB1D3 /* ProducerViewModel.swift in Sources */,
-				ADA633BD29B296E40032EF44 /* SubmitButtonView.swift in Sources */,
+				FB94B94E29D0ABFA0095E9F0 /* AuthState.swift in Sources */,
+				ADA633BD29B296E40032EF44 /* LoginButtonView.swift in Sources */,
 				FBF03C0F29C3E08B0088FA35 /* DateMultipickerView.swift in Sources */,
 				ADF687FD29B001E600E86022 /* ContentView.swift in Sources */,
 				ADA633BB29B2941C0032EF44 /* DateContractedView.swift in Sources */,
@@ -405,6 +420,7 @@
 				ADF687EF29AFF46600E86022 /* DealView.swift in Sources */,
 				ADF687B029AFD60500E86022 /* PostEditView.swift in Sources */,
 				AD00904B29A59E8F00FDB1D3 /* LoginView.swift in Sources */,
+				FB94B95029D0CE1F0095E9F0 /* SubmitButtonView.swift in Sources */,
 				ADA633DC29BA864D0032EF44 /* DateUtil.swift in Sources */,
 				ADF0BC5129AD28F800FF24F6 /* Login.swift in Sources */,
 				ADF6879E29AED04800E86022 /* Persistence.swift in Sources */,
