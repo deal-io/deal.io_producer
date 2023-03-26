@@ -113,11 +113,8 @@ struct PostCreationView: View {
                 }
                 
                 HStack {
-                    SubmitButton()
+                    SubmitButton{isShowingConfirmation.toggle()}
                         .padding(10)
-                        .onTapGesture{
-                            isShowingConfirmation.toggle()
-                        }
                         .confirmationDialog("Are you sure you want to submit?", isPresented: $isShowingConfirmation, titleVisibility: .visible) {
                             Button("Yes") {
                                 isShowingConfirmation = false
