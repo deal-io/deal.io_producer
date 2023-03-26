@@ -15,22 +15,28 @@ import Firebase
  but it wouldn't work
  */
 struct LoginView: View {
+    @ObservedObject private var authState: AuthState
     @State private var email = ""
     @State private var password = ""
+    @State private var owner = Owner(id: "", restaurants: [""])
+    @State private var restaurant = Restaurant(id: "", name: "", location: "")
     @State private var isLoggedIn = false
     @State private var errorMessage = ""
-
     @State private var showHowToGetLoginInfo = false
 
+    init(authState: AuthState) {
+        self.authState = authState
+    }
+    
     var body: some View {
             VStack {
-                Spacer()
-                Image("dealio_white_on_bg")
-                    .resizable()
-                    .frame(width: 350, height: 150)
-                    .padding(.vertical, 80)
-                Spacer()
                 Group {
+                    Spacer()
+                    Image("dealio_white_on_bg")
+                        .resizable()
+                        .frame(width: 350, height: 150)
+                        .padding(.vertical, 80)
+                    Spacer()
                     Text("Email: ")
                         .multilineTextAlignment(.center)
                         .foregroundColor(.white)
@@ -47,19 +53,16 @@ struct LoginView: View {
                 }
                 Spacer()
                     .padding(12)
-                Button("Submit") {
-                    Auth.auth().signIn(withEmail: email, password: password) { result, error in
-                        if let error = error {
-                            // Handle login error
-                            errorMessage = "Invalid email or password."
-                        } else {
-                            // Login successful
-                            isLoggedIn = true
-                            if let user = result?.user {
-                                print("User UID: \(user.uid)")
+                SubmitButton()
+                    .onTapGesture {
+                        Auth.auth().signIn(withEmail: email, password: password) { result, error in
+                            if let error = error {
+                                // Handle login error
+                                errorMessage = "Invalid email or password."
+                            } else {
+                                // Login successful
                             }
                         }
-                    }
                     }
                     Spacer()
                     Button("How do I get a login?") {
@@ -74,7 +77,7 @@ struct LoginView: View {
                             Alert(title: Text("Error"), message: Text(errorMessage), dismissButton: .default(Text("OK")))
                         })
                 .fullScreenCover(isPresented: $isLoggedIn, content: {
-                    HomeView(viewModel: ProducerViewModel(restaurant: Restaurant(id: "fIkcRQvIWinFbnrCYeYI", name: "Buffalo Rose", location: "123 East St")))
+                    HomeView(viewModel: ProducerViewModel(restaurant: authState.restaurant!))
                 })
         }
     }

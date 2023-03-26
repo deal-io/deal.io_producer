@@ -43,6 +43,68 @@ class DealService {
         }.resume()
     }
     
+    func fetchOwner(uid: String, completion: @escaping (Result<Owner, Error>) -> Void) {
+        guard let url = URL(string: "\(apiUrl)/user/\(uid)") else {
+            completion(.failure(NSError(domain: "DealService", code: 0, userInfo: [NSLocalizedDescriptionKey: "Invalid URL"])))
+            return
+        }
+        
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            
+            guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+                completion(.failure(NSError(domain: "DealService", code: 0, userInfo: [NSLocalizedDescriptionKey: "Invalid HTTP response"])))
+                return
+            }
+            
+            guard let data = data else {
+                completion(.failure(NSError(domain: "DealService", code: 0, userInfo: [NSLocalizedDescriptionKey: "Invalid data"])))
+                return
+            }
+            
+            do {
+                let owner = try JSONDecoder().decode(Owner.self, from: data)
+                completion(.success(owner))
+            } catch {
+                completion(.failure(error))
+            }
+        }.resume()
+    }
+    
+    func fetchRestaurant(restaurantID: String, completion: @escaping (Result<Restaurant, Error>) -> Void) {
+        guard let url = URL(string: "\(apiUrl)/restaurant/\(restaurantID)") else {
+            completion(.failure(NSError(domain: "DealService", code: 0, userInfo: [NSLocalizedDescriptionKey: "Invalid URL"])))
+            return
+        }
+        
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            
+            guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+                completion(.failure(NSError(domain: "DealService", code: 0, userInfo: [NSLocalizedDescriptionKey: "Invalid HTTP response"])))
+                return
+            }
+            
+            guard let data = data else {
+                completion(.failure(NSError(domain: "DealService", code: 0, userInfo: [NSLocalizedDescriptionKey: "Invalid data"])))
+                return
+            }
+            
+            do {
+                let restaurant = try JSONDecoder().decode(Restaurant.self, from: data)
+                completion(.success(restaurant))
+            } catch {
+                completion(.failure(error))
+            }
+        }.resume()
+    }
+    
     func createDeal(deal: Deal, completion: @escaping (Result<Void, Error>) -> Void) {
         guard let url = URL(string: "\(apiUrl)/deal") else {
             completion(.failure(NSError(domain: "DealService", code: 0, userInfo: [NSLocalizedDescriptionKey: "Invalid URL"])))
