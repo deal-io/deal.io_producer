@@ -19,7 +19,7 @@ struct HomeView: View {
         self.viewModel = viewModel
         self.authState = authState
         self.viewModel.getDeals()
-        print("\(self.LOG_TAG) Init")
+        print("\(self.LOG_TAG)")
     }
     
     var body: some View {

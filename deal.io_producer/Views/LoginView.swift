@@ -15,18 +15,13 @@ import Firebase
  but it wouldn't work
  */
 struct LoginView: View {
-    @ObservedObject var authState: AuthState
-    
-    
     private var LOG_TAG = "LOG: LoginView "
-    
-    
+    @ObservedObject var authState: AuthState
+
     @State private var errorMessage: String = ""
     @State private var email: String = ""
     @State private var password: String = ""
-    @State private var isLoggedIn: Bool = false
     @State private var showHowToGetLoginInfo: Bool = false
-    @State private var showLoginError: Bool = false
     
     init(authState: AuthState){
         self.authState = authState
@@ -56,15 +51,9 @@ struct LoginView: View {
             PasswordTextField(password: $password)
                 .padding(.bottom, 10)
             Spacer()
-            SubmitButton(disabled: Binding<Bool>(get: { errorMessage != "" }, set: { _ in errorMessage = "" })) { Auth.auth().signIn(withEmail: email, password: password) { result, error in
-                if let error = error {
-                    // Handle login error
-                    errorMessage = "Invalid Email or Password, try again."
-                } else {
-                    // Login successful
-                    authState.isLoggedIn = true
-                }
-            }}
+            LoginButton(authState: authState, email: $email, password: $password, onError: { error in
+                errorMessage = "Invalid Email or Password, try again."
+                    })
             .alert(isPresented: Binding<Bool>(get: { errorMessage != "" }, set: { _ in errorMessage = "" }), content: {
                 Alert(title: Text("Error"), message: Text(errorMessage), dismissButton: .default(Text("OK")))
             })

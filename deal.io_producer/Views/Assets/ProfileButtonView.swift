@@ -13,7 +13,7 @@ struct ProfileButtonView: View {
             Circle()
                 .fill(Deal_ioColor.accent)
                 .frame(width: 53, height: 43)
-            Image(systemName: "ellipsis.circle")
+            Image(systemName: "person.crop.circle")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .foregroundColor(.white)

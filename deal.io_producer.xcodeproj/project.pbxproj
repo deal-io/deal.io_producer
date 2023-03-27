@@ -30,7 +30,6 @@
 		ADA633DC29BA864D0032EF44 /* DateUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA633DB29BA864D0032EF44 /* DateUtil.swift */; };
 		ADA633DE29BA92710032EF44 /* BindingUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA633DD29BA92710032EF44 /* BindingUtil.swift */; };
 		ADD318FE29B15A5C00800A46 /* test in Resources */ = {isa = PBXBuildFile; fileRef = ADD318FD29B15A5C00800A46 /* test */; };
-		ADF0BC5129AD28F800FF24F6 /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF0BC5029AD28F800FF24F6 /* Login.swift */; };
 		ADF6879C29AECFDC00E86022 /* Deal_ioProducerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF6879B29AECFDC00E86022 /* Deal_ioProducerApp.swift */; };
 		ADF6879E29AED04800E86022 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF6879D29AED04800E86022 /* Persistence.swift */; };
 		ADF687B029AFD60500E86022 /* PostEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF687AF29AFD60500E86022 /* PostEditView.swift */; };
@@ -100,7 +99,6 @@
 		ADA633DB29BA864D0032EF44 /* DateUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateUtil.swift; sourceTree = "<group>"; };
 		ADA633DD29BA92710032EF44 /* BindingUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BindingUtil.swift; sourceTree = "<group>"; };
 		ADD318FD29B15A5C00800A46 /* test */ = {isa = PBXFileReference; lastKnownFileType = text; path = test; sourceTree = "<group>"; };
-		ADF0BC5029AD28F800FF24F6 /* Login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
 		ADF6879B29AECFDC00E86022 /* Deal_ioProducerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deal_ioProducerApp.swift; sourceTree = "<group>"; };
 		ADF6879D29AED04800E86022 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		ADF687AF29AFD60500E86022 /* PostEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostEditView.swift; sourceTree = "<group>"; };
@@ -204,7 +202,6 @@
 				AD00904E29A59EC300FDB1D3 /* PostCreationView.swift */,
 				ADF687AF29AFD60500E86022 /* PostEditView.swift */,
 				ADF687EC29AFF44F00E86022 /* FeedView.swift */,
-				ADF687EE29AFF46600E86022 /* DealView.swift */,
 				AD76782629D1DD2D008728BB /* ProfileView.swift */,
 			);
 			path = Views;
@@ -224,7 +221,6 @@
 			children = (
 				AD00904629A59E5700FDB1D3 /* Restaurant.swift */,
 				AD00904829A59E6500FDB1D3 /* Deal.swift */,
-				ADF0BC5029AD28F800FF24F6 /* Login.swift */,
 				AD76781B29CFC358008728BB /* User.swift */,
 			);
 			path = Models;
@@ -251,6 +247,7 @@
 		ADA633DF29C13A730032EF44 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				ADF687EE29AFF46600E86022 /* DealView.swift */,
 				ADF687FE29B0796000E86022 /* DateDropdownView.swift */,
 				ADA633B629B1CA8D0032EF44 /* PlusButtonView.swift */,
 				ADA633B829B288450032EF44 /* WeekdayView.swift */,
@@ -442,7 +439,6 @@
 				AD00904B29A59E8F00FDB1D3 /* LoginView.swift in Sources */,
 				FB94B95029D0CE1F0095E9F0 /* SubmitButtonView.swift in Sources */,
 				ADA633DC29BA864D0032EF44 /* DateUtil.swift in Sources */,
-				ADF0BC5129AD28F800FF24F6 /* Login.swift in Sources */,
 				ADF6879E29AED04800E86022 /* Persistence.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
