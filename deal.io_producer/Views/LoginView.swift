@@ -56,28 +56,30 @@ struct LoginView: View {
             PasswordTextField(password: $password)
                 .padding(.bottom, 10)
             Spacer()
-            LoginButton(authState: authState, email: $email, password: $password, onError: { error in
-                showLoginError = true
-               })
-            .alert(isPresented: $showLoginError) {
-                Alert(title: Text("Login Error"), message: Text("Invalid Email or Password. Try Again."), dismissButton: .default(Text("OK")))
-            }
+            SubmitButton { Auth.auth().signIn(withEmail: email, password: password) { result, error in
+                if let error = error {
+                    // Handle login error
+                    errorMessage = "Invalid Email or Password, try again."
+                } else {
+                    // Login successful
+                    authState.isLoggedIn = true
+                }
+            }}
+            .alert(isPresented: Binding<Bool>(get: { errorMessage != "" }, set: { _ in errorMessage = "" }), content: {
+                Alert(title: Text("Error"), message: Text(errorMessage), dismissButton: .default(Text("OK")))
+            })
             Spacer()
-            Button("How do I get a login?") {
+            Button(action: {
                 showHowToGetLoginInfo = true
-               
+            }) {
+                Text("How do I get a login?")
             }
             .alert(isPresented: $showHowToGetLoginInfo) {
-                Alert(title: Text("How do I get a login?"), message: Text("Please email deal.io.help@gmail.com to recieve your login information."), dismissButton: .default(Text("OK")))
+                Alert(title: Text("How do I get a login?"), message: Text("Please email deal.io.help@gmail.com to receive your login information."), dismissButton: .default(Text("OK")))
             }
-            
-
         }
         .padding(.horizontal, 20)
-       
-        
         .edgesIgnoringSafeArea(.all)
-
         }
     }
 

@@ -30,10 +30,10 @@ struct DealView: View {
                     Text(viewModel.currentRestaurant.name)
                         .font(.title3)
                         .foregroundColor(.white)
-                        .padding(.leading, 35)
+                        .padding(.leading, 50)
                     Spacer()
-                    HourView(deal: deal)
-                        .padding(.trailing, 35)
+                    HourView(viewModel: viewModel, deal: deal)
+                        .padding(.trailing, 50)
                 }
                 Spacer()
             }
