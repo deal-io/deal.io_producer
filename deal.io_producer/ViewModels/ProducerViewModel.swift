@@ -100,45 +100,56 @@ class ProducerViewModel: ObservableObject {
             return deals.filter { $0.restaurantID == restaurant.id }
     }
     
-    func postNewDeal(){
-
+    func postNewDeal(completion: @escaping (Result<Void, Error>) -> Void){
+        // Create the deal...
         mDealService.createDeal(deal: currentWorkingDeal) { result in
             switch result {
-            case .success():
+            case .success:
                 DispatchQueue.main.async {
-                    print("\(self.LOG_TAG) Successful Deal Creation")
-                    self.getDeals()
+                    print("Deal creation succeeded")
+                    print("\(self.LOG_TAG)Successful Deal Creation")
+                    // Call the completion closure to enable the button again.
+                    completion(.success(()))
+                   
                 }
-               
             case .failure(let error):
-                //TODO handle error
-                print("\(self.LOG_TAG) Post Error: \(error)")
-                self.printDeal(deal: self.currentWorkingDeal)
-                self.printRestaurant(restaurant: self.currentRestaurant)
-            }
-        }        
-    }
-    
-    func updateDeal(){
-        mDealService.updateDeal(deal: currentWorkingDeal) { result in
-            switch result {
-            case .success():
-                DispatchQueue.main.async {
-                    print("\(self.LOG_TAG)Successful Deal Update")
-                    self.getDeals()
-                }
-                
-                
-            case .failure(let error):
-                //TODO handle error
+                // Handle the error...
                 print("\(self.LOG_TAG)Update Error: \(error.localizedDescription)")
                 self.printDeal(deal: self.currentWorkingDeal)
                 self.printRestaurant(restaurant: self.currentRestaurant)
+                DispatchQueue.main.async {
+                      completion(.failure(error)) // Call the completion closure with the error
+                  }
             }
         }
     }
     
-    func deleteDeal(){
+    
+    func updateDeal(completion: @escaping (Result<Void, Error>) -> Void) {
+          // Update the deal...
+          mDealService.updateDeal(deal: currentWorkingDeal) { result in
+              switch result {
+              case .success:
+                  DispatchQueue.main.async {
+                      print("Deal update succeeded")
+                      print("\(self.LOG_TAG)Successful Deal Update")
+                      // Call the completion closure to enable the button again.
+                      completion(.success(()))
+                     
+                  }
+              case .failure(let error):
+                  // Handle the error...
+                  print("\(self.LOG_TAG)Update Error: \(error.localizedDescription)")
+                  self.printDeal(deal: self.currentWorkingDeal)
+                  self.printRestaurant(restaurant: self.currentRestaurant)
+                  DispatchQueue.main.async {
+                        completion(.failure(error)) // Call the completion closure with the error
+                    }
+              }
+          }
+      }
+    
+    func deleteDeal(completion: @escaping (Result<Void, Error>) -> Void){
 
         mDealService.deleteDeal(deal: currentWorkingDeal) { result in
             switch result {
@@ -146,13 +157,16 @@ class ProducerViewModel: ObservableObject {
                 
                 DispatchQueue.main.async {
                     print("\(self.LOG_TAG)Successful Deal Delete")
-                    self.getDeals()
+                    completion(.success(()))
                 }
             case .failure(let error):
                 //TODO handle error
                 print("\(self.LOG_TAG)Delete Error: \(error.localizedDescription)")
                 self.printDeal(deal: self.currentWorkingDeal)
                 self.printRestaurant(restaurant: self.currentRestaurant)
+                DispatchQueue.main.async {
+                      completion(.failure(error)) // Call the completion closure with the error
+                  }
             }
         }
     }

@@ -9,7 +9,6 @@ import SwiftUI
 import Firebase
 
 struct DateMultipickerView: View {
-    @ObservedObject var viewModel: ProducerViewModel
     @Binding var dates: Set<DateComponents>
     
     var body: some View {
@@ -18,10 +17,5 @@ struct DateMultipickerView: View {
             .labelsHidden()
             .colorScheme(.dark)
             .foregroundColor(.white)
-            .onChange(of: dates) { newValue in
-                
-                DateUtil().dateComponentSetsToDaysActiveArray(dateSet: newValue, viewModel: viewModel)
-
-            }
     }
 }
