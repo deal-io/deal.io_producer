@@ -16,7 +16,7 @@ struct PostEditView: View {
     @State private var startTime: Date
     @State private var endTime: Date
     @State private var recurring: Bool
-    @State private var daysActive: [Bool]
+    @State private var recurringDaysActive: [Bool]
     @State private var dates: Set<DateComponents>
     
     init(viewModel: ProducerViewModel){
@@ -26,12 +26,9 @@ struct PostEditView: View {
         self._startTime = State(initialValue: DateUtil().timeFromString(dateString: viewModel.currentWorkingDeal.dealAttributes.startTime)!)
         self._endTime = State(initialValue: DateUtil().timeFromString(dateString: viewModel.currentWorkingDeal.dealAttributes.endTime)!)
         self._recurring = State(initialValue: viewModel.currentWorkingDeal.dealAttributes.recurring)
-        self._daysActive = State(initialValue: viewModel.currentWorkingDeal.dealAttributes.daysActive)
+        self._recurringDaysActive = State(initialValue: viewModel.currentWorkingDeal.dealAttributes.recurring ?  viewModel.currentWorkingDeal.dealAttributes.daysActive : Array(repeating: false, count: 7))
         self._dates = State(initialValue: viewModel.currentWorkingDeal.dealAttributes.recurring ? Set<DateComponents>() : DateUtil().activeArrayToDateComponentSet(daysActive: viewModel.currentWorkingDeal.dealAttributes.daysActive, viewModel: viewModel))
     }
-    
-    let titleCharLimit = 25
-    let descriptionCharLimit = 250
     
     @State var isShowingConfirmation = false
     @State var isShowingAlert = false
@@ -53,13 +50,6 @@ struct PostEditView: View {
                         .font(.title3)
                         .foregroundColor(.white)
                     TextField("Deal Title", text: $dealName)
-                        .onChange(of: dealName) { newValue in
-                            viewModel.currentWorkingDeal.dealAttributes.dealName = dealName
-                            if dealName.count > titleCharLimit {
-                                dealName = String(newValue.prefix(titleCharLimit))
-                               
-                            }
-                        }
                         .colorScheme(.dark)
                         .padding(.bottom, 10)
                         .font(.title)
@@ -67,7 +57,7 @@ struct PostEditView: View {
                         .multilineTextAlignment(.center)
                 }
                 
-                FromToTimesView(viewModel: viewModel, fromDate: startTime, toDate: endTime)
+                FromToTimesView(fromDate: $startTime, toDate: $endTime)
                     .padding(.bottom, 16)
                     .foregroundColor(.white)
                 Spacer()
@@ -77,17 +67,14 @@ struct PostEditView: View {
                     
                     Toggle("", isOn: $recurring)
                         .labelsHidden()
-                        .onChange(of: recurring) { newValue in
-                            viewModel.currentWorkingDeal.dealAttributes.recurring = recurring
-                        }
                 }
                 .padding(.bottom, 4)
                 if recurring {
-                    DateDropdownView(viewModel: viewModel, daysActive: daysActive)
+                    DateDropdownView(recurringDaysActive: $recurringDaysActive)
                         .foregroundColor(.white)
                 } else {
                     HStack {
-                        DateMultipickerView(viewModel: viewModel, dates: $dates)
+                        DateMultipickerView(dates: $dates)
                     }
                     .padding(.vertical, 14)
                 }
@@ -97,12 +84,6 @@ struct PostEditView: View {
                     .font(.title3)
                 VStack {
                     TextField("Description", text: $description, axis: .vertical)
-                        .onChange(of: description) { newValue in
-                            viewModel.currentWorkingDeal.dealAttributes.description = description
-                            if newValue.count > descriptionCharLimit {
-                                description = String(newValue.prefix(descriptionCharLimit))
-                            }
-                        }
                         .font(.callout)
                         .colorScheme(.dark)
                         .foregroundColor(.white)
@@ -111,6 +92,27 @@ struct PostEditView: View {
                 }
                 HStack {
                     SubmitButton {
+                        viewModel.currentWorkingDeal.dealAttributes.dealName = dealName
+                        viewModel.currentWorkingDeal.dealAttributes.description = description
+                        viewModel.currentWorkingDeal.dealAttributes.recurring = recurring
+                        viewModel.currentWorkingDeal.dealAttributes.startTime = DateUtil().stringFromTime(date: startTime)
+                        viewModel.currentWorkingDeal.dealAttributes.endTime = DateUtil().stringFromTime(date: endTime)
+                        
+                        if (recurring){
+                            viewModel.currentWorkingDeal.dealAttributes.daysActive = recurringDaysActive
+                            // created current date at 12 then converts to backenddate
+                            viewModel.currentWorkingDeal.dealAttributes.startDate = DateUtil().dateToSeconds(date: DateUtil().changeHour(date: Date(), hour: 12))
+                            viewModel.currentWorkingDeal.dealAttributes.endDate = DateUtil().dateToSeconds(date: DateUtil().changeHour(date: Date(), hour: 12))
+                        }
+                        else {
+                            let formatted = DateUtil().dateComponentSetsToDaysActiveArray(dateSet: dates)
+                            if (formatted != nil){
+                                viewModel.currentWorkingDeal.dealAttributes.daysActive = formatted!.daysActive
+                                viewModel.currentWorkingDeal.dealAttributes.startDate = formatted!.start
+                                viewModel.currentWorkingDeal.dealAttributes.endDate = formatted!.end
+                            }
+                        }
+                        
                         invalidDaysActive = !Validate().validateDaysActiveArrayNotEmpty(deal: viewModel.currentWorkingDeal)
                         invalidStartTimeEndTime = !Validate().validateStartTimeBeforeEndTime(deal: viewModel.currentWorkingDeal)
                         isShowingAlert = (invalidDaysActive || invalidStartTimeEndTime)

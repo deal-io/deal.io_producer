@@ -131,7 +131,7 @@ class DateUtil {
     }
     
     
-    func dateComponentSetsToDaysActiveArray(dateSet: Set<DateComponents>, viewModel: ProducerViewModel) -> Void {
+    func dateComponentSetsToDaysActiveArray(dateSet: Set<DateComponents>) -> (daysActive: [Bool], start: BackendDate, end: BackendDate)? {
         
         let calendar = Calendar.current
         
@@ -145,7 +145,7 @@ class DateUtil {
         // Step 1: Find the minimum and maximum dates in the dateArray
         guard let minDate = dateArray.min(), let maxDate = dateArray.max() else {
             print("empty array")
-            return
+            return nil
         }
 
         // Step 2: Calculate the number of days between the minimum and maximum dates
@@ -160,16 +160,14 @@ class DateUtil {
             boolArray[daysFromMin] = true
         }
 
-        viewModel.currentWorkingDeal.dealAttributes.daysActive = boolArray
-        //TODO move a lot of thiss stuff into util
-        
         
         let startTimestamp = Timestamp(date: changeHour(date: minDate, hour: 12))
         let endTimestamp = Timestamp(date: changeHour(date: maxDate, hour: 12))
         
-        viewModel.currentWorkingDeal.dealAttributes.startDate = BackendDate(_seconds: startTimestamp.seconds, _nanoseconds: Int64(startTimestamp.nanoseconds))
+        let startBackendDate = BackendDate(_seconds: startTimestamp.seconds, _nanoseconds: Int64(startTimestamp.nanoseconds))
+        let endBackendDate = BackendDate(_seconds: endTimestamp.seconds, _nanoseconds: Int64(endTimestamp.nanoseconds))
         
-        viewModel.currentWorkingDeal.dealAttributes.endDate = BackendDate(_seconds: endTimestamp.seconds, _nanoseconds: Int64(endTimestamp.nanoseconds))
+        return (boolArray, startBackendDate, endBackendDate)
         
         
     }
