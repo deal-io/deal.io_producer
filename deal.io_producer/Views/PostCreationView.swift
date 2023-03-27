@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct PostCreationView: View {
+    private var LOG_TAG = "LOG: PostCreationView"
     @ObservedObject var viewModel: ProducerViewModel
     @Environment(\.presentationMode) var presentationMode
     
@@ -23,7 +24,6 @@ struct PostCreationView: View {
     
     
     init(viewModel: ProducerViewModel){
-        
         self.viewModel = viewModel
         self._dealName = State(initialValue: "Deal Name")
         self._description = State(initialValue: "Description")
@@ -32,15 +32,18 @@ struct PostCreationView: View {
         self._recurring = State(initialValue: false)
         self._recurringDaysActive = State(initialValue: Array(repeating: false, count: 7))
         self._dates = State(initialValue: Set<DateComponents>())
+        print("\(self.LOG_TAG)")
     }
     
     
     @State var isShowingConfirmation = false
     @State var isShowingAlert = false
     @State var invalidDaysActive = false
+    @State var invalidDates = false
     @State var invalidStartTimeEndTime = false
     @State var selectedWeekdays: Set<String> = []
     @State var toggleDropdown = false
+
     
     var body: some View {
         ScrollView {
@@ -101,65 +104,15 @@ struct PostCreationView: View {
                 HStack {
                 
                     SubmitButton(disabled: $areButtonsDisabled) {
-                        viewModel.currentWorkingDeal.dealAttributes.dealName = dealName
-                        viewModel.currentWorkingDeal.dealAttributes.description = description
-                        viewModel.currentWorkingDeal.dealAttributes.recurring = recurring
-                        viewModel.currentWorkingDeal.dealAttributes.startTime = DateUtil().stringFromTime(date: startTime)
-                        viewModel.currentWorkingDeal.dealAttributes.endTime = DateUtil().stringFromTime(date: endTime)
-                        
-                        if (recurring){
-                            viewModel.currentWorkingDeal.dealAttributes.daysActive = recurringDaysActive
-                            // created current date at 12 then converts to backenddate
-                            viewModel.currentWorkingDeal.dealAttributes.startDate = DateUtil().dateToBackendDate(date: DateUtil().changeHour(date: Date(), hour: 12))
-                            viewModel.currentWorkingDeal.dealAttributes.endDate = DateUtil().dateToBackendDate(date: DateUtil().changeHour(date: Date(), hour: 12))
-                        }
-                        else {
-                            let formatted = DateUtil().dateComponentSetsToDaysActiveArray(dateSet: dates)
-                            if (formatted != nil){
-                                viewModel.currentWorkingDeal.dealAttributes.daysActive = formatted!.daysActive
-                                viewModel.currentWorkingDeal.dealAttributes.startDate = formatted!.start
-                                viewModel.currentWorkingDeal.dealAttributes.endDate = formatted!.end
-                            }
-                        }
-                        
-                        
-                        invalidDaysActive = !Validate().validateDaysActiveArrayNotEmpty(deal: viewModel.currentWorkingDeal)
-                        invalidStartTimeEndTime = !Validate().validateStartTimeBeforeEndTime(deal: viewModel.currentWorkingDeal)
-                        isShowingAlert = (invalidDaysActive || invalidStartTimeEndTime)
-                        isShowingConfirmation = !isShowingAlert
-                        
-                        
-                        
+                        validateAndSetDeal()
                     }
                     .padding(10)
                     .alert(isPresented: $isShowingAlert) {
-                        isShowingConfirmation = false
-                        if invalidDaysActive {
-                            return Alert(title: Text("Invalid Days Active"), message: Text("You've tried to submit a deal without any active days. Please try again."), dismissButton: .default(Text("OK")))
-                        } else if invalidStartTimeEndTime {
-                            return Alert(title: Text("Invalid Start Time and End Time"), message: Text("You've tried to input a deal with a start time of \(viewModel.currentWorkingDeal.dealAttributes.startTime) and an end time of \(viewModel.currentWorkingDeal.dealAttributes.endTime). Please try again."), dismissButton: .default(Text("OK")))
-                        } else {
-                            return Alert(title: Text("Invalid Deal"), message: Text("The deal you've tried to enter is invalid. Please try again."), dismissButton: .default(Text("OK")))
-                        }
+                        return alertPresentation()
                     }
                     .confirmationDialog("Are you sure you want to submit?", isPresented: $isShowingConfirmation, titleVisibility: .visible) {
                         Button("Yes") {
-                            isShowingConfirmation = false
-                            areButtonsDisabled = true
-                            viewModel.postNewDeal() { result in
-                                                switch result {
-                                                case .success:
-                                                    self.presentationMode.wrappedValue.dismiss()
-                                                    viewModel.getDeals()
-
-                                                case .failure(_):
-                                                    // Handle the error...
-                                                    areButtonsDisabled = false // Enable the button
-                                               
-                                                }
-                                            }
-                            
-                            print(viewModel.currentWorkingDeal)
+                            submitDeal()
                         }
                         Button("No") {
                             isShowingConfirmation = false
@@ -175,4 +128,75 @@ struct PostCreationView: View {
     }
         
     
+}
+
+extension PostCreationView {
+    private func validateAndSetDeal() {
+        invalidDaysActive = false
+        invalidStartTimeEndTime = false
+        invalidDates = false
+        
+        viewModel.currentWorkingDeal.dealAttributes.dealName = dealName
+        viewModel.currentWorkingDeal.dealAttributes.description = description
+        viewModel.currentWorkingDeal.dealAttributes.recurring = recurring
+        viewModel.currentWorkingDeal.dealAttributes.startTime = DateUtil().stringFromTime(date: startTime)
+        viewModel.currentWorkingDeal.dealAttributes.endTime = DateUtil().stringFromTime(date: endTime)
+        
+       
+        if (recurring){
+            viewModel.currentWorkingDeal.dealAttributes.daysActive = recurringDaysActive
+            // created current date at 12 then converts to backenddate
+            viewModel.currentWorkingDeal.dealAttributes.startDate = DateUtil().dateToBackendDate(date: DateUtil().changeHour(date: Date(), hour: 12))
+            viewModel.currentWorkingDeal.dealAttributes.endDate = DateUtil().dateToBackendDate(date: DateUtil().changeHour(date: Date(), hour: 12))
+        }
+        else {
+            let formatted = DateUtil().dateComponentSetsToDaysActiveArray(dateSet: dates)
+            if (formatted != nil){
+                viewModel.currentWorkingDeal.dealAttributes.daysActive = formatted!.daysActive
+                viewModel.currentWorkingDeal.dealAttributes.startDate = formatted!.start
+                viewModel.currentWorkingDeal.dealAttributes.endDate = formatted!.end
+            }
+            else {
+                invalidDates = true
+            }
+        }
+        
+        print(invalidDates)
+        
+        invalidDaysActive = !Validate().validateDaysActiveArrayNotEmpty(deal: viewModel.currentWorkingDeal)
+        invalidStartTimeEndTime = !Validate().validateStartTimeBeforeEndTime(deal: viewModel.currentWorkingDeal)
+        isShowingAlert = (invalidDaysActive || invalidStartTimeEndTime || invalidDates)
+        isShowingConfirmation = !isShowingAlert
+    }
+    
+    private func alertPresentation() -> Alert {
+        isShowingConfirmation = false
+        if invalidDaysActive || invalidDates {
+            return Alert(title: Text("Invalid Days Active"), message: Text("You've tried to submit a deal without any active days. Please try again."), dismissButton: .default(Text("OK")))
+        } else if invalidStartTimeEndTime {
+            return Alert(title: Text("Invalid Start Time and End Time"), message: Text("You've tried to input a deal with a start time of \(viewModel.currentWorkingDeal.dealAttributes.startTime) and an end time of \(viewModel.currentWorkingDeal.dealAttributes.endTime). Please try again."), dismissButton: .default(Text("OK")))
+        } else {
+            return Alert(title: Text("Invalid Deal"), message: Text("The deal you've tried to enter is invalid. Please try again."), dismissButton: .default(Text("OK")))
+        }
+    }
+    
+    
+    private func submitDeal() {
+        isShowingConfirmation = false
+        areButtonsDisabled = true
+        viewModel.postNewDeal() { result in
+            switch result {
+            case .success:
+                self.presentationMode.wrappedValue.dismiss()
+                viewModel.getDeals()
+                
+            case .failure(_):
+                // Handle the error...
+                areButtonsDisabled = false // Enable the button
+                
+            }
+        }
+        
+        print(viewModel.currentWorkingDeal)
+    }
 }

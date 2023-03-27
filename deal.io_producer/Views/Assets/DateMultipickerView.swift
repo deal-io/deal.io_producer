@@ -10,12 +10,21 @@ import Firebase
 
 struct DateMultipickerView: View {
     @Binding var dates: Set<DateComponents>
-    
+
     var body: some View {
         MultiDatePicker("", selection: $dates)
             .padding(.horizontal, 20)
             .labelsHidden()
             .colorScheme(.dark)
             .foregroundColor(.white)
+            .onChange(of: dates) { newValue in
+                print(dates)
+                print("\("LOG: Multipicker")")
+            }
+            
     }
 }
+
+
+
+

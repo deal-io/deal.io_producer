@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct HourView: View {
-    let LOG_TAG = "HOUR_VIEW: "
+    let LOG_TAG = "LOG: HourView "
     
     var deal: Deal
     var active: Bool
