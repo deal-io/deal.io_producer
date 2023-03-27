@@ -78,6 +78,7 @@ struct EmailTextField: View {
     var body: some View {
         TextField("Email", text: $email)
             .autocapitalization(.none)
+            .keyboardType(.emailAddress)
             .disableAutocorrection(true)
             .multilineTextAlignment(.center)
             .background()
