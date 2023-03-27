@@ -14,7 +14,7 @@ struct ContentView: View {
         ZStack {
             Color.gray.edgesIgnoringSafeArea(.all)
               VStack {
-                  if (authState.isLoggedIn && authState.userInfoLoaded == true) {
+                  if (authState.isLoggedIn && authState.userInfoLoaded) {
                       HomeView(viewModel: ProducerViewModel(restaurant: authState.restaurant!), authState: authState)
                   } else {
                       LoginView(authState: authState)

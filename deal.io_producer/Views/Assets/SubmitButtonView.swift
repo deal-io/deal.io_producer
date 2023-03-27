@@ -9,7 +9,10 @@ import Foundation
 import SwiftUI
 
 struct SubmitButton: View {
+    @Binding var disabled: Bool
     @State var action: () -> Void = {}
+    
+    
 
     var body: some View {
         Button(action: {
@@ -17,12 +20,13 @@ struct SubmitButton: View {
         }) {
             ZStack {
                 RoundedRectangle(cornerRadius: 10)
-                    .fill(Color.blue)
+                    .fill(disabled ? Color.gray : Color.blue)
                     .frame(width: 160, height: 80)
                 Text("Submit")
                     .font(.title)
                     .foregroundColor(.white)
             }
         }
+        .disabled(disabled)
     }
 }

@@ -15,20 +15,25 @@ import Firebase
  but it wouldn't work
  */
 struct LoginView: View {
+    @ObservedObject var authState: AuthState
+    
+    
     private var LOG_TAG = "LOG: LoginView "
-    @ObservedObject private var authState: AuthState
-    @State private var email = ""
-    @State private var password = ""
-    @State private var user = User(id: "", restaurants: [""])
-    @State private var restaurant = Restaurant(id: "", name: "", location: "")
-    @State private var isLoggedIn = false
-    @State private var errorMessage = ""
-    @State private var showHowToGetLoginInfo = false
-
-    init(authState: AuthState) {
+    
+    
+    @State private var errorMessage: String = ""
+    @State private var email: String = ""
+    @State private var password: String = ""
+    @State private var isLoggedIn: Bool = false
+    @State private var showHowToGetLoginInfo: Bool = false
+    @State private var showLoginError: Bool = false
+    
+    init(authState: AuthState){
         self.authState = authState
-        print("\(self.LOG_TAG) Init")
+        print("\(self.LOG_TAG)")
     }
+ 
+
     
     var body: some View {
         VStack {

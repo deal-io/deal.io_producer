@@ -21,77 +21,18 @@ extension Date {
 class DateUtil {
     
     func secondsToDate(seconds: Int64, nanoseconds: Int64) -> Date {
-        let timeInterval = TimeInterval(seconds + (nanoseconds / 1_000_000_000))
-        return Date(timeIntervalSinceReferenceDate: timeInterval)
+        let timeStamp = Timestamp(seconds: seconds, nanoseconds: Int32(nanoseconds))
+        
+        return timeStamp.dateValue()
     }
     
-    func dateToSeconds(date: Date) -> BackendDate {
-        let seconds = Int64(date.timeIntervalSince1970)
-        let nanoseconds = Int64((date.timeIntervalSince1970 * 1_000_000_000).truncatingRemainder(dividingBy: 1_000_000_000))
-        return BackendDate(_seconds: seconds, _nanoseconds: nanoseconds)
-    }
-    
-    func dateToCalendarComponents(date: Date) -> DateComponents {
-        return Calendar.current.dateComponents([.day, .year, .month], from: date)
-    }
-    
-    func getHourDifference(inputHour: String) -> Int {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "h:mm a"
-        
-        let currentHour = formatter.string(from: Date())
-        
-        guard let currentHourDate = formatter.date(from: currentHour),
-              let inputHourDate = formatter.date(from: inputHour) else {
-            return 0
-        }
-        
-        let calendar = Calendar.current
-        let hourDifference = calendar.dateComponents([.hour], from: currentHourDate, to: inputHourDate).hour!
-        
-        return hourDifference
-    }
-    
-    func getFirstActiveWeekday(daysActive: [Bool]) -> String? {
-        var index = 0
-        
-        repeat {
-            if daysActive[index] {
-                return self.todaysDict[index]
-            }
-            index = (index + 1) % 7
-        } while true
-        
-        return nil
-    }
-    
-    func formattedHourComponentFromDate(date: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "en_US_POSIX")
-        formatter.dateFormat = "h a"
-        formatter.amSymbol = "AM"
-        formatter.pmSymbol = "PM"
-        return formatter.string(from: date)
-    }
-    
-    var todaysDict: Dictionary<Int, String> {
-        let calendar = Calendar.current
-        let today = Date()
-        let weekday = calendar.component(.weekday, from: today)
+    func dateToBackendDate(date: Date) -> BackendDate {
+        let timestamp = Timestamp(date: date)
 
-        let weekdays = ["Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"]
-
-        var dayOfWeekDict = [Int: String]()
-
-        for i in 0...6 {
-            let offset = i - (weekday - 1)
-            let date = calendar.date(byAdding: .day, value: offset, to: today)!
-            let dayOfWeekString = weekdays[(calendar.component(.weekday, from: date) - 1) % 7]
-            dayOfWeekDict[i] = dayOfWeekString
-        }
         
-        return dayOfWeekDict
+        return BackendDate(_seconds: timestamp.seconds, _nanoseconds: Int64(timestamp.nanoseconds))
     }
+    
 
     func changeHour(date: Date, hour: Int) -> Date {
        
@@ -103,6 +44,23 @@ class DateUtil {
         return newDate
     }
     
+    func isBeforeDate(first: Date, second: Date) -> Bool {
+        let calendar = Calendar.current
+    
+        
+        // Extract the date components for the first and second dates
+        let firstComponents = calendar.dateComponents([.year, .month, .day], from: first)
+        let secondComponents = calendar.dateComponents([.year, .month, .day], from: second)
+        
+        // Use the `date(from:)` method to create new `Date` instances with the date components
+        let firstDate = calendar.date(from: firstComponents)!
+        let secondDate = calendar.date(from: secondComponents)!
+
+        return firstDate <= secondDate
+    }
+  
+
+    
     func timeFromString(dateString: String) -> Date? {
         
         let dateFormatter = DateFormatter()
@@ -111,7 +69,7 @@ class DateUtil {
 
         if let date = date {
             let calendar = Calendar.current
-            var components = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: date)
+            let components = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: date)
             let updatedDate = calendar.date(from: components)
             return updatedDate
         }
@@ -122,16 +80,13 @@ class DateUtil {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "h:mm a"
 
-        let hour = Calendar.current.component(.hour, from: date)
-        let minute = Calendar.current.component(.minute, from: date)
-
         let formattedHour = dateFormatter.string(from: date)
         
         return formattedHour
     }
     
     
-    func dateComponentSetsToDaysActiveArray(dateSet: Set<DateComponents>, viewModel: ProducerViewModel) -> Void {
+    func dateComponentSetsToDaysActiveArray(dateSet: Set<DateComponents>) -> (daysActive: [Bool], start: BackendDate, end: BackendDate)? {
         
         let calendar = Calendar.current
         
@@ -145,7 +100,7 @@ class DateUtil {
         // Step 1: Find the minimum and maximum dates in the dateArray
         guard let minDate = dateArray.min(), let maxDate = dateArray.max() else {
             print("empty array")
-            return
+            return nil
         }
 
         // Step 2: Calculate the number of days between the minimum and maximum dates
@@ -160,16 +115,11 @@ class DateUtil {
             boolArray[daysFromMin] = true
         }
 
-        viewModel.currentWorkingDeal.dealAttributes.daysActive = boolArray
-        //TODO move a lot of thiss stuff into util
         
+        let startBackendDate = self.dateToBackendDate(date: changeHour(date: minDate, hour: 12))
+        let endBackendDate = self.dateToBackendDate(date: changeHour(date: maxDate, hour: 12))
         
-        let startTimestamp = Timestamp(date: changeHour(date: minDate, hour: 12))
-        let endTimestamp = Timestamp(date: changeHour(date: maxDate, hour: 12))
-        
-        viewModel.currentWorkingDeal.dealAttributes.startDate = BackendDate(_seconds: startTimestamp.seconds, _nanoseconds: Int64(startTimestamp.nanoseconds))
-        
-        viewModel.currentWorkingDeal.dealAttributes.endDate = BackendDate(_seconds: endTimestamp.seconds, _nanoseconds: Int64(endTimestamp.nanoseconds))
+        return (boolArray, startBackendDate, endBackendDate)
         
         
     }
@@ -193,15 +143,5 @@ class DateUtil {
             return activeDateComponents
         }
 
-    
-    func weekdaysFromDaysActiveArray(daysActive: [Bool]) -> Set<String> {
-        var activeDays: Set<String> = []
-        for (index, isActive) in daysActive.enumerated() {
-            if isActive, let weekday = todaysDict[index] {
-                activeDays.insert(weekday)
-            }
-        }
-        return activeDays
-    }
     
 }
