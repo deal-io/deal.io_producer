@@ -8,15 +8,25 @@
 import SwiftUI
 
 struct DeleteButton: View {
+    @Binding var disabled: Bool
+    @State var action: () -> Void = {}
+    
+    
+
     var body: some View {
-        ZStack {
-            RoundedRectangle(cornerRadius: 10)
-                .fill(Color.red)
-                .frame(width: 160, height: 80)
-            Text("Delete")
-                .font(.title)
-                .foregroundColor(.white)
+        Button(action: {
+            action()
+        }) {
+            ZStack {
+                RoundedRectangle(cornerRadius: 10)
+                    .fill(disabled ? Color.gray : Color.red)
+                    .frame(width: 160, height: 80)
+                Text("Delete")
+                    .font(.title)
+                    .foregroundColor(.white)
+            }
         }
+        .disabled(disabled)
     }
 }
 

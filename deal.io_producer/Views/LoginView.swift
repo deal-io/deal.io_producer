@@ -15,20 +15,25 @@ import Firebase
  but it wouldn't work
  */
 struct LoginView: View {
+    @ObservedObject var authState: AuthState
+    
+    
     private var LOG_TAG = "LOG: LoginView "
-    @ObservedObject private var authState: AuthState
-    @State private var email = ""
-    @State private var password = ""
-    @State private var user = User(id: "", restaurants: [""])
-    @State private var restaurant = Restaurant(id: "", name: "", location: "")
-    @State private var isLoggedIn = false
-    @State private var errorMessage = ""
-    @State private var showHowToGetLoginInfo = false
-
-    init(authState: AuthState) {
+    
+    
+    @State private var errorMessage: String = ""
+    @State private var email: String = ""
+    @State private var password: String = ""
+    @State private var isLoggedIn: Bool = false
+    @State private var showHowToGetLoginInfo: Bool = false
+    @State private var showLoginError: Bool = false
+    
+    init(authState: AuthState){
         self.authState = authState
-        print("\(self.LOG_TAG) Init")
+        print("\(self.LOG_TAG)")
     }
+ 
+
     
     var body: some View {
         VStack {
@@ -51,28 +56,26 @@ struct LoginView: View {
             PasswordTextField(password: $password)
                 .padding(.bottom, 10)
             Spacer()
-            SubmitButton{Auth.auth().signIn(withEmail: email, password: password) { result, error in
-                if let error = error {
-                    // Handle login error
-                    errorMessage = "Invalid Email or Password, try again."
-                } else {
-                    // Login successful
-                    authState.isLoggedIn = true
-                }
-            }}
+            LoginButton(authState: authState, email: $email, password: $password, onError: { error in
+                showLoginError = true
+               })
+            .alert(isPresented: $showLoginError) {
+                Alert(title: Text("Login Error"), message: Text("Invalid Email or Password. Try Again."), dismissButton: .default(Text("OK")))
+            }
             Spacer()
             Button("How do I get a login?") {
                 showHowToGetLoginInfo = true
+               
             }
             .alert(isPresented: $showHowToGetLoginInfo) {
                 Alert(title: Text("How do I get a login?"), message: Text("Please email deal.io.help@gmail.com to recieve your login information."), dismissButton: .default(Text("OK")))
             }
+            
 
         }
         .padding(.horizontal, 20)
-        .alert(isPresented: Binding<Bool>(get: { errorMessage != "" }, set: { _ in errorMessage = "" }), content: {
-            Alert(title: Text("Error"), message: Text(errorMessage), dismissButton: .default(Text("OK")))
-        })
+       
+        
         .edgesIgnoringSafeArea(.all)
 
         }

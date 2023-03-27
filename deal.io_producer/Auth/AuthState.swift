@@ -74,16 +74,16 @@ class AuthState: ObservableObject {
         }
     }
     
-    func login(email: String, password: String) -> String? {
-        do {
-            // Attempt to authenticate the user with Firebase
-            try Auth.auth().signIn(withEmail: email, password: password)
-            // If authentication succeeds, set isLoggedIn to true and return nil
-            self.isLoggedIn = true
-            return nil
-        } catch {
-            // If authentication fails, return an error message
-            return "Invalid email or password."
+    func login(email: String, password: String, completion: @escaping (Error?) -> Void) {
+        Auth.auth().signIn(withEmail: email, password: password) { result, error in
+            if let error = error {
+                // Handle login error
+                completion(error)
+            } else {
+                // Login successful
+                self.isLoggedIn = true
+                completion(nil)
+            }
         }
     }
 
