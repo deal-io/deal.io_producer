@@ -10,9 +10,10 @@ import SwiftUI
 struct HomeView: View {
     private var LOG_TAG = "LOG: HomeView "
     @ObservedObject var viewModel: ProducerViewModel
-    @ObservedObject private var authState: AuthState
+    @ObservedObject var authState: AuthState
     
     @State var newDealToggle = false
+    @State var profileToggle = false
     
     init(viewModel: ProducerViewModel, authState: AuthState) {
         self.viewModel = viewModel
@@ -23,11 +24,21 @@ struct HomeView: View {
     
     var body: some View {
         VStack {
-            Image("dealio_white_on_bg")
-                .resizable()
-                .frame(width: 100, height: 50)
-                .padding(.vertical, 10)
-                .padding(.horizontal, 150)
+            ZStack {
+                Image("dealio_white_on_bg")
+                    .resizable()
+                    .frame(width: 150, height: 65)
+                    .padding(.vertical, 10)
+                    .padding(.horizontal, 150)
+                ProfileButtonView()
+                    .padding(.leading, 290)
+                    .onTapGesture {
+                        profileToggle = true
+                    }
+                    .sheet(isPresented: $profileToggle) {
+                        ProfileView(viewModel: viewModel, authState: authState)
+                    }
+            }
             FeedView(viewModel: viewModel)
             Spacer()
             PlusButtonView()
@@ -40,17 +51,6 @@ struct HomeView: View {
                         .background(Deal_ioColor.background)
                 }
                 .padding(.vertical, 10)
-            Button(action: {
-                // Call the logout function here
-                authState.logout()
-            }) {
-                Text("Logout")
-                    .frame(maxWidth: .infinity)
-                    .padding()
-                    .background(Color.blue)
-                    .foregroundColor(.white)
-                    .cornerRadius(10)
-            }
         }
     }
 }
