@@ -10,6 +10,7 @@ import SwiftUI
 struct Deal_ioColor {
     
     static let background = Color(red: 30/255, green: 30/255, blue: 30/255)
+    static let onBackground = Color(red: 50/255, green: 50/255, blue: 50/255)
     static let accent = Color(red: 26/255, green: 26/255, blue: 26/255)
     static let oneHourColor = Color.red
     static let twoHourColor = Color.yellow
