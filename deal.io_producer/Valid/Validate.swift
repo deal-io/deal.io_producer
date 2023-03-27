@@ -10,6 +10,8 @@ import Foundation
 class Validate {
     let LOG_TAG = "LOG: Validate"
     
+    
+    
     func validateStartTimeBeforeEndTime(deal: Deal) -> Bool {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "h:mm a"

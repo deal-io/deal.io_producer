@@ -138,7 +138,7 @@ class DateUtil {
             }
             
             // Step 2: Create a set of date components from the active dates
-            let activeDateComponents = Set(activeDates.map { calendar.dateComponents([.year, .month, .day], from: $0) })
+        let activeDateComponents = Set(activeDates.map { calendar.dateComponents([.calendar, .era, .year, .month, .day], from: $0) })
             
             return activeDateComponents
         }

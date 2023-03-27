@@ -16,6 +16,7 @@ class AuthState: ObservableObject {
     @Published var userInfoLoaded = false
     @Published var user: User? = nil
     @Published var restaurant: Restaurant? = nil
+    @Published var email: String = ""
     var mDealService = DealService()
 
     init() {
@@ -28,12 +29,14 @@ class AuthState: ObservableObject {
                     print("\(self.LOG_TAG) Successful Login")
                     self.isLoggedIn = true
                     self.getUser(userUID: user.uid)
+                    self.email = user.email!
                     
                 } else {
                     // User is not signed in
                     self.isLoggedIn = false
                     self.user = nil
                     self.restaurant = nil
+                    self.email = ""
                 }
             }
         
@@ -81,6 +84,7 @@ class AuthState: ObservableObject {
                 completion(error)
             } else {
                 // Login successful
+                self.email = (result?.user.email)!
                 self.isLoggedIn = true
                 completion(nil)
             }
@@ -95,6 +99,7 @@ class AuthState: ObservableObject {
             self.userInfoLoaded = false
             self.user = nil
             self.restaurant = nil
+            self.email = ""
         } catch let signOutError as NSError {
             print("Error signing out: %@", signOutError)
         }

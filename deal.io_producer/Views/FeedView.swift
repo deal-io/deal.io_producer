@@ -8,10 +8,12 @@
 import SwiftUI
 
 struct FeedView: View {
+    private var LOG_TAG = "LOG: FeedView"
     @ObservedObject var viewModel: ProducerViewModel
     
     init(viewModel: ProducerViewModel) {
         self.viewModel = viewModel
+        print("\(self.LOG_TAG)")
     }
     
     var body: some View {

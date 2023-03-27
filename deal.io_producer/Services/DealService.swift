@@ -9,7 +9,7 @@ import Foundation
 
 class DealService {
     private let apiUrl = "https://dealio-backend-production.web.app"
-    private let LOG_TAG = "DEAL_SERVICE"
+    private let LOG_TAG = "LOG: DealService"
     
     
     func fetchDeals(completion: @escaping (Result<[Deal], Error>) -> Void) {
