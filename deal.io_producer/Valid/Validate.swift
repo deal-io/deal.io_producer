@@ -36,4 +36,23 @@ class Validate {
         }
         return false
     }
+    
+    func isDealNameInvalid(name: String) -> Bool {
+        if name.count > 25 || name.contains("\n") || name.count == 0 {
+            return true
+        }
+        return false
+    }
+
+    func isDescriptionInvalid(description: String) -> Bool {
+        let maxLines = 5
+        let lines = description.split(separator: "\n")
+        if lines.count > maxLines {
+            return true
+        }
+        if description.count > 250 || description.count == 0 {
+            return true
+        }
+        return false
+    }
 }
