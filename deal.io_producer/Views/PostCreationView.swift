@@ -107,8 +107,8 @@ struct PostCreationView: View {
                         if (recurring){
                             viewModel.currentWorkingDeal.dealAttributes.daysActive = recurringDaysActive
                             // created current date at 12 then converts to backenddate
-                            viewModel.currentWorkingDeal.dealAttributes.startDate = DateUtil().dateToSeconds(date: DateUtil().changeHour(date: Date(), hour: 12))
-                            viewModel.currentWorkingDeal.dealAttributes.endDate = DateUtil().dateToSeconds(date: DateUtil().changeHour(date: Date(), hour: 12))
+                            viewModel.currentWorkingDeal.dealAttributes.startDate = DateUtil().dateToBackendDate(date: DateUtil().changeHour(date: Date(), hour: 12))
+                            viewModel.currentWorkingDeal.dealAttributes.endDate = DateUtil().dateToBackendDate(date: DateUtil().changeHour(date: Date(), hour: 12))
                         }
                         else {
                             let formatted = DateUtil().dateComponentSetsToDaysActiveArray(dateSet: dates)

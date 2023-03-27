@@ -32,7 +32,7 @@ struct DealView: View {
                         .foregroundColor(.white)
                         .padding(.leading, 35)
                     Spacer()
-                    HourView(viewModel: viewModel, deal: deal)
+                    HourView(deal: deal)
                         .padding(.trailing, 35)
                 }
                 Spacer()
