@@ -17,6 +17,8 @@
 		AD00905129A59EE200FDB1D3 /* ProducerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD00905029A59EE200FDB1D3 /* ProducerViewModel.swift */; };
 		AD76781C29CFC358008728BB /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD76781B29CFC358008728BB /* User.swift */; };
 		AD76781F29D0E500008728BB /* Validate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD76781E29D0E500008728BB /* Validate.swift */; };
+		AD76782729D1DD2E008728BB /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD76782629D1DD2D008728BB /* ProfileView.swift */; };
+		AD76782929D1DD70008728BB /* ProfileButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD76782829D1DD70008728BB /* ProfileButtonView.swift */; };
 		ADA633B729B1CA8D0032EF44 /* PlusButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA633B629B1CA8D0032EF44 /* PlusButtonView.swift */; };
 		ADA633B929B288450032EF44 /* WeekdayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA633B829B288450032EF44 /* WeekdayView.swift */; };
 		ADA633BB29B2941C0032EF44 /* DateContractedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA633BA29B2941C0032EF44 /* DateContractedView.swift */; };
@@ -85,6 +87,8 @@
 		AD76781929CF7BF7008728BB /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		AD76781B29CFC358008728BB /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		AD76781E29D0E500008728BB /* Validate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Validate.swift; sourceTree = "<group>"; };
+		AD76782629D1DD2D008728BB /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		AD76782829D1DD70008728BB /* ProfileButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileButtonView.swift; sourceTree = "<group>"; };
 		ADA633B629B1CA8D0032EF44 /* PlusButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusButtonView.swift; sourceTree = "<group>"; };
 		ADA633B829B288450032EF44 /* WeekdayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekdayView.swift; sourceTree = "<group>"; };
 		ADA633BA29B2941C0032EF44 /* DateContractedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateContractedView.swift; sourceTree = "<group>"; };
@@ -201,6 +205,7 @@
 				ADF687AF29AFD60500E86022 /* PostEditView.swift */,
 				ADF687EC29AFF44F00E86022 /* FeedView.swift */,
 				ADF687EE29AFF46600E86022 /* DealView.swift */,
+				AD76782629D1DD2D008728BB /* ProfileView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -256,6 +261,7 @@
 				ADA633C629B2FD2B0032EF44 /* HourView.swift */,
 				FBF03C0E29C3E08B0088FA35 /* DateMultipickerView.swift */,
 				FB94B94F29D0CE1F0095E9F0 /* SubmitButtonView.swift */,
+				AD76782829D1DD70008728BB /* ProfileButtonView.swift */,
 			);
 			path = Assets;
 			sourceTree = "<group>";
@@ -429,8 +435,10 @@
 				ADF687FF29B0796000E86022 /* DateDropdownView.swift in Sources */,
 				ADF687B229AFD61F00E86022 /* LoginViewModel.swift in Sources */,
 				ADF687ED29AFF44F00E86022 /* FeedView.swift in Sources */,
+				AD76782729D1DD2E008728BB /* ProfileView.swift in Sources */,
 				ADF687EF29AFF46600E86022 /* DealView.swift in Sources */,
 				ADF687B029AFD60500E86022 /* PostEditView.swift in Sources */,
+				AD76782929D1DD70008728BB /* ProfileButtonView.swift in Sources */,
 				AD00904B29A59E8F00FDB1D3 /* LoginView.swift in Sources */,
 				FB94B95029D0CE1F0095E9F0 /* SubmitButtonView.swift in Sources */,
 				ADA633DC29BA864D0032EF44 /* DateUtil.swift in Sources */,
