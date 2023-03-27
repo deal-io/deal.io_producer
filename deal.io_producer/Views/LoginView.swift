@@ -56,7 +56,7 @@ struct LoginView: View {
             PasswordTextField(password: $password)
                 .padding(.bottom, 10)
             Spacer()
-            SubmitButton { Auth.auth().signIn(withEmail: email, password: password) { result, error in
+            SubmitButton(disabled: Binding<Bool>(get: { errorMessage != "" }, set: { _ in errorMessage = "" })) { Auth.auth().signIn(withEmail: email, password: password) { result, error in
                 if let error = error {
                     // Handle login error
                     errorMessage = "Invalid Email or Password, try again."
