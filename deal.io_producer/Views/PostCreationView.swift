@@ -40,6 +40,8 @@ struct PostCreationView: View {
     @State var isShowingAlert = false
     @State var invalidDaysActive = false
     @State var invalidDates = false
+    @State var invalidDealname = false
+    @State var invalidDescription = false
     @State var invalidStartTimeEndTime = false
     @State var selectedWeekdays: Set<String> = []
     @State var toggleDropdown = false
@@ -67,6 +69,27 @@ struct PostCreationView: View {
                 FromToTimesView(fromDate: $startTime, toDate: $endTime)
                     .padding(.bottom, 16)
                     .foregroundColor(.white)
+                
+                Text("Enter Description:")
+                    .foregroundColor(.white)
+                    .padding(.top, 8)
+                    .font(.title3)
+                
+                
+                VStack {
+                    TextField("Description", text: $description, axis: .vertical)
+                    .font(.callout)
+                    .colorScheme(.dark)
+                    .foregroundColor(.white)
+                    .multilineTextAlignment(.center)
+                    .padding(10)
+                }   .gesture(
+                    TapGesture()
+                        .onEnded { _ in
+                            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+                        }
+                )
+               
                 Spacer()
                 HStack {
                     Text("Toggle Recurring")
@@ -85,20 +108,6 @@ struct PostCreationView: View {
                         DateMultipickerView(dates: $dates)
                     }
                     .padding(.vertical, 14)
-                }
-                Text("Enter Description:")
-                    .foregroundColor(.white)
-                    .padding(.top, 8)
-                    .font(.title3)
-                
-                
-                VStack {
-                    TextField("Description", text: $description, axis: .vertical)
-                        .font(.callout)
-                        .colorScheme(.dark)
-                        .foregroundColor(.white)
-                        .multilineTextAlignment(.center)
-                        .padding(10)
                 }
                 
                 HStack {
@@ -125,6 +134,7 @@ struct PostCreationView: View {
             .background(Deal_ioColor.background)
             
         }
+     
     }
         
     
@@ -135,6 +145,8 @@ extension PostCreationView {
         invalidDaysActive = false
         invalidStartTimeEndTime = false
         invalidDates = false
+        invalidDealname = false
+        invalidDescription = false
         
         viewModel.currentWorkingDeal.dealAttributes.dealName = dealName
         viewModel.currentWorkingDeal.dealAttributes.description = description
@@ -161,21 +173,30 @@ extension PostCreationView {
             }
         }
         
-        print(invalidDates)
-        
+        invalidDescription = Validate().isDescriptionInvalid(description: description)
+        invalidDealname = Validate().isDealNameInvalid(name: dealName)
         invalidDaysActive = !Validate().validateDaysActiveArrayNotEmpty(deal: viewModel.currentWorkingDeal)
         invalidStartTimeEndTime = !Validate().validateStartTimeBeforeEndTime(deal: viewModel.currentWorkingDeal)
-        isShowingAlert = (invalidDaysActive || invalidStartTimeEndTime || invalidDates)
+        isShowingAlert = (invalidDaysActive || invalidStartTimeEndTime || invalidDates || invalidDealname || invalidDescription)
         isShowingConfirmation = !isShowingAlert
     }
     
     private func alertPresentation() -> Alert {
         isShowingConfirmation = false
-        if invalidDaysActive || invalidDates {
-            return Alert(title: Text("Invalid Days Active"), message: Text("You've tried to submit a deal without any active days. Please try again."), dismissButton: .default(Text("OK")))
-        } else if invalidStartTimeEndTime {
+        if invalidDealname  {
+            return Alert(title: Text("Invalid Deal Title"), message: Text("You've tried to submit a deal with a title that has exceeded max length. Please try again."), dismissButton: .default(Text("OK")))
+        }
+        else if invalidStartTimeEndTime {
             return Alert(title: Text("Invalid Start Time and End Time"), message: Text("You've tried to input a deal with a start time of \(viewModel.currentWorkingDeal.dealAttributes.startTime) and an end time of \(viewModel.currentWorkingDeal.dealAttributes.endTime). Please try again."), dismissButton: .default(Text("OK")))
-        } else {
+        }
+        
+        else if invalidDescription  {
+            return Alert(title: Text("Invalid Deal Description"), message: Text("You've tried to submit a deal with a description that has exceeded max length. Please try again."), dismissButton: .default(Text("OK")))
+        }
+        else if invalidDaysActive || invalidDates {
+            return Alert(title: Text("Invalid Days Active"), message: Text("You've tried to submit a deal without any active days. Please try again."), dismissButton: .default(Text("OK")))
+        }
+        else {
             return Alert(title: Text("Invalid Deal"), message: Text("The deal you've tried to enter is invalid. Please try again."), dismissButton: .default(Text("OK")))
         }
     }
