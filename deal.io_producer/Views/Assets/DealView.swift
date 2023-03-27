@@ -16,9 +16,13 @@ struct DealView: View {
         self.viewModel = viewModel
         self._deal = State(initialValue: deal)
     }
-
+    
     var body: some View {
-            VStack{
+        Button(action: {
+            self.viewModel.currentWorkingDeal = deal
+            editDealToggle = true
+        }) {
+            VStack {
                 Spacer()
                 Text(deal.dealAttributes.dealName)
                     .font(.title)
@@ -37,16 +41,21 @@ struct DealView: View {
                 }
                 Spacer()
             }
-            .onTapGesture {
-                self.viewModel.currentWorkingDeal = deal
-                editDealToggle = true
-            }  .sheet(isPresented: $editDealToggle) {
-                PostEditView(viewModel: viewModel)
-                    .background(Deal_ioColor.background)
-            }
-            .padding(.top, 10)
-            Spacer()
+            .padding(.vertical, 10)
+            .frame(width: UIScreen.main.bounds.width * 0.9, height: UIScreen.main.bounds.height * 0.2)
+            .background(
+                RoundedRectangle(cornerRadius: 30)
+                    .fill(Deal_ioColor.onBackground)
+                    .shadow(radius: 5)
+            )
         }
+        .sheet(isPresented: $editDealToggle) {
+            PostEditView(viewModel: viewModel)
+                .background(Deal_ioColor.background)
+        }
+
     }
+}
+
 
 
