@@ -12,7 +12,7 @@ struct ContentView: View {
 
     var body: some View {
         ZStack {
-            Color.gray.edgesIgnoringSafeArea(.all)
+            Deal_ioColor.background.edgesIgnoringSafeArea(.all)
               VStack {
                   if (authState.isLoggedIn && authState.userInfoLoaded) {
                       HomeView(viewModel: ProducerViewModel(restaurant: authState.restaurant!), authState: authState)
