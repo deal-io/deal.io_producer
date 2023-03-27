@@ -37,6 +37,7 @@ struct PostEditView: View {
     @State var selectedWeekdays: Set<String> = []
     @State var toggleDropdown = false
     @State var isDeletingConfirmation = false
+    @State var areButtonsDisabled = false
     
     var body: some View {
         ScrollView {
@@ -91,7 +92,7 @@ struct PostEditView: View {
                         .padding(10)
                 }
                 HStack {
-                    SubmitButton {
+                    SubmitButton(disabled: $areButtonsDisabled) {
                         viewModel.currentWorkingDeal.dealAttributes.dealName = dealName
                         viewModel.currentWorkingDeal.dealAttributes.description = description
                         viewModel.currentWorkingDeal.dealAttributes.recurring = recurring
@@ -132,25 +133,50 @@ struct PostEditView: View {
                     .confirmationDialog("Are you sure you want to submit?", isPresented: $isShowingConfirmation, titleVisibility: .visible) {
                         Button("Yes") {
                             isShowingConfirmation = false
-                            viewModel.updateDeal()
+                            areButtonsDisabled = true
+                            viewModel.updateDeal() { result in
+                                                switch result {
+                                                case .success:
+                                                    self.presentationMode.wrappedValue.dismiss()
+                                                    viewModel.getDeals()
+
+                                                case .failure(_):
+                                                    // Handle the error...
+                                                    areButtonsDisabled = false // Enable the button
+                                               
+                                                }
+                                            }
+                            
                             print(viewModel.currentWorkingDeal)
-                            self.presentationMode.wrappedValue.dismiss()
+                            
                         }
                         Button("No") {
                             isShowingConfirmation = false
                         }
                     }
-                    DeleteButton()
+                    DeleteButton(disabled: $areButtonsDisabled, action: {
+                        isDeletingConfirmation.toggle()
+                    })
                         .padding(10)
-                        .onTapGesture{
-                            isDeletingConfirmation.toggle()
-                        }
+                        
                         .confirmationDialog("Are you sure you want to delete?", isPresented: $isDeletingConfirmation, titleVisibility: .visible) {
                             Button("Yes") {
                                 isDeletingConfirmation = false
-                                viewModel.deleteDeal()
+                                areButtonsDisabled = true
+                                viewModel.deleteDeal() { result in
+                                                    switch result {
+                                                    case .success:
+                                                        self.presentationMode.wrappedValue.dismiss()
+                                                        viewModel.getDeals()
+
+                                                    case .failure(_):
+                                                        // Handle the error...
+                                                        areButtonsDisabled = false // Enable the button
+                                                   
+                                                    }
+                                                }
+                                
                                 print(viewModel.currentWorkingDeal)
-                                self.presentationMode.wrappedValue.dismiss()
                             }
                             Button("No") {
                                 isDeletingConfirmation = false

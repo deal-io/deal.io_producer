@@ -19,6 +19,8 @@ struct PostCreationView: View {
     @State private var recurringDaysActive: [Bool]
     @State private var dates: Set<DateComponents>
     
+    @State var areButtonsDisabled = false
+    
     
     init(viewModel: ProducerViewModel){
         
@@ -97,7 +99,8 @@ struct PostCreationView: View {
                 }
                 
                 HStack {
-                    SubmitButton {
+                
+                    SubmitButton(disabled: $areButtonsDisabled) {
                         viewModel.currentWorkingDeal.dealAttributes.dealName = dealName
                         viewModel.currentWorkingDeal.dealAttributes.description = description
                         viewModel.currentWorkingDeal.dealAttributes.recurring = recurring
@@ -142,9 +145,21 @@ struct PostCreationView: View {
                     .confirmationDialog("Are you sure you want to submit?", isPresented: $isShowingConfirmation, titleVisibility: .visible) {
                         Button("Yes") {
                             isShowingConfirmation = false
-                            viewModel.postNewDeal()
+                            areButtonsDisabled = true
+                            viewModel.postNewDeal() { result in
+                                                switch result {
+                                                case .success:
+                                                    self.presentationMode.wrappedValue.dismiss()
+                                                    viewModel.getDeals()
+
+                                                case .failure(_):
+                                                    // Handle the error...
+                                                    areButtonsDisabled = false // Enable the button
+                                               
+                                                }
+                                            }
+                            
                             print(viewModel.currentWorkingDeal)
-                            self.presentationMode.wrappedValue.dismiss()
                         }
                         Button("No") {
                             isShowingConfirmation = false
