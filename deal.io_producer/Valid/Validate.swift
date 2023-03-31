@@ -11,7 +11,6 @@ class Validate {
     let LOG_TAG = "LOG: Validate"
     
     
-    
     func validateStartTimeBeforeEndTime(deal: Deal) -> Bool {
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "en_US_POSIX")
