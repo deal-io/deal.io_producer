@@ -51,9 +51,10 @@
 		ADF687FD29B001E600E86022 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF687FC29B001E600E86022 /* ContentView.swift */; };
 		ADF687FF29B0796000E86022 /* DateDropdownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF687FE29B0796000E86022 /* DateDropdownView.swift */; };
 		FB1937E829C13C0800EA5541 /* GenerateEmptyDeal.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB1937E729C13C0800EA5541 /* GenerateEmptyDeal.swift */; };
+		FB34210129D750AB00648DF8 /* GoogleService-Info-Dev.plist in Resources */ = {isa = PBXBuildFile; fileRef = FB34210029D750AB00648DF8 /* GoogleService-Info-Dev.plist */; };
+		FB34210229D7648F00648DF8 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FB3420FE29D7509600648DF8 /* GoogleService-Info.plist */; };
 		FB94B94E29D0ABFA0095E9F0 /* AuthState.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB94B94D29D0ABFA0095E9F0 /* AuthState.swift */; };
 		FB94B95029D0CE1F0095E9F0 /* SubmitButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB94B94F29D0CE1F0095E9F0 /* SubmitButtonView.swift */; };
-		FBCB2D4A29CF961500C1C9DA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FBCB2D4929CF961500C1C9DA /* GoogleService-Info.plist */; };
 		FBF03C0F29C3E08B0088FA35 /* DateMultipickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBF03C0E29C3E08B0088FA35 /* DateMultipickerView.swift */; };
 /* End PBXBuildFile section */
 
@@ -67,7 +68,6 @@
 		AD00904C29A59EB200FDB1D3 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		AD00904E29A59EC300FDB1D3 /* PostCreationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCreationView.swift; sourceTree = "<group>"; };
 		AD00905029A59EE200FDB1D3 /* ProducerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProducerViewModel.swift; sourceTree = "<group>"; };
-		AD76781929CF7BF7008728BB /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		AD76781B29CFC358008728BB /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		AD76781E29D0E500008728BB /* Validate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Validate.swift; sourceTree = "<group>"; };
 		AD76782629D1DD2D008728BB /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
@@ -93,9 +93,10 @@
 		ADF687FC29B001E600E86022 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		ADF687FE29B0796000E86022 /* DateDropdownView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateDropdownView.swift; sourceTree = "<group>"; };
 		FB1937E729C13C0800EA5541 /* GenerateEmptyDeal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenerateEmptyDeal.swift; sourceTree = "<group>"; };
+		FB3420FE29D7509600648DF8 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "ProdPlist/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		FB34210029D750AB00648DF8 /* GoogleService-Info-Dev.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info-Dev.plist"; path = "DevPlist/GoogleService-Info-Dev.plist"; sourceTree = "<group>"; };
 		FB94B94D29D0ABFA0095E9F0 /* AuthState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthState.swift; sourceTree = "<group>"; };
 		FB94B94F29D0CE1F0095E9F0 /* SubmitButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubmitButtonView.swift; sourceTree = "<group>"; };
-		FBCB2D4929CF961500C1C9DA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		FBF03C0E29C3E08B0088FA35 /* DateMultipickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateMultipickerView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -142,7 +143,6 @@
 			children = (
 				AD76781D29D0E4BA008728BB /* Valid */,
 				FB94B94C29D0ABCC0095E9F0 /* Auth */,
-				FBCB2D4929CF961500C1C9DA /* GoogleService-Info.plist */,
 				ADA633DA29BA86410032EF44 /* Utils */,
 				AD00904329A59E2600FDB1D3 /* Views */,
 				AD00904429A59E2F00FDB1D3 /* ViewModels */,
@@ -152,7 +152,6 @@
 				AD00903429A59DC800FDB1D3 /* Assets.xcassets */,
 				AD00903B29A59DC800FDB1D3 /* deal_io_producer.xcdatamodeld */,
 				ADF687FC29B001E600E86022 /* ContentView.swift */,
-				AD76781929CF7BF7008728BB /* GoogleService-Info.plist */,
 				ADF6879B29AECFDC00E86022 /* Deal_ioProducerApp.swift */,
 				ADF687F829AFF80400E86022 /* Fonts */,
 				ADF6879A29AECFBF00E86022 /* Preview Content */,
@@ -265,6 +264,8 @@
 		FB94B94C29D0ABCC0095E9F0 /* Auth */ = {
 			isa = PBXGroup;
 			children = (
+				FB3420FE29D7509600648DF8 /* GoogleService-Info.plist */,
+				FB34210029D750AB00648DF8 /* GoogleService-Info-Dev.plist */,
 				FB94B94D29D0ABFA0095E9F0 /* AuthState.swift */,
 			);
 			path = Auth;
@@ -346,8 +347,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				ADD318FE29B15A5C00800A46 /* test in Resources */,
+				FB34210229D7648F00648DF8 /* GoogleService-Info.plist in Resources */,
+				FB34210129D750AB00648DF8 /* GoogleService-Info-Dev.plist in Resources */,
 				AD00903529A59DC800FDB1D3 /* Assets.xcassets in Resources */,
-				FBCB2D4A29CF961500C1C9DA /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -519,7 +521,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"deal.io_producer/Preview Content\"";
 				DEVELOPMENT_TEAM = V2UFVZ3SA9;
 				ENABLE_PREVIEWS = YES;
@@ -554,7 +556,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"deal.io_producer/Preview Content\"";
 				DEVELOPMENT_TEAM = V2UFVZ3SA9;
 				ENABLE_PREVIEWS = YES;
