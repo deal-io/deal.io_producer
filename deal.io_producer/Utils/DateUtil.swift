@@ -59,13 +59,14 @@ class DateUtil {
         return firstDate <= secondDate
     }
   
-
     
     func timeFromString(dateString: String) -> Date? {
-        
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "h:mm a"
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+        dateFormatter.dateStyle = .none
+        dateFormatter.timeStyle = .short
         let date = dateFormatter.date(from: dateString)
+
 
         if let date = date {
             let calendar = Calendar.current
@@ -75,15 +76,18 @@ class DateUtil {
         }
         return nil
     }
-    
+
     func stringFromTime(date: Date) -> String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "h:mm a"
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+        dateFormatter.dateStyle = .none
+        dateFormatter.timeStyle = .short
 
         let formattedHour = dateFormatter.string(from: date)
-        
         return formattedHour
     }
+    
+    
     
     
     func dateComponentSetsToDaysActiveArray(dateSet: Set<DateComponents>) -> (daysActive: [Bool], start: BackendDate, end: BackendDate)? {

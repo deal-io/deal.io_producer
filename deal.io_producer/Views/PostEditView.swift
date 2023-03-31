@@ -188,7 +188,7 @@ extension PostEditView {
             return Alert(title: Text("Invalid Deal Title"), message: Text("You've tried to submit a deal with a title that has exceeded max length. Please try again."), dismissButton: .default(Text("OK")))
         }
         else if invalidStartTimeEndTime {
-            return Alert(title: Text("Invalid Start Time and End Time"), message: Text("You've tried to input a deal with a start time of \(viewModel.currentWorkingDeal.dealAttributes.startTime) and an end time of \(viewModel.currentWorkingDeal.dealAttributes.endTime). Please try again."), dismissButton: .default(Text("OK")))
+            return Alert(title: Text("Invalid Start Time and End Time"), message: Text("You've tried to input an invalid start or end time. Please try again."), dismissButton: .default(Text("OK")))
         }
         
         else if invalidDescription  {
