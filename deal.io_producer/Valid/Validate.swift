@@ -14,6 +14,7 @@ class Validate {
     
     func validateStartTimeBeforeEndTime(deal: Deal) -> Bool {
         let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
         dateFormatter.dateFormat = "h:mm a"
 
         if let startDate = dateFormatter.date(from: deal.dealAttributes.startTime), let endDate = dateFormatter.date(from: deal.dealAttributes.endTime) {
