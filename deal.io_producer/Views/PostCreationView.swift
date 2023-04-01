@@ -25,8 +25,8 @@ struct PostCreationView: View {
     
     init(viewModel: ProducerViewModel){
         self.viewModel = viewModel
-        self._dealName = State(initialValue: "Deal Name")
-        self._description = State(initialValue: "Description")
+        self._dealName = State(initialValue: "")
+        self._description = State(initialValue: "")
         self._startTime = State(initialValue: DateUtil().timeFromString(dateString: "12:00 PM")!)
         self._endTime = State(initialValue: DateUtil().timeFromString(dateString: "12:00 PM")!)
         self._recurring = State(initialValue: false)
@@ -45,20 +45,22 @@ struct PostCreationView: View {
     @State var invalidStartTimeEndTime = false
     @State var selectedWeekdays: Set<String> = []
     @State var toggleDropdown = false
+    
+    @FocusState private var campaignTitleIsFocussed: Bool
+
+    
 
     
     var body: some View {
         ScrollView {
             VStack{
+             
                 Group {
                     Image("dealio_white_on_bg")
                         .resizable()
                         .frame(width: 150, height: 70)
                         .padding(.vertical, 15)
-                    Text("Enter Deal Title:")
-                        .font(.title3)
-                        .foregroundColor(.white)
-                    TextField("Deal Title", text: $dealName)
+                    TextField("Enter Deal Title", text: $dealName)
                         .colorScheme(.dark)
                         .padding(.bottom, 10)
                         .font(.title)
@@ -70,26 +72,27 @@ struct PostCreationView: View {
                     .padding(.bottom, 16)
                     .foregroundColor(.white)
                 
-                Text("Enter Description:")
-                    .foregroundColor(.white)
-                    .padding(.top, 8)
-                    .font(.title3)
                 
-                
-                VStack {
-                    TextField("Description", text: $description, axis: .vertical)
+                // Fuck you swiftUI, this is the only way we can exit the textfield with .vertical axis without a gesture
+                TextField("Enter Description", text: $description, axis: .vertical)
                     .font(.callout)
                     .colorScheme(.dark)
                     .foregroundColor(.white)
-                    .multilineTextAlignment(.center)
-                    .padding(10)
-                }   .gesture(
-                    TapGesture()
-                        .onEnded { _ in
-                            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+                    .multilineTextAlignment(.leading)
+                    .padding(25)
+                    .background(Deal_ioColor.onBackground.cornerRadius(10).padding(10))
+                    .focused($campaignTitleIsFocussed)
+                    .onChange(of: description) { newValue in
+                        guard let newValueLastChar = newValue.last else { return }
+                        if newValueLastChar == "\n" {
+                            description.removeLast()
+                            campaignTitleIsFocussed = false
                         }
-                )
-               
+                    }
+                
+              
+                
+                
                 Spacer()
                 HStack {
                     Text("Toggle Recurring")
@@ -98,6 +101,7 @@ struct PostCreationView: View {
                     Toggle("", isOn: $recurring)
                         .labelsHidden()
                 }
+            
                 .padding(.bottom, 4)
                 if recurring {
                     DateDropdownView(recurringDaysActive: $recurringDaysActive)
@@ -134,6 +138,7 @@ struct PostCreationView: View {
             .background(Deal_ioColor.background)
             
         }
+        
      
     }
         

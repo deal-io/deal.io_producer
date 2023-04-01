@@ -51,7 +51,6 @@
 		ADF687FD29B001E600E86022 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF687FC29B001E600E86022 /* ContentView.swift */; };
 		ADF687FF29B0796000E86022 /* DateDropdownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF687FE29B0796000E86022 /* DateDropdownView.swift */; };
 		FB1937E829C13C0800EA5541 /* GenerateEmptyDeal.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB1937E729C13C0800EA5541 /* GenerateEmptyDeal.swift */; };
-		FB34210129D750AB00648DF8 /* GoogleService-Info-Dev.plist in Resources */ = {isa = PBXBuildFile; fileRef = FB34210029D750AB00648DF8 /* GoogleService-Info-Dev.plist */; };
 		FB34210229D7648F00648DF8 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FB3420FE29D7509600648DF8 /* GoogleService-Info.plist */; };
 		FB94B94E29D0ABFA0095E9F0 /* AuthState.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB94B94D29D0ABFA0095E9F0 /* AuthState.swift */; };
 		FB94B95029D0CE1F0095E9F0 /* SubmitButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB94B94F29D0CE1F0095E9F0 /* SubmitButtonView.swift */; };
@@ -348,7 +347,6 @@
 			files = (
 				ADD318FE29B15A5C00800A46 /* test in Resources */,
 				FB34210229D7648F00648DF8 /* GoogleService-Info.plist in Resources */,
-				FB34210129D750AB00648DF8 /* GoogleService-Info-Dev.plist in Resources */,
 				AD00903529A59DC800FDB1D3 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -521,7 +519,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"deal.io_producer/Preview Content\"";
 				DEVELOPMENT_TEAM = V2UFVZ3SA9;
 				ENABLE_PREVIEWS = YES;
@@ -539,7 +537,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.intropent.deal-io-producer";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -556,7 +554,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"deal.io_producer/Preview Content\"";
 				DEVELOPMENT_TEAM = V2UFVZ3SA9;
 				ENABLE_PREVIEWS = YES;
@@ -573,7 +571,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.intropent.deal-io-producer";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
