@@ -44,6 +44,9 @@ struct PostEditView: View {
     @State var isDeletingConfirmation = false
     @State var areButtonsDisabled = false
     
+    
+    @FocusState private var campaignTitleIsFocussed: Bool
+    
     var body: some View {
         ScrollView {
             VStack{
@@ -52,10 +55,7 @@ struct PostEditView: View {
                         .resizable()
                         .frame(width: 150, height: 70)
                         .padding(.vertical, 15)
-                    Text("Enter Deal Title:")
-                        .font(.title3)
-                        .foregroundColor(.white)
-                    TextField("Deal Title", text: $dealName)
+                    TextField("Enter Deal Title", text: $dealName)
                         .colorScheme(.dark)
                         .padding(.bottom, 10)
                         .font(.title)
@@ -67,24 +67,22 @@ struct PostEditView: View {
                     .padding(.bottom, 16)
                     .foregroundColor(.white)
                 
-                Text("Enter Description:")
+                // Fuck you swiftUI, this is the only way we can exit the textfield with .vertical axis without a gesture
+                TextField("Enter Description", text: $description, axis: .vertical)
+                    .font(.callout)
+                    .colorScheme(.dark)
                     .foregroundColor(.white)
-                    .padding(.top, 8)
-                    .font(.title3)
-                VStack {
-                    TextField("Description", text: $description, axis: .vertical)
-                        .font(.callout)
-                        .colorScheme(.dark)
-                        .foregroundColor(.white)
-                        .multilineTextAlignment(.center)
-                        .padding(10)
-                }
-                .gesture(
-                    TapGesture()
-                        .onEnded { _ in
-                            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+                    .multilineTextAlignment(.leading)
+                    .padding(25)
+                    .background(Deal_ioColor.onBackground.cornerRadius(10).padding(10))
+                    .focused($campaignTitleIsFocussed)
+                    .onChange(of: description) { newValue in
+                        guard let newValueLastChar = newValue.last else { return }
+                        if newValueLastChar == "\n" {
+                            description.removeLast()
+                            campaignTitleIsFocussed = false
                         }
-                )
+                    }
                 Spacer()
                 HStack {
                     Text("Toggle Recurring")
