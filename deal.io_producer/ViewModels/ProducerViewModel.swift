@@ -18,6 +18,7 @@ class ProducerViewModel: ObservableObject {
     
     private let mDealService = DealService();
     @Published var currentRestaurant: Restaurant
+    
        // Use a computed property to update `restaurantDeals`
     @Published var restaurantDeals: [Deal]
     
@@ -101,33 +102,34 @@ class ProducerViewModel: ObservableObject {
     }
     
     func postNewDeal(completion: @escaping (Result<Void, Error>) -> Void){
-        // Create the deal...
-        mDealService.createDeal(deal: currentWorkingDeal) { result in
-            switch result {
-            case .success:
-                DispatchQueue.main.async {
-                    print("Deal creation succeeded")
-                    print("\(self.LOG_TAG)Successful Deal Creation")
-                    // Call the completion closure to enable the button again.
-                    completion(.success(()))
-                   
+            // Create the deal...
+        mDealService.createDeal(deal: currentWorkingDeal, resId: currentRestaurant.id) { result in
+                switch result {
+                case .success:
+                    DispatchQueue.main.async {
+                        print("Deal creation succeeded")
+                        print("\(self.LOG_TAG)Successful Deal Creation")
+                        // Call the completion closure to enable the button again.
+                        completion(.success(()))
+                        
+                    }
+                case .failure(let error):
+                    // Handle the error...
+                    print("\(self.LOG_TAG)Update Error: \(error.localizedDescription)")
+                    self.printDeal(deal: self.currentWorkingDeal)
+                    self.printRestaurant(restaurant: self.currentRestaurant)
+                    DispatchQueue.main.async {
+                        completion(.failure(error)) // Call the completion closure with the error
+                    }
                 }
-            case .failure(let error):
-                // Handle the error...
-                print("\(self.LOG_TAG)Update Error: \(error.localizedDescription)")
-                self.printDeal(deal: self.currentWorkingDeal)
-                self.printRestaurant(restaurant: self.currentRestaurant)
-                DispatchQueue.main.async {
-                      completion(.failure(error)) // Call the completion closure with the error
-                  }
             }
         }
-    }
+    
     
     
     func updateDeal(completion: @escaping (Result<Void, Error>) -> Void) {
           // Update the deal...
-          mDealService.updateDeal(deal: currentWorkingDeal) { result in
+          mDealService.updateDeal(deal: currentWorkingDeal,  resId: currentRestaurant.id) { result in
               switch result {
               case .success:
                   DispatchQueue.main.async {
@@ -151,7 +153,7 @@ class ProducerViewModel: ObservableObject {
     
     func deleteDeal(completion: @escaping (Result<Void, Error>) -> Void){
 
-        mDealService.deleteDeal(deal: currentWorkingDeal) { result in
+        mDealService.deleteDeal(deal: currentWorkingDeal,  resId: currentRestaurant.id) { result in
             switch result {
             case .success():
                 

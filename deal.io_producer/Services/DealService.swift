@@ -6,12 +6,13 @@
 //
 
 import Foundation
+import FirebaseAuth
 
 class DealService {
     private let apiUrl = "https://dealio-backend-production.web.app"
-   //DEV CHANGE
-   //private let apiUrl = "http://138.67.183.114:3000"
-   private let LOG_TAG = "LOG: DealService"
+    //DEV CHANGE
+    //private let apiUrl = "http://192.168.0.238:3000"
+    private let LOG_TAG = "LOG: DealService"
     
     
     func fetchDeals(completion: @escaping (Result<[Deal], Error>) -> Void) {
@@ -107,44 +108,66 @@ class DealService {
         }.resume()
     }
     
-    func createDeal(deal: Deal, completion: @escaping (Result<Void, Error>) -> Void) {
+    func createDeal(deal: Deal, resId: String, completion: @escaping (Result<Void, Error>) -> Void) {
         guard let url = URL(string: "\(apiUrl)/deal") else {
             completion(.failure(NSError(domain: "DealService", code: 0, userInfo: [NSLocalizedDescriptionKey: "Invalid URL"])))
             return
         }
         
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        guard let currentUser = Auth.auth().currentUser else {
+            completion(.failure(NSError(domain: "DealService", code: 0, userInfo: [NSLocalizedDescriptionKey: "User does not Exist"])))
+            return
+        }
         
-        do {
-            let jsonData = try JSONEncoder().encode(deal)
-            request.httpBody = jsonData
+        currentUser.getIDTokenForcingRefresh(true) { idToken, error in
+            if let error = error {
+                completion(.failure(NSError(domain: "DealService", code: 0, userInfo: [NSLocalizedDescriptionKey: "Failed to Obtain Token"])))
+                return
+            }
             
-            URLSession.shared.dataTask(with: request) { data, response, error in
-                if let error = error {
-                    print("\(self.LOG_TAG)1")
-                    completion(.failure(error))
+            guard let idToken = idToken else {
+                completion(.failure(NSError(domain: "DealService", code: 0, userInfo: [NSLocalizedDescriptionKey: "Invalid ID Token"])))
+                return
+            }
+            
+            
+            var request = URLRequest(url: url)
+            request.httpMethod = "POST"
+            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+            request.addValue("Bearer \(idToken)", forHTTPHeaderField: "authorization")
+            request.addValue(resId, forHTTPHeaderField: "restaurant-id")
+            request.addValue(currentUser.uid, forHTTPHeaderField: "user-id")
+            
+            do {
+                let jsonData = try JSONEncoder().encode(deal)
+                request.httpBody = jsonData
+                
+                URLSession.shared.dataTask(with: request) { data, response, error in
+                    if let error = error {
+                        print("\(self.LOG_TAG)1")
+                        completion(.failure(error))
+                        
+                        return
+                    }
                     
-                    return
-                }
-                
-                guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
-                    print("\(self.LOG_TAG)2")
-                    completion(.failure(NSError(domain: "DealService", code: 0, userInfo: [NSLocalizedDescriptionKey: "Invalid HTTP response"])))
+                    guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+                        print("\(self.LOG_TAG)2")
+                        completion(.failure(NSError(domain: "DealService", code: 0, userInfo: [NSLocalizedDescriptionKey: "Invalid HTTP response"])))
+                        
+                        return
+                    }
                     
-                    return
-                }
-                
-                completion(.success(()))
-                
-            }.resume()
-        } catch {
-            completion(.failure(error))
+                    completion(.success(()))
+                    
+                }.resume()
+            } catch {
+                completion(.failure(error))
+            }
+            
         }
     }
     
-    func updateDeal(deal: Deal, completion: @escaping (Result<Void, Error>) -> Void) {
+    func updateDeal(deal: Deal, resId: String, completion: @escaping (Result<Void, Error>) -> Void) {
         guard let unwrappedId = deal.id  else {
             completion(.failure(NSError(domain: "DealService", code: 0, userInfo: [NSLocalizedDescriptionKey: "Deal has no ID"])))
             return
@@ -155,13 +178,88 @@ class DealService {
             return
         }
         
-        var request = URLRequest(url: url)
-        request.httpMethod = "PUT"
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        guard let currentUser = Auth.auth().currentUser else {
+            completion(.failure(NSError(domain: "DealService", code: 0, userInfo: [NSLocalizedDescriptionKey: "User does not Exist"])))
+            return
+        }
         
-        do {
-            let jsonData = try JSONEncoder().encode(deal)
-            request.httpBody = jsonData
+        currentUser.getIDTokenForcingRefresh(true) { idToken, error in
+            if let error = error {
+                completion(.failure(NSError(domain: "DealService", code: 0, userInfo: [NSLocalizedDescriptionKey: "Failed to Obtain Token"])))
+                return
+            }
+            
+            guard let idToken = idToken else {
+                completion(.failure(NSError(domain: "DealService", code: 0, userInfo: [NSLocalizedDescriptionKey: "Invalid ID Token"])))
+                return
+            }
+            
+            
+            
+            var request = URLRequest(url: url)
+            request.httpMethod = "PUT"
+            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+            request.addValue("Bearer \(idToken)", forHTTPHeaderField: "authorization")
+            request.addValue(resId, forHTTPHeaderField: "restaurant-id")
+            request.addValue(currentUser.uid, forHTTPHeaderField: "user-id")
+            
+            do {
+                let jsonData = try JSONEncoder().encode(deal)
+                request.httpBody = jsonData
+                
+                URLSession.shared.dataTask(with: request) { data, response, error in
+                    if let error = error {
+                        completion(.failure(error))
+                        return
+                    }
+                    
+                    guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+                        completion(.failure(NSError(domain: "DealService", code: 0, userInfo: [NSLocalizedDescriptionKey: "Invalid HTTP response"])))
+                        return
+                    }
+                    
+                    completion(.success(()))
+                }.resume()
+            } catch {
+                completion(.failure(error))
+            }
+        }
+    }
+
+    func deleteDeal(deal: Deal, resId: String, completion: @escaping (Result<Void, Error>) -> Void) {
+        guard let unwrappedId = deal.id  else {
+            completion(.failure(NSError(domain: "DealService", code: 0, userInfo: [NSLocalizedDescriptionKey: "Deal has no ID"])))
+            return
+        }
+        
+        guard let url = URL(string: "\(apiUrl)/deal/\(unwrappedId)") else {
+            completion(.failure(NSError(domain: "DealService", code: 0, userInfo: [NSLocalizedDescriptionKey: "Invalid URL"])))
+            return
+        }
+        
+        guard let currentUser = Auth.auth().currentUser else {
+            completion(.failure(NSError(domain: "DealService", code: 0, userInfo: [NSLocalizedDescriptionKey: "User does not Exist"])))
+            return
+        }
+        
+        currentUser.getIDTokenForcingRefresh(true) { idToken, error in
+            if let error = error {
+                completion(.failure(NSError(domain: "DealService", code: 0, userInfo: [NSLocalizedDescriptionKey: "Failed to Obtain Token"])))
+                return
+            }
+            
+            guard let idToken = idToken else {
+                completion(.failure(NSError(domain: "DealService", code: 0, userInfo: [NSLocalizedDescriptionKey: "Invalid ID Token"])))
+                return
+            }
+            
+            
+            
+            var request = URLRequest(url: url)
+            request.httpMethod = "DELETE"
+            request.addValue("Bearer \(idToken)", forHTTPHeaderField: "authorization")
+            request.addValue(resId, forHTTPHeaderField: "restaurant-id")
+            request.addValue(currentUser.uid, forHTTPHeaderField: "user-id")
             
             URLSession.shared.dataTask(with: request) { data, response, error in
                 if let error = error {
@@ -176,37 +274,6 @@ class DealService {
                 
                 completion(.success(()))
             }.resume()
-        } catch {
-            completion(.failure(error))
         }
-    }
-
-    func deleteDeal(deal: Deal, completion: @escaping (Result<Void, Error>) -> Void) {
-        guard let unwrappedId = deal.id  else {
-            completion(.failure(NSError(domain: "DealService", code: 0, userInfo: [NSLocalizedDescriptionKey: "Deal has no ID"])))
-            return
-        }
-        
-        guard let url = URL(string: "\(apiUrl)/deal/\(unwrappedId)") else {
-            completion(.failure(NSError(domain: "DealService", code: 0, userInfo: [NSLocalizedDescriptionKey: "Invalid URL"])))
-            return
-        }
-        
-        var request = URLRequest(url: url)
-        request.httpMethod = "DELETE"
-        
-        URLSession.shared.dataTask(with: request) { data, response, error in
-            if let error = error {
-                completion(.failure(error))
-                return
-            }
-            
-            guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
-                completion(.failure(NSError(domain: "DealService", code: 0, userInfo: [NSLocalizedDescriptionKey: "Invalid HTTP response"])))
-                return
-            }
-            
-            completion(.success(()))
-        }.resume()
     }
 }
