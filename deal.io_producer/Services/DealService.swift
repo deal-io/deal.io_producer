@@ -8,10 +8,10 @@
 import Foundation
 
 class DealService {
-     private let apiUrl = "https://dealio-backend-production.web.app"
-    //DEV CHANGE
-   // private let apiUrl = "http://192.168.0.183:3000"
-    private let LOG_TAG = "LOG: DealService"
+    private let apiUrl = "https://dealio-backend-production.web.app"
+   //DEV CHANGE
+   //private let apiUrl = "http://138.67.183.114:3000"
+   private let LOG_TAG = "LOG: DealService"
     
     
     func fetchDeals(completion: @escaping (Result<[Deal], Error>) -> Void) {
