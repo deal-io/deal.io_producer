@@ -9,7 +9,7 @@ import Foundation
 import FirebaseAuth
 
 class DealService {
-    private let apiUrl = "https://dealio-backend-production.web.app"
+    private let apiUrl = "https://us-central1-dealio-backend-production.cloudfunctions.net/app"
     //DEV CHANGE
     //private let apiUrl = "http://192.168.0.238:3000"
     private let LOG_TAG = "LOG: DealService"
